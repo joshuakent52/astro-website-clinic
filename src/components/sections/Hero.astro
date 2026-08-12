@@ -1,0 +1,95 @@
+---
+import Container from "../layout/Container.astro";
+import Button from "../ui/Button.astro";
+
+/**
+ * Hero
+ * Full-bleed image hero with a color overlay, heading, subheading, and a
+ * single primary CTA. Used at the top of the homepage; reusable for any
+ * page that needs an image-backed intro banner.
+ */
+
+interface Props {
+  backgroundImage: string;
+  heading: string;
+  subheading: string;
+  ctaText: string;
+  ctaHref: string;
+}
+
+const { backgroundImage, heading, subheading, ctaText, ctaHref } = Astro.props;
+---
+
+<section class="hero">
+  <img src={backgroundImage} alt="" class="hero__bg" />
+  <div class="hero__overlay" aria-hidden="true"></div>
+  <Container>
+    <div class="hero__content">
+      <h1>{heading}</h1>
+      <p class="hero__subheading">{subheading}</p>
+      <Button text={ctaText} href={ctaHref} variant="inverse" />
+    </div>
+  </Container>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: clamp(28rem, 65vw, 42rem);
+    overflow: hidden;
+    color: var(--color-text-inverse);
+  }
+
+  .hero__bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      100deg,
+      rgba(1, 44, 73, 0.82) 0%,
+      rgba(2, 65, 107, 0.68) 55%,
+      rgba(2, 65, 107, 0.45) 100%
+    );
+  }
+
+  .hero__content {
+    position: relative;
+    z-index: 1;
+    max-width: 40rem;
+    padding-block: var(--space-2xl);
+  }
+
+  .hero h1 {
+    color: var(--color-text-inverse);
+    margin-bottom: var(--space-md);
+  }
+
+  .hero__subheading {
+    font-size: var(--font-size-h4);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-inverse);
+    margin-bottom: var(--space-lg);
+  }
+
+  /* Breakpoint: md (768px) — matches the stacking breakpoint used
+     elsewhere in the project (Navbar, grid utilities). */
+  @media (max-width: 768px) {
+    .hero {
+      min-height: clamp(24rem, 90vw, 34rem);
+    }
+
+    .hero__content {
+      padding-block: var(--space-xl);
+    }
+  }
+</style>

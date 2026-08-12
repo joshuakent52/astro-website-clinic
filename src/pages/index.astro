@@ -1,10 +1,68 @@
 ---
-// TEMPORARY placeholder page.
-// This file exists only so Astro has a route to build against.
-// Delete it and replace it with real pages when site content is built.
 import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/layout/Header.astro";
+import Footer from "../components/layout/Footer.astro";
+import Hero from "../components/sections/Hero.astro";
+import StatsBar from "../components/sections/StatsBar.astro";
+import Mission from "../components/sections/Mission.astro";
+import Eligibility from "../components/sections/Eligibility.astro";
+
+import { siteName, siteDescription, logo, navItems } from "../config/site";
+import { hero, stats, mission, eligibility } from "../data/home";
 ---
 
-<BaseLayout title="Foundation Ready" description="Project foundation placeholder.">
-  <p style="padding: 2rem;">Project foundation is set up. Replace this file when building pages.</p>
+<BaseLayout
+  title="Home"
+  description={siteDescription}
+  siteName={siteName}
+>
+  <Header navItems={navItems} slot="header">
+    <a slot="logo" href="/" aria-label={`${siteName} home`}>
+      <img src={logo.src} alt={logo.alt} class="site-logo" />
+    </a>
+  </Header>
+
+  <Hero
+    backgroundImage={hero.backgroundImage}
+    heading={hero.heading}
+    subheading={hero.subheading}
+    ctaText={hero.ctaText}
+    ctaHref={hero.ctaHref}
+  />
+
+  <StatsBar stats={stats} />
+
+  <Mission
+    backgroundImage={mission.backgroundImage}
+    heading={mission.heading}
+    statement={mission.statement}
+    tagline={mission.tagline}
+  />
+
+  <Eligibility
+    heading={eligibility.heading}
+    subheading={eligibility.subheading}
+    criteria={eligibility.criteria}
+    tableCaption={eligibility.tableCaption}
+    tableColumns={eligibility.tableColumns}
+    tableRows={eligibility.tableRows}
+    noteText={eligibility.noteText}
+    policyLinkText={eligibility.policyLinkText}
+    policyLinkHref={eligibility.policyLinkHref}
+  />
+
+  <Footer navItems={navItems} slot="footer">
+    <a slot="logo" href="/" aria-label={`${siteName} home`}>
+      <img src={logo.src} alt={logo.alt} class="site-logo" />
+    </a>
+    <p slot="description" class="text-muted">{siteDescription}</p>
+    <Fragment slot="site-name">{siteName}</Fragment>
+  </Footer>
 </BaseLayout>
+
+<style>
+  .site-logo {
+    height: 2.5rem;
+    width: auto;
+  }
+</style>

@@ -18,8 +18,12 @@ export interface SeoProps {
   ogType?: "website" | "article";
 }
 
-/** Shared variant scale used by Button and similar interactive components. */
-export type Variant = "primary" | "secondary" | "outline" | "ghost";
+/**
+ * Shared variant scale used by Button and similar interactive components.
+ * "inverse" is a white button for use on dark or photo backgrounds (e.g.
+ * hero sections) where "primary" or "outline" wouldn't have enough contrast.
+ */
+export type Variant = "primary" | "secondary" | "outline" | "ghost" | "inverse";
 
 /** A single navigation entry, used by Navbar and MobileMenu. */
 export interface NavItem {

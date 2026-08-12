@@ -1,0 +1,59 @@
+---
+import Section from "../ui/Section.astro";
+import type { Stat } from "../../data/home";
+
+/**
+ * StatsBar
+ * Centered stack of short stat/value pairs separated by dividers.
+ * Each item's label is optional so a stat can stand alone (e.g. "Open").
+ */
+
+interface Props {
+  stats: Stat[];
+}
+
+const { stats } = Astro.props;
+---
+
+<Section background="surface" spacing="tight" narrow>
+  <div class="stats-bar">
+    {
+      stats.map((stat) => (
+        <div class="stats-bar__item">
+          <p class="stats-bar__value">{stat.value}</p>
+          {stat.label && <p class="stats-bar__label">{stat.label}</p>}
+        </div>
+      ))
+    }
+  </div>
+</Section>
+
+<style>
+  .stats-bar {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .stats-bar__item {
+    text-align: center;
+    padding-block: var(--space-md);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .stats-bar__item:first-child {
+    border-top: 1px solid var(--color-border);
+  }
+
+  .stats-bar__value {
+    font-size: var(--font-size-h2);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-primary);
+    line-height: var(--line-height-tight);
+  }
+
+  .stats-bar__label {
+    margin-top: var(--space-3xs);
+    color: var(--color-text-muted);
+    font-size: var(--font-size-body);
+  }
+</style>

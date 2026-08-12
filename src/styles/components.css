@@ -189,6 +189,16 @@
   background-color: var(--color-surface-muted);
 }
 
+.button--inverse {
+  background-color: var(--color-white);
+  color: var(--color-primary);
+}
+
+.button--inverse:hover {
+  background-color: var(--color-surface-muted);
+  color: var(--color-primary-dark);
+}
+
 /* ------------------------------------------------------------------ */
 /* Cards                                                                */
 /* ------------------------------------------------------------------ */
