@@ -5,7 +5,7 @@
  */
 
 export const hero = {
-  backgroundImage: "/images/image1.png",
+  backgroundImage: "/images/image2.png",
   heading: "Caring for the Families of Utah County",
   subheading: "Every Family Deserves Compassionate Care - Everyone Welcome",
   ctaText: "Request an Appointment",
@@ -25,7 +25,7 @@ export const stats: Stat[] = [
 ];
 
 export const mission = {
-  backgroundImage: "/images/image2.png",
+  backgroundImage: "/images/image1.png",
   heading: "Our Mission",
   statement:
     "Providing health and wellness for everyday people through quality, compassionate medical care. We are committed to fostering a healthy community through accessible services, preventive care and patient-centered support.",
