@@ -1,0 +1,20 @@
+---
+/**
+ * Container
+ * Centers content and applies consistent max-width and responsive
+ * horizontal padding. Use inside sections to constrain content width.
+ */
+
+interface Props {
+  /** Use the narrower content max-width, e.g. for text-heavy sections. */
+  narrow?: boolean;
+  /** Element tag to render. */
+  as?: keyof HTMLElementTagNameMap;
+}
+
+const { narrow = false, as: Tag = "div" } = Astro.props;
+---
+
+<Tag class:list={["container", { "container--narrow": narrow }]}>
+  <slot />
+</Tag>

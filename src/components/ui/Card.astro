@@ -1,0 +1,30 @@
+---
+/**
+ * Card
+ * Generic content container with optional link behavior. Content is
+ * provided entirely via slots so this can be reused for varied
+ * card-style content (services, team members, resources, etc.).
+ */
+
+interface Props {
+  /** If provided, the whole card becomes a link. */
+  href?: string;
+  interactive?: boolean;
+  as?: keyof HTMLElementTagNameMap;
+}
+
+const { href, interactive = Boolean(href), as: Tag = "div" } = Astro.props;
+const classes = ["card", interactive && "card--interactive"].filter(Boolean).join(" ");
+---
+
+{
+  href ? (
+    <a class={classes} href={href}>
+      <slot />
+    </a>
+  ) : (
+    <Tag class={classes}>
+      <slot />
+    </Tag>
+  )
+}

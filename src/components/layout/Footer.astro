@@ -1,0 +1,82 @@
+---
+import Container from "./Container.astro";
+import type { NavItem } from "../../types";
+
+/**
+ * Footer
+ * Site footer shell: link columns and a bottom bar. Content is passed
+ * in via props/slots rather than hardcoded, so it can be filled in
+ * when pages are built.
+ */
+
+interface Props {
+  navItems?: NavItem[];
+}
+
+const { navItems = [] } = Astro.props;
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <Container>
+    <div class="site-footer__top">
+      <div class="site-footer__brand">
+        <slot name="logo" />
+        <slot name="description" />
+      </div>
+
+      {
+        navItems.length > 0 && (
+          <nav class="site-footer__nav" aria-label="Footer">
+            <ul class="flex flex-wrap">
+              {navItems.map((item) => (
+                <li>
+                  <a class="nav-link" href={item.href}>
+                    {item.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        )
+      }
+    </div>
+
+    <div class="site-footer__bottom">
+      <p class="text-small">&copy; {year} <slot name="site-name" /></p>
+      <slot name="legal" />
+    </div>
+  </Container>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--color-border);
+    background-color: var(--color-surface-muted);
+    padding-block: var(--space-xl);
+  }
+
+  .site-footer__top {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-lg);
+    padding-bottom: var(--space-lg);
+  }
+
+  .site-footer__nav ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm) var(--space-md);
+  }
+
+  .site-footer__bottom {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-sm);
+    padding-top: var(--space-lg);
+    border-top: 1px solid var(--color-border);
+  }
+</style>

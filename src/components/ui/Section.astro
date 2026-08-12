@@ -1,0 +1,36 @@
+---
+import Container from "../layout/Container.astro";
+
+/**
+ * Section
+ * Full-width page section with consistent vertical rhythm and an
+ * inner Container. Background and spacing are controlled via props
+ * so page-building sessions can compose sections without repeating
+ * layout CSS.
+ */
+
+interface Props {
+  background?: "default" | "surface" | "muted" | "primary";
+  spacing?: "default" | "tight";
+  narrow?: boolean;
+  /** Element tag to render, e.g. "section" or "article". */
+  as?: keyof HTMLElementTagNameMap;
+  id?: string;
+}
+
+const { background = "default", spacing = "default", narrow = false, as: Tag = "section", id } = Astro.props;
+
+const classes = [
+  "section",
+  background !== "default" && `section--${background}`,
+  spacing === "tight" && "section--tight",
+]
+  .filter(Boolean)
+  .join(" ");
+---
+
+<Tag class={classes} id={id}>
+  <Container narrow={narrow}>
+    <slot />
+  </Container>
+</Tag>
