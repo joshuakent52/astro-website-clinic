@@ -30,5 +30,4 @@ export const navItems: NavItem[] = [
   { label: "Donate", href: "/" },
   { label: "Volunteer", href: "/" },
   { label: "Appointments", href: "/" },
-  { label: "Español", href: "/" },
 ];
