@@ -7,7 +7,7 @@ import StatsBar from "../components/sections/StatsBar.astro";
 import Mission from "../components/sections/Mission.astro";
 import Eligibility from "../components/sections/Eligibility.astro";
 
-import { siteName, siteDescription, logo, navItems } from "../config/site";
+import { siteName, siteDescription, logo, flat_logo, navItems } from "../config/site";
 import { hero, stats, mission, eligibility } from "../data/home";
 ---
 
@@ -18,7 +18,7 @@ import { hero, stats, mission, eligibility } from "../data/home";
 >
   <Header navItems={navItems} slot="header">
     <a slot="logo" href="/" aria-label={`${siteName} home`}>
-      <img src={logo.src} alt={logo.alt} class="site-logo" />
+      <img src={flat_logo.src} alt={flat_logo.alt} class="site-logo" />
     </a>
   </Header>
 

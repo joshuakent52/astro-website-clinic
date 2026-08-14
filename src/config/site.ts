@@ -17,6 +17,11 @@ export const logo = {
   alt: "Bingham Family Clinic",
 };
 
+export const flat_logo = {
+  src: "/images/image4.png",
+  alt: "Bingham Family Clinic",
+}
+
 /**
  * Primary navigation, shared by the header (desktop + mobile) and footer.
  *
