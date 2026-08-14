@@ -25,12 +25,12 @@ export const classes: ClassItem[] = [
     image: "/images/image10.png",
     title: "Nutrition and Diabetes Care",
     description:
-      "Join us for this ongoing class, held on the third Wednesday of each month at 5:00 PM—we'd love to have you there!",
+      "Join us for this ongoing class, held on the third Wednesday of each month at 5:00 PM—we'd love to have you there! Call 801-854-5168 to reserve your spot.",
   },
   {
     image: "/images/image11.png",
     title: "Exercise and Physiology Class",
     description:
-      "Join us for this exciting class every Tuesday and Thursday! Sessions are one hour in duration, and begin at 11:00 AM on Thursdays, and at 1:00 PM on Tuesdays.",
+      "Join us for this exciting class every Tuesday and Thursday! Sessions are one hour in duration, and begin at 11:00 AM on Thursdays, and at 1:00 PM on Tuesdays. Call 801-854-5168 to reserve your spot.",
   },
 ];
