@@ -89,4 +89,29 @@ export const testimonials: Testimonial[] = [
       "What I love about the clinic, is the opportunity it gives to those who can't afford medical care. I love serving here as Christ would: through compassion, helping those in need, and meeting others where they're at.",
     author: "Lily Savage",
   },
+  {
+    quote:
+      "I'm truly impressed with the mission of the Bingham Family Clinic and the efforts made to achieve it. I've loved the opportunity to volunteer and be part of something so influential in our community.",
+    author: "Abbie Hartle",
+  },
+  {
+    quote:
+      "I have loved every minute serving at the Bingham Family Clinic! I have learned many new skills that have helped me grow. Those skills will continue to help me in the future.",
+    author: "Elijah VanCott",
+  },
+  {
+    quote:
+      "I serve with the Bingham Family Clinic because it is dedicated to helping individuals and families in need of quality medical care. I can't think of a better way to support our community's health and well-being.",
+    author: "Michael McKay",
+  },
+  {
+    quote:
+      "The Bingham Family Clinic is designed to help those in need and provide instruction on how to take care of themselves. I love that it helps people learn to be healthy long-term!",
+    author: "Abigail Dodge",
+  },
+  {
+    quote:
+      "I care deeply about ensuring that families in our community have access to healthcare when they need it most. I serve with the Bingham Family Clinic because I believe in its mission of providing free, compassionate medical care to those who might otherwise go without.",
+    author: "Bonnie Jensen",
+  },
 ];
