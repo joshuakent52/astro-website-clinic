@@ -19,7 +19,6 @@ export interface Stat {
 }
 
 export const stats: Stat[] = [
-  { value: "Open" },
   { value: "Free", label: "Healthcare" },
   { value: "100%", label: "Community Focused" },
 ];

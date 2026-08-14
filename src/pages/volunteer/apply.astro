@@ -3,15 +3,15 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import Header from "../../components/layout/Header.astro";
 import Footer from "../../components/layout/Footer.astro";
 import Section from "../../components/ui/Section.astro";
-import Button from "../../components/ui/Button.astro";
+import VolunteerApplicationForm from "../../components/forms/VolunteerApplicationForm.astro";
 
-import { siteName, siteDescription, logo, flat_logo, navItems } from "../../config/site";
+import { siteName, flat_logo, navItems } from "../../config/site";
 
 /**
  * Volunteer application page.
- * Structural shell only — no form yet. See CustomForm.astro /
- * MicrosoftForm.astro in src/components/forms/ when the real
- * application is ready to be wired in.
+ * Renders VolunteerApplicationForm, which submits directly to Supabase
+ * from the browser. Requires PUBLIC_SUPABASE_URL and
+ * PUBLIC_SUPABASE_ANON_KEY — see src/lib/supabase.ts.
  */
 ---
 
@@ -27,19 +27,16 @@ import { siteName, siteDescription, logo, flat_logo, navItems } from "../../conf
   </Header>
 
   <Section narrow>
-    <div class="apply-page">
+    <div class="apply-page__heading">
       <h1>Volunteer Application</h1>
       <p class="text-muted">
-        This application isn't live yet — check back soon. In the meantime, you
-        can head back to the volunteer page, or switch over to the provider
-        application if that's a better fit.
+        Fill out the form below to apply to volunteer with Bingham Family
+        Clinic. Looking to volunteer as a clinical provider instead? Use the
+        <a href="/volunteer/provider-apply">provider application</a>.
       </p>
-
-      <div class="apply-page__actions">
-        <Button text="Back to Volunteer" href="/volunteer" variant="outline" />
-        <Button text="Apply as a Provider Instead" href="/volunteer/provider-apply" variant="ghost" />
-      </div>
     </div>
+
+    <VolunteerApplicationForm />
   </Section>
 
   <Footer navItems={navItems} slot="footer" />
@@ -51,19 +48,12 @@ import { siteName, siteDescription, logo, flat_logo, navItems } from "../../conf
     width: auto;
   }
 
-  .apply-page {
+  .apply-page__heading {
     text-align: center;
+    margin-bottom: var(--space-xl);
   }
 
-  .apply-page h1 {
+  .apply-page__heading h1 {
     margin-bottom: var(--space-md);
-  }
-
-  .apply-page__actions {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: var(--space-sm);
-    margin-top: var(--space-lg);
   }
 </style>
