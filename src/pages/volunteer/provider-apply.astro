@@ -3,16 +3,19 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import Header from "../../components/layout/Header.astro";
 import Footer from "../../components/layout/Footer.astro";
 import Section from "../../components/ui/Section.astro";
-import Button from "../../components/ui/Button.astro";
+import MicrosoftForm from "../../components/forms/MicrosoftForm.astro";
 
 import { siteName, siteDescription, logo, flat_logo, navItems } from "../../config/site";
 
 /**
  * Provider application page.
- * Structural shell only — no form yet. See CustomForm.astro /
- * MicrosoftForm.astro in src/components/forms/ when the real
- * application is ready to be wired in.
+ * Embeds the live Microsoft Forms provider application via
+ * MicrosoftForm.astro. Update `formSrc` here if the form URL ever
+ * changes.
  */
+
+const formSrc =
+  "https://forms.office.com/Pages/ResponsePage.aspx?id=DRmRVUUIWkeAMQiyXuVHqfp2Q8H7zqZNubMrkHdQwiJUQjAzSlVXWUgzTTFSV0JDQlFSVE1GTTFETy4u&embed=true";
 ---
 
 <BaseLayout
@@ -30,16 +33,12 @@ import { siteName, siteDescription, logo, flat_logo, navItems } from "../../conf
     <div class="apply-page">
       <h1>Provider Application</h1>
       <p class="text-muted">
-        This application isn't live yet — check back soon. In the meantime, you
-        can head back to the volunteer page, or switch over to the general
-        volunteer application if that's a better fit.
+        Fill out the form below to apply to volunteer as a clinical provider
+        with Bingham Family Clinic.
       </p>
-
-      <div class="apply-page__actions">
-        <Button text="Back to Volunteer" href="/volunteer" variant="outline" />
-        <Button text="Apply as a Volunteer Instead" href="/volunteer/apply" variant="ghost" />
-      </div>
     </div>
+
+    <MicrosoftForm src={formSrc} title="Provider Application" aspectRatio={500} />
   </Section>
 
   <Footer navItems={navItems} slot="footer" />
@@ -53,17 +52,10 @@ import { siteName, siteDescription, logo, flat_logo, navItems } from "../../conf
 
   .apply-page {
     text-align: center;
+    margin-bottom: var(--space-lg);
   }
 
   .apply-page h1 {
     margin-bottom: var(--space-md);
-  }
-
-  .apply-page__actions {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: var(--space-sm);
-    margin-top: var(--space-lg);
   }
 </style>
