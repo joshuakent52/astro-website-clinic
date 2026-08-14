@@ -10,7 +10,7 @@ export const hero = {
   subheading: "Every Family Deserves Compassionate Care - Everyone Welcome",
   ctaText: "Request an Appointment",
   // Placeholder until the Appointments page exists.
-  ctaHref: "/",
+  ctaHref: "/appointments",
 };
 
 export interface Stat {

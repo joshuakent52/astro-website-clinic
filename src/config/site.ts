@@ -31,7 +31,7 @@ export const flat_logo = {
  */
 export const navItems: NavItem[] = [
   { label: "About", href: "/about" },
-  { label: "Classes", href: "/" },
+  { label: "Classes", href: "/classes" },
   { label: "Donate", href: "/donate" },
   { label: "Volunteer", href: "/volunteer" },
   { label: "Appointments", href: "/appointments" },

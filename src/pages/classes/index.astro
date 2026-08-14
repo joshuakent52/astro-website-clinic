@@ -1,0 +1,35 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/layout/Header.astro";
+import Footer from "../../components/layout/Footer.astro";
+import Hero from "../../components/sections/Hero.astro";
+import ClassesGrid from "../../components/sections/ClassesGrid.astro";
+
+import { siteName, siteDescription, logo, flat_logo, navItems } from "../../config/site";
+import { hero, classes } from "../../data/classes";
+---
+
+<BaseLayout
+  title="Classes"
+  description="Free classes offered at Bingham Family Clinic, including Nutrition and Diabetes Care and Exercise and Physiology."
+  siteName={siteName}
+>
+  <Header navItems={navItems} slot="header">
+    <a slot="logo" href="/" aria-label={`${siteName} home`}>
+      <img src={flat_logo.src} alt={flat_logo.alt} class="site-logo" />
+    </a>
+  </Header>
+
+  <Hero backgroundImage={hero.backgroundImage} heading={hero.heading} subheading={hero.subheading} />
+
+  <ClassesGrid items={classes} />
+
+  <Footer navItems={navItems} slot="footer" />
+</BaseLayout>
+
+<style>
+  .site-logo {
+    height: 5rem;
+    width: auto;
+  }
+</style>

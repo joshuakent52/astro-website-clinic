@@ -1,0 +1,114 @@
+---
+import Section from "../ui/Section.astro";
+import Card from "../ui/Card.astro";
+import type { ClassItem } from "../../data/classes";
+
+/**
+ * ClassesGrid
+ * Grid of photo-backed class cards: a solid-color title bar above a
+ * photo, with the description overlaid on the photo behind a blue
+ * gradient fade so the text stays legible over any image. Used on the
+ * classes page; built for two cards but wraps to additional rows if
+ * more classes are added to src/data/classes.ts.
+ */
+
+interface Props {
+  items: ClassItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<Section background="surface">
+  <div class="classes-grid">
+    {
+      items.map((item) => (
+        <Card as="article">
+          <div class="class-card">
+            <div class="class-card__header">
+              <h2 class="class-card__title">{item.title}</h2>
+            </div>
+            <div class="class-card__media">
+              <img src={item.image} alt="" class="class-card__image" loading="lazy" />
+              <div class="class-card__fade" aria-hidden="true" />
+              <p class="class-card__description">{item.description}</p>
+            </div>
+          </div>
+        </Card>
+      ))
+    }
+  </div>
+</Section>
+
+<style>
+  .classes-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-lg);
+  }
+
+  .class-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+  }
+
+  .class-card__header {
+    background-color: var(--color-primary);
+    padding: var(--space-md) var(--space-lg);
+  }
+
+  .class-card__title {
+    color: var(--color-text-inverse);
+    font-size: var(--font-size-h3);
+    margin: 0;
+  }
+
+  .class-card__media {
+    position: relative;
+    aspect-ratio: 4 / 3;
+  }
+
+  .class-card__image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Blue fade over the class box images so the overlaid description
+     stays legible regardless of the underlying photo. */
+  .class-card__fade {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(2, 65, 107, 0.78) 0%,
+      rgba(2, 65, 107, 0.35) 38%,
+      rgba(2, 65, 107, 0.55) 100%
+    );
+  }
+
+  .class-card__description {
+    position: absolute;
+    top: var(--space-md);
+    left: var(--space-md);
+    right: var(--space-md);
+    margin: 0;
+    color: var(--color-text-inverse);
+    font-size: var(--font-size-body);
+    line-height: var(--line-height-body);
+  }
+
+  /* Breakpoint: md (768px) — matches the stacking breakpoint used
+     elsewhere in the project (Navbar, grid utilities). */
+  @media (max-width: 768px) {
+    .classes-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
