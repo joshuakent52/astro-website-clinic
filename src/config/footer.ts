@@ -66,7 +66,9 @@ export interface ClosureEntry {
 }
 
 export const closures: ClosureEntry[] = [
-  { date: "2026-07-24" },
-  { date: "2026-09-07", endDate: "2026-09-08" },
+  { date: "2026-09-7" },
   { date: "2026-10-12" },
+  { date: "2026-11-11" },
+  { date: "2026-11-25", endDate: "2026-11-27" },
+  { date: "2026-12-23", endDate: "2027-01-01" },
 ];
