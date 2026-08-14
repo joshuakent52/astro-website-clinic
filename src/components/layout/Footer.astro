@@ -1,11 +1,9 @@
 ---
 import Container from "./Container.astro";
-import type { NavItem } from "../../types";
 import { siteName } from "../../config/site";
 import {
   mapEmbedSrc,
   contact,
-  services,
   socialLinks,
   tagline,
   closures,
@@ -16,22 +14,18 @@ import {
  * Footer
  *
  * Layout:
- * - Desktop (>=768px): 5 columns — map, contact info, upcoming closures,
- *   quick links, our services — plus a bottom bar.
- * - Mobile (<768px): map + contact info + upcoming closures only (quick
- *   links / services are dropped to keep the mobile footer short),
- *   followed by the same bottom bar.
+ * - Desktop (>=768px): 3 columns — map, contact info, upcoming closures —
+ *   plus a full-width bottom bar.
+ * - Mobile (<768px): the same map + contact info + upcoming closures,
+ *   stacked in one column, followed by the same bottom bar.
  *
- * All copy (address, hours, phone, email, services, socials, closures)
- * lives in `src/config/footer.ts` — nothing footer-specific is
- * hardcoded here. See that file for how the closures list works.
+ * All copy (address, hours, phone, email, socials, closures) lives in
+ * `src/config/footer.ts` — nothing footer-specific is hardcoded here.
+ * See that file for how the closures list works.
  */
 
-interface Props {
-  navItems?: NavItem[];
-}
-
-const { navItems = [] } = Astro.props;
+// Pages still pass `navItems` in (used elsewhere, e.g. the header) but
+// the footer no longer renders it — Quick Links has been removed.
 const year = new Date().getFullYear();
 
 // Sort closures chronologically; the exact list shown then updates
@@ -76,8 +70,6 @@ const icons: Record<SocialIcon, string> = {
         <iframe
           class="site-footer__map"
           src={mapEmbedSrc}
-          width="100%"
-          height="160"
           style="border:0;"
           allowfullscreen
           loading="lazy"
@@ -128,71 +120,41 @@ const icons: Record<SocialIcon, string> = {
           </li>
         </ul>
       </div>
-
-      {
-        navItems.length > 0 && (
-          <nav class="site-footer__col site-footer__col--links" aria-label="Footer">
-            <h3 class="site-footer__heading">Quick Links</h3>
-            <ul>
-              {navItems.map((item) => (
-                <li>
-                  <a class="site-footer__link" href={item.href}>
-                    {item.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </nav>
-        )
-      }
-
-      {
-        services.length > 0 && (
-          <nav class="site-footer__col site-footer__col--services" aria-label="Our Services">
-            <h3 class="site-footer__heading">Our Services</h3>
-            <ul>
-              {services.map((item) => (
-                <li>
-                  <a class="site-footer__link" href={item.href}>
-                    {item.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </nav>
-        )
-      }
-    </div>
-
-    <div class="site-footer__bottom">
-      <p class="text-small">
-        &copy; {year} {siteName}. 501(c)(3). All rights reserved.
-      </p>
-
-      {
-        socialLinks.length > 0 && (
-          <ul class="site-footer__social">
-            {socialLinks.map((social) => (
-              <li>
-                <a href={social.href} aria-label={social.label}>
-                  <svg
-                    viewBox="0 0 24 24"
-                    width="16"
-                    height="16"
-                    fill="currentColor"
-                    aria-hidden="true"
-                    set:html={icons[social.icon]}
-                  />
-                </a>
-              </li>
-            ))}
-          </ul>
-        )
-      }
-
-      <p class="text-small">{tagline}</p>
     </div>
   </Container>
+
+  <div class="site-footer__bottom">
+    <Container>
+      <div class="site-footer__bottom-inner">
+        <p class="text-small">
+          &copy; {year} {siteName}. 501(c)(3). All rights reserved.
+        </p>
+
+        {
+          socialLinks.length > 0 && (
+            <ul class="site-footer__social">
+              {socialLinks.map((social) => (
+                <li>
+                  <a href={social.href} aria-label={social.label}>
+                    <svg
+                      viewBox="0 0 24 24"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      aria-hidden="true"
+                      set:html={icons[social.icon]}
+                    />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )
+        }
+
+        <p class="text-small">{tagline}</p>
+      </div>
+    </Container>
+  </div>
 </footer>
 
 <script>
@@ -222,9 +184,17 @@ const icons: Record<SocialIcon, string> = {
 </script>
 
 <style>
+  .site-footer,
+  .site-footer a,
+  .site-footer h3,
+  .site-footer p,
+  .site-footer li,
+  .site-footer span {
+    color: var(--color-text-inverse);
+  }
+
   .site-footer {
     background-color: var(--color-primary-dark);
-    color: var(--color-text-inverse);
   }
 
   .site-footer__heading {
@@ -234,7 +204,6 @@ const icons: Record<SocialIcon, string> = {
   }
 
   .site-footer__link {
-    color: var(--color-text-inverse);
     text-decoration: none;
   }
 
@@ -244,12 +213,13 @@ const icons: Record<SocialIcon, string> = {
   }
 
   /* ---------------------------------------------------------------- */
-  /* Main row: map | contact | closures | quick links | services       */
+  /* Main row: map | contact | closures                                */
   /* ---------------------------------------------------------------- */
 
   .site-footer__main {
     display: grid;
-    grid-template-columns: minmax(180px, 260px) minmax(200px, 1fr) minmax(170px, 1fr) minmax(140px, 1fr) minmax(160px, 1fr);
+    grid-template-columns: minmax(220px, 320px) minmax(200px, 1fr) minmax(170px, 1fr);
+    align-items: stretch;
     gap: var(--space-lg);
     padding-block: var(--space-xl);
   }
@@ -263,10 +233,15 @@ const icons: Record<SocialIcon, string> = {
     padding-left: var(--space-lg);
   }
 
+  .site-footer__col--map {
+    display: flex;
+  }
+
   .site-footer__map {
     display: block;
     width: 100%;
-    height: 160px;
+    height: 100%;
+    min-height: 180px;
     border-radius: var(--radius-md);
   }
 
@@ -286,33 +261,32 @@ const icons: Record<SocialIcon, string> = {
     font-weight: var(--font-weight-semibold);
   }
 
-  .site-footer__col--closures ul,
-  .site-footer__col--links ul,
-  .site-footer__col--services ul {
+  .site-footer__col--closures ul {
     display: flex;
     flex-direction: column;
     gap: var(--space-2xs);
   }
 
   .site-footer__closures-empty {
-    color: var(--color-secondary-light);
     font-style: italic;
   }
 
   /* ---------------------------------------------------------------- */
-  /* Bottom bar                                                         */
+  /* Bottom bar — full-bleed band, content centered inside it          */
   /* ---------------------------------------------------------------- */
 
   .site-footer__bottom {
+    width: 100%;
+    background-color: var(--color-secondary-dark);
+  }
+
+  .site-footer__bottom-inner {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: var(--space-sm);
     text-align: center;
     padding-block: var(--space-lg);
-    background-color: var(--color-secondary-dark);
-    margin-inline: calc(var(--container-padding-inline) * -1);
-    padding-inline: var(--container-padding-inline);
   }
 
   .site-footer__social {
@@ -328,7 +302,6 @@ const icons: Record<SocialIcon, string> = {
     height: 28px;
     border-radius: var(--radius-sm);
     background-color: rgba(255, 255, 255, 0.15);
-    color: var(--color-text-inverse);
     transition: background-color var(--transition-fast);
   }
 
@@ -338,8 +311,8 @@ const icons: Record<SocialIcon, string> = {
   }
 
   /* ---------------------------------------------------------------- */
-  /* Mobile (md: 768px) — map + contact + closures only, stacked;      */
-  /* quick links and services are dropped, bottom bar stays.           */
+  /* Mobile (md: 768px) — map + contact + closures, stacked;           */
+  /* bottom bar stays full-bleed.                                      */
   /* ---------------------------------------------------------------- */
 
   @media (max-width: 768px) {
@@ -355,13 +328,8 @@ const icons: Record<SocialIcon, string> = {
       padding-left: 0;
     }
 
-    .site-footer__col--links,
-    .site-footer__col--services {
-      display: none;
-    }
-
-    .site-footer__bottom {
-      margin-inline: calc(var(--container-padding-inline) * -1);
+    .site-footer__map {
+      height: 220px;
     }
   }
 </style>
