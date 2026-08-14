@@ -1,8 +1,6 @@
-import type { NavItem } from "../types";
-
 /**
  * Footer-specific content: contact details, map embed, social links,
- * services list, and upcoming closures.
+ * and upcoming closures.
  *
  * Everything here is read by Footer.astro — update values in this file
  * to change what the footer shows; no component changes needed.
@@ -22,15 +20,6 @@ export const contact = {
   email: "info@binghamfamilyclinic.org",
 };
 
-/** "Our Services" footer column. Point `href` at real pages as they're built. */
-export const services: NavItem[] = [
-  { label: "Family Medicine", href: "/" },
-  { label: "Pediatric Care", href: "/" },
-  { label: "Maternal Health", href: "/" },
-  { label: "Preventive Care", href: "/" },
-  { label: "Chronic Disease", href: "/" },
-];
-
 export type SocialIcon = "instagram" | "linkedin" | "facebook";
 
 export interface SocialLink {
@@ -40,27 +29,44 @@ export interface SocialLink {
 }
 
 export const socialLinks: SocialLink[] = [
-  { label: "Instagram", href: "/", icon: "instagram" },
-  { label: "LinkedIn", href: "/", icon: "linkedin" },
-  { label: "Facebook", href: "/", icon: "facebook" },
+  { label: "Instagram", href: "https://www.instagram.com/binghamfamilyclinic/", icon: "instagram" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/company/bingham-family-clinic/", icon: "linkedin" },
+  { label: "Facebook", href: "https://www.facebook.com/people/Bingham-Family-Clinic/61580847037678/#", icon: "facebook" },
 ];
+
 
 export const tagline = "Made with love for our community";
 
 /**
  * Upcoming closures.
  *
- * Add one entry per closure, in "YYYY-MM-DD" format — order doesn't
- * matter, the footer sorts them automatically. It's safe (and expected)
- * to paste in a full year's worth of dates at once: Footer.astro only
- * ever displays the next 5 whose date hasn't passed yet, and a small
- * client-side script re-checks the date on every page load, so the list
- * quietly advances to the next closures on its own as each date passes
- * — no code changes or redeploys required as the year goes on. Once
- * every entry here is in the past, just append next year's dates.
+ * Each entry is a single date, or a range if `endDate` is set:
+ *
+ *   { date: "2026-07-24" }                              → "July 24th"
+ *   { date: "2026-07-24", endDate: "2026-07-26" }        → "July 24th - 26th"
+ *   { date: "2026-11-27", endDate: "2026-11-28" }        → "November 27th - 28th"
+ *   { date: "2026-12-30", endDate: "2027-01-02" }        → "December 30th - January 2nd"
+ *
+ * Both dates use "YYYY-MM-DD" format, and `endDate` must be on or after
+ * `date`. Order doesn't matter — the footer sorts entries automatically
+ * by start date. It's safe (and expected) to paste in a full year's
+ * worth of closures at once: Footer.astro only ever displays the next 5
+ * whose closure hasn't fully passed yet (a range stays visible through
+ * its `endDate`), and a small client-side script re-checks against the
+ * visitor's clock on every page load, so the list quietly advances to
+ * the next closures on its own as each one passes — no code changes or
+ * redeploys required as the year goes on. Once every entry here is in
+ * the past, just append next year's dates.
  */
-export const closures: { date: string }[] = [
+export interface ClosureEntry {
+  /** Start date (or the only date, for a single-day closure). */
+  date: string;
+  /** Optional end date, for a multi-day closure. Omit for a single day. */
+  endDate?: string;
+}
+
+export const closures: ClosureEntry[] = [
   { date: "2026-07-24" },
-  { date: "2026-09-07" },
+  { date: "2026-09-07", endDate: "2026-09-08" },
   { date: "2026-10-12" },
 ];

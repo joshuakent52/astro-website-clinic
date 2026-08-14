@@ -7,6 +7,7 @@ import {
   socialLinks,
   tagline,
   closures,
+  type ClosureEntry,
   type SocialIcon,
 } from "../../config/footer";
 
@@ -28,32 +29,64 @@ import {
 // the footer no longer renders it — Quick Links has been removed.
 const year = new Date().getFullYear();
 
-// Sort closures chronologically; the exact list shown then updates
-// automatically (see the inline script below and config/footer.ts).
+// Sort closures chronologically by start date; the exact list shown
+// then updates automatically (see the inline script below and
+// config/footer.ts).
 const sortedClosures = [...closures].sort((a, b) => a.date.localeCompare(b.date));
 
-function formatClosureDate(iso: string): string {
-  const [y, m, d] = iso.split("-").map(Number);
-  const date = new Date(y, m - 1, d);
-  const month = date.toLocaleString("en-US", { month: "long" });
-  const suffix =
-    d % 10 === 1 && d !== 11
-      ? "st"
-      : d % 10 === 2 && d !== 12
-        ? "nd"
-        : d % 10 === 3 && d !== 13
-          ? "rd"
-          : "th";
-  return `${month} ${d}${suffix}`;
+function ordinal(d: number): string {
+  return d % 10 === 1 && d !== 11
+    ? "st"
+    : d % 10 === 2 && d !== 12
+      ? "nd"
+      : d % 10 === 3 && d !== 13
+        ? "rd"
+        : "th";
+}
+
+/** A closure's last relevant day — its `endDate` if it has one, else `date`. */
+function effectiveEndDate(entry: ClosureEntry): string {
+  return entry.endDate && entry.endDate >= entry.date ? entry.endDate : entry.date;
+}
+
+function formatClosureDate(entry: ClosureEntry): string {
+  const [sy, sm, sd] = entry.date.split("-").map(Number);
+  const startMonth = new Date(sy, sm - 1, sd).toLocaleString("en-US", { month: "long" });
+  const startLabel = `${startMonth} ${sd}${ordinal(sd)}`;
+
+  const end = effectiveEndDate(entry);
+  if (end === entry.date) {
+    return startLabel;
+  }
+
+  const [ey, em, ed] = end.split("-").map(Number);
+  const endMonth = new Date(ey, em - 1, ed).toLocaleString("en-US", { month: "long" });
+  const endDay = `${ed}${ordinal(ed)}`;
+
+  if (sy === ey && sm === em) {
+    // Same month: "July 24th - 26th"
+    return `${startLabel} - ${endDay}`;
+  }
+  if (sy === ey) {
+    // Same year, different month: "November 27th - December 1st"
+    return `${startLabel} - ${endMonth} ${endDay}`;
+  }
+  // Crosses a year boundary: include years to avoid ambiguity.
+  return `${startLabel}, ${sy} - ${endMonth} ${endDay}, ${ey}`;
 }
 
 // Build-time default (so the page is correct even with JS disabled):
-// whichever 5 entries are upcoming as of build. The client script below
-// re-checks against the visitor's actual clock on every page load, so
-// the list keeps advancing on its own between deploys as dates pass.
+// whichever 5 entries are still upcoming as of build (a range counts as
+// upcoming through its end date). The client script below re-checks
+// against the visitor's actual clock on every page load, so the list
+// keeps advancing on its own between deploys as dates pass.
 const todayIso = new Date().toISOString().slice(0, 10);
-const defaultVisibleDates = new Set(
-  sortedClosures.filter((c) => c.date >= todayIso).slice(0, 5).map((c) => c.date)
+const defaultVisibleIndexes = new Set(
+  sortedClosures
+    .map((entry, index) => ({ index, end: effectiveEndDate(entry) }))
+    .filter((c) => c.end >= todayIso)
+    .slice(0, 5)
+    .map((c) => c.index)
 );
 
 const icons: Record<SocialIcon, string> = {
@@ -106,12 +139,12 @@ const icons: Record<SocialIcon, string> = {
         <h3 class="site-footer__heading">Upcoming Closures</h3>
         <ul class="site-footer__closures-list" data-closures-list>
           {
-            sortedClosures.map((closure) => (
+            sortedClosures.map((closure, index) => (
               <li
-                data-date={closure.date}
-                style={defaultVisibleDates.has(closure.date) ? undefined : "display:none"}
+                data-end={effectiveEndDate(closure)}
+                style={defaultVisibleIndexes.has(index) ? undefined : "display:none"}
               >
-                {formatClosureDate(closure.date)}
+                {formatClosureDate(closure)}
               </li>
             ))
           }
@@ -159,18 +192,19 @@ const icons: Record<SocialIcon, string> = {
 
 <script>
   // Keeps the "Upcoming Closures" list correct between deploys: on every
-  // page load, re-checks each closure's date against the visitor's
-  // clock and shows only the next 5 that haven't passed yet. The
+  // page load, re-checks each closure's end date (its only date, for a
+  // single day, or its `endDate`, for a range) against the visitor's
+  // clock and shows only the next 5 that haven't fully passed yet. The
   // server-rendered markup above already sorts closures oldest-first,
   // so this only needs to hide/show — no formatting or sorting here.
   const list = document.querySelector<HTMLUListElement>("[data-closures-list]");
   if (list) {
     const todayIso = new Date().toISOString().slice(0, 10);
-    const items = Array.from(list.querySelectorAll<HTMLLIElement>("li[data-date]"));
+    const items = Array.from(list.querySelectorAll<HTMLLIElement>("li[data-end]"));
     let shown = 0;
     for (const item of items) {
-      const date = item.dataset.date;
-      const isUpcoming = !!date && date >= todayIso;
+      const end = item.dataset.end;
+      const isUpcoming = !!end && end >= todayIso;
       if (isUpcoming && shown < 5) {
         item.style.display = "";
         shown++;
