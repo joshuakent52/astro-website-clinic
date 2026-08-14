@@ -1,0 +1,38 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/layout/Header.astro";
+import Footer from "../../components/layout/Footer.astro";
+import Section from "../../components/ui/Section.astro";
+import PageBanner from "../../components/sections/PageBanner.astro";
+import MicrosoftForm from "../../components/forms/MicrosoftForm.astro";
+
+import { siteName, siteDescription, logo, flat_logo, navItems } from "../../config/site";
+import { banner, form } from "../../data/appointments";
+---
+
+<BaseLayout
+  title="Appointments"
+  description="Schedule an appointment with Bingham Family Clinic."
+  siteName={siteName}
+>
+  <Header navItems={navItems} slot="header">
+    <a slot="logo" href="/" aria-label={`${siteName} home`}>
+      <img src={flat_logo.src} alt={flat_logo.alt} class="site-logo" />
+    </a>
+  </Header>
+
+  <PageBanner heading={banner.heading} subheading={banner.subheading} />
+
+  <Section narrow>
+    <MicrosoftForm src={form.src} title={form.title} aspectRatio={form.aspectRatio} />
+  </Section>
+
+  <Footer navItems={navItems} slot="footer" />
+</BaseLayout>
+
+<style>
+  .site-logo {
+    height: 5rem;
+    width: auto;
+  }
+</style>
