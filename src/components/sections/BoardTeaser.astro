@@ -1,0 +1,42 @@
+---
+import Section from "../ui/Section.astro";
+import Button from "../ui/Button.astro";
+
+/**
+ * BoardTeaser
+ * Simple centered banner linking off to the "Meet the Board" page.
+ */
+
+interface Props {
+  heading: string;
+  subheading: string;
+  ctaText: string;
+  ctaHref: string;
+}
+
+const { heading, subheading, ctaText, ctaHref } = Astro.props;
+---
+
+<Section background="muted">
+  <div class="board-teaser">
+    <h2>{heading}</h2>
+    <p class="text-muted">{subheading}</p>
+    <Button text={ctaText} href={ctaHref} variant="primary" />
+  </div>
+</Section>
+
+<style>
+  .board-teaser {
+    text-align: center;
+    max-width: var(--container-narrow-width);
+    margin-inline: auto;
+  }
+
+  .board-teaser h2 {
+    margin-bottom: var(--space-sm);
+  }
+
+  .board-teaser p {
+    margin-bottom: var(--space-lg);
+  }
+</style>

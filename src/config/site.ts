@@ -30,7 +30,7 @@ export const flat_logo = {
  * nothing else needs to change when you do.
  */
 export const navItems: NavItem[] = [
-  { label: "About", href: "/" },
+  { label: "About", href: "/about" },
   { label: "Classes", href: "/" },
   { label: "Donate", href: "/donate" },
   { label: "Volunteer", href: "/volunteer" },
