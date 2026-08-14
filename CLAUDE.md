@@ -8,11 +8,12 @@ A primarily static, 12-page public-facing website for Bingham Family Clinic.
 Astro is the primary framework, using TypeScript where appropriate. The site
 is deployed on Vercel and uses Astro's static output by default.
 
-**Status:** The homepage (`src/pages/index.astro`) is the first page built.
-It is currently the only real page in the site. Every internal link
-(nav items, CTA buttons, the eligibility policy link) points to `/` as a
-placeholder until the pages they should actually point to exist — see
-"Placeholder links" below before adding new pages.
+**Status:** The homepage (`src/pages/index.astro`), the volunteer flow
+(`src/pages/volunteer/`), and the donate flow (`src/pages/donate/`) are
+built. Every other internal link (remaining nav items, the hero CTA, the
+eligibility policy link) points to `/` as a placeholder until the pages
+they should actually point to exist — see "Placeholder links" below
+before adding new pages.
 
 ## Core principles
 
@@ -59,7 +60,8 @@ src/components/
   navigation/        Navbar, MobileMenu
   ui/                Button, Card, Section
   sections/          Page-specific composed sections (Hero, StatsBar,
-                      Mission, Eligibility, ...; built as pages are built)
+                      Mission, Eligibility, DonateHero, DonateOptions,
+                      ...; built as pages are built)
   forms/             CustomForm, MicrosoftForm
 src/layouts/        BaseLayout.astro (SEO/meta shell for every page)
 src/pages/          Route files — one .astro file per page
@@ -78,7 +80,9 @@ Two locations hold content that's expected to change without a code review:
   hardcoding them in a component.
 - **`src/data/<page>.ts`** — one file per page holding that page's copy,
   images, and any structured data (e.g. `src/data/home.ts` holds the
-  hero copy, stats, mission statement, and the eligibility income table).
+  hero copy, stats, mission statement, and the eligibility income table;
+  `src/data/donate.ts` holds the donate page's quote and donation
+  options).
 
 When building a new page, follow this pattern: create `src/data/<page>.ts`
 for its content, build any new one-off sections in
@@ -87,11 +91,11 @@ composition — importing data and passing it to components.
 
 ### Placeholder links
 
-`navItems` in `src/config/site.ts`, the hero CTA (`ctaHref` in
-`src/data/home.ts`), and the eligibility policy link (`policyLinkHref` in
-the same file) all currently point to `/`. As each real page is built,
-update the corresponding `href` in these files — no component changes are
-needed to do this.
+`navItems` in `src/config/site.ts` (all but "Volunteer" and "Donate"),
+the hero CTA (`ctaHref` in `src/data/home.ts`), and the eligibility
+policy link (`policyLinkHref` in the same file) all currently point to
+`/`. As each real page is built, update the corresponding `href` in
+these files — no component changes are needed to do this.
 
 ## Images
 
@@ -100,13 +104,18 @@ Homepage images are referenced by path and are expected at:
 - `public/images/image1.png` — hero background (clinic waiting room)
 - `public/images/image2.png` — mission section background (exam room)
 - `public/images/image3.png` — logo, used in the header and footer
+- `public/images/volunteer-hero.jpg` — volunteer page hero background
+- `public/images/volunteer-why.jpg` — "Why Volunteer" section photo
+- `public/images/venmo-qr.png` — Venmo QR code shown on the donate page
 
 These are plain `<img>` references (not Astro's `Image` component), so a
 missing file 404s in the browser rather than breaking the build — useful
 while real assets are still being sourced, but don't ship to production
 with any of these missing. Update the paths in `src/config/site.ts`
-(`logo.src`) and `src/data/home.ts` (`hero.backgroundImage`,
-`mission.backgroundImage`) if filenames change.
+(`logo.src`), `src/data/home.ts` (`hero.backgroundImage`,
+`mission.backgroundImage`), `src/data/volunteer.ts`
+(`hero.backgroundImage`, `why.image`), and `src/data/donate.ts`
+(`venmo.qrImage`) if filenames change.
 
 ## Adding a page
 
@@ -171,6 +180,29 @@ discoverable.
 - `CustomForm.astro` is a structural skeleton only. Fields, validation,
   and submission logic still need to be implemented; keep any submission
   JavaScript isolated rather than adding it globally.
+
+## Donate page
+
+`src/pages/donate/` follows the same nested-route pattern as
+`src/pages/volunteer/`:
+
+- **`donate/index.astro`** — the main donate page: `DonateHero` (the
+  "Why Donate?" banner and quote — no icon on the quote, intentionally),
+  `DonateOptions` (One-Time via Clover, Wire-Transfer, and the Venmo QR),
+  and the homepage `Mission` section reused as-is (same component, same
+  `mission` data from `src/data/home.ts`) at the bottom of the page.
+- **`donate/wire-transfer.astro`** — a structural placeholder page,
+  following the same pattern as `volunteer/apply.astro`. It's waiting on
+  a Microsoft Form embed — swap in `MicrosoftForm.astro` here once that
+  form exists, the same way `volunteer/apply.astro` is waiting on
+  `CustomForm.astro`/`MicrosoftForm.astro`.
+- The One-Time Donation button links directly to the Clover pay widget
+  (`https://www.clover.com/pay-widgets/b118e1ee-4bf5-40bb-9c0c-bae86e361a79`)
+  as an external link (`Button`'s `external` prop) — update
+  `options[0].ctaHref` in `src/data/donate.ts` if that widget URL ever
+  changes.
+- All donate copy and links live in `src/data/donate.ts`, per the
+  "Editable content" convention above.
 
 ## Before committing
 

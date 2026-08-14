@@ -27,7 +27,7 @@ export const logo = {
 export const navItems: NavItem[] = [
   { label: "About", href: "/" },
   { label: "Classes", href: "/" },
-  { label: "Donate", href: "/" },
+  { label: "Donate", href: "/donate" },
   { label: "Volunteer", href: "/volunteer" },
   { label: "Appointments", href: "/" },
 ];

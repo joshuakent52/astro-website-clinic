@@ -1,0 +1,87 @@
+---
+import Section from "../ui/Section.astro";
+
+/**
+ * DonateHero
+ * Solid-color intro banner for the donate page: a large heading on one
+ * side and a testimonial-style quote card on the other. Unlike `Hero`,
+ * this has no background photo — just the primary brand color — since
+ * the donate page reference design uses a flat banner rather than a
+ * photo-backed one.
+ */
+
+interface Props {
+  heading: string;
+  quote: {
+    text: string;
+    author: string;
+  };
+}
+
+const { heading, quote } = Astro.props;
+
+// The quote is written as separate paragraphs in the data file,
+// separated by newlines.
+const paragraphs = quote.text.split("\n").filter(Boolean);
+---
+
+<Section background="primary" spacing="tight">
+  <div class="donate-hero">
+    <h1 class="donate-hero__heading">{heading}</h1>
+
+    <figure class="donate-hero__quote">
+      <blockquote>
+        {paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+      </blockquote>
+      <figcaption>— {quote.author}</figcaption>
+    </figure>
+  </div>
+</Section>
+
+<style>
+  .donate-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+    gap: var(--space-2xl);
+    align-items: center;
+  }
+
+  .donate-hero__heading {
+    color: var(--color-text-inverse);
+  }
+
+  .donate-hero__quote {
+    background-color: var(--color-surface);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    padding: var(--space-lg) var(--space-xl);
+  }
+
+  .donate-hero__quote blockquote {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    font-style: italic;
+    color: var(--color-text-muted);
+  }
+
+  .donate-hero__quote figcaption {
+    margin-top: var(--space-md);
+    font-style: italic;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text);
+  }
+
+  /* Breakpoint: md (768px) — matches the stacking breakpoint used
+     elsewhere in the project. */
+  @media (max-width: 768px) {
+    .donate-hero {
+      grid-template-columns: 1fr;
+      gap: var(--space-lg);
+    }
+
+    .donate-hero__quote {
+      padding: var(--space-lg);
+    }
+  }
+</style>
