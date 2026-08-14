@@ -8,7 +8,7 @@ export const hero = {
   // TODO: swap in the real staff photo (referred to as "image6") once it's
   // available as a clean, un-cropped file — this is a placeholder from the
   // existing image library so the page renders correctly in the meantime.
-  backgroundImage: "/images/image2.png",
+  backgroundImage: "/images/hero-image.png",
   heading: "About Bingham Family Clinic",
   subheading:
     "Bingham Family Clinic was founded with the mission to create a positive impact in our community through compassionate and selfless service. Our commitment is to care for every individual and family with dedication, love, and support. We believe in building strong ties with our patients and community, working together to improve health and well-being for all. We do this by providing free healthcare for those below 300% of the Federal Poverty Level.",
