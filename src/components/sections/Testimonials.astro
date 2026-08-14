@@ -21,10 +21,10 @@ interface Props {
   visibleSeconds?: number;
 }
 
-const { testimonials, visibleSeconds = 4 } = Astro.props;
+const { testimonials, visibleSeconds = 5 } = Astro.props;
 
 const count = testimonials.length;
-const fadeSeconds = 0.33;
+const fadeSeconds = 1;
 const slice = visibleSeconds + fadeSeconds;
 const totalDuration = count * slice;
 

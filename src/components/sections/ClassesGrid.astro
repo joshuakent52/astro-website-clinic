@@ -1,15 +1,14 @@
 ---
 import Section from "../ui/Section.astro";
-import Card from "../ui/Card.astro";
 import type { ClassItem } from "../../data/classes";
 
 /**
  * ClassesGrid
- * Grid of photo-backed class cards: a solid-color title bar above a
- * photo, with the description overlaid on the photo behind a blue
- * gradient fade so the text stays legible over any image. Used on the
- * classes page; built for two cards but wraps to additional rows if
- * more classes are added to src/data/classes.ts.
+ * A grid of class cards: a fixed-height solid-color title bar (so cards
+ * stay the same height regardless of how many lines a title wraps to),
+ * followed by a photo with a blue fade for legibility and the class
+ * schedule/description in a high-contrast panel over the photo. Used on
+ * the classes page to list each ongoing class.
  */
 
 interface Props {
@@ -20,56 +19,68 @@ const { items } = Astro.props;
 ---
 
 <Section background="surface">
-  <div class="classes-grid">
+  <ul class="classes-grid">
     {
       items.map((item) => (
-        <Card as="article">
-          <div class="class-card">
-            <div class="class-card__header">
-              <h2 class="class-card__title">{item.title}</h2>
-            </div>
-            <div class="class-card__media">
-              <img src={item.image} alt="" class="class-card__image" loading="lazy" />
-              <div class="class-card__fade" aria-hidden="true" />
-              <p class="class-card__description">{item.description}</p>
-            </div>
+        <li class="class-card">
+          <div class="class-card__header">
+            <h2 class="class-card__title">{item.title}</h2>
           </div>
-        </Card>
+
+          <div class="class-card__image-wrap">
+            <img src={item.image} alt="" class="class-card__image" />
+            <div class="class-card__overlay" aria-hidden="true" />
+            <p class="class-card__description">{item.description}</p>
+          </div>
+        </li>
       ))
     }
-  </div>
+  </ul>
 </Section>
 
 <style>
   .classes-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-lg);
+    grid-template-columns: repeat(auto-fill, minmax(320px, 420px));
+    justify-content: start;
+    align-items: start;
+    gap: var(--space-xl);
+    list-style: none;
+    margin: 0;
+    padding: 0;
   }
 
   .class-card {
     display: flex;
     flex-direction: column;
-    height: 100%;
-    overflow: hidden;
+    background-color: var(--color-surface);
     border-radius: var(--radius-lg);
+    overflow: hidden;
     box-shadow: var(--shadow-md);
   }
 
+  /* Fixed-height header so a two-line title (e.g. "Exercise and
+     Physiology Class") doesn't make one card taller than the other —
+     every card's image block starts at the same y-position. */
   .class-card__header {
     background-color: var(--color-primary);
-    padding: var(--space-md) var(--space-lg);
+    min-height: 5.75rem;
+    display: flex;
+    align-items: center;
+    padding: var(--space-sm) var(--space-lg);
   }
 
   .class-card__title {
     color: var(--color-text-inverse);
     font-size: var(--font-size-h3);
+    line-height: var(--line-height-heading);
     margin: 0;
   }
 
-  .class-card__media {
+  .class-card__image-wrap {
     position: relative;
     aspect-ratio: 4 / 3;
+    overflow: hidden;
   }
 
   .class-card__image {
@@ -80,35 +91,44 @@ const { items } = Astro.props;
     object-fit: cover;
   }
 
-  /* Blue fade over the class box images so the overlaid description
-     stays legible regardless of the underlying photo. */
-  .class-card__fade {
+  /* Blue fade wash over every class image. */
+  .class-card__overlay {
     position: absolute;
     inset: 0;
     background: linear-gradient(
       180deg,
-      rgba(2, 65, 107, 0.78) 0%,
-      rgba(2, 65, 107, 0.35) 38%,
-      rgba(2, 65, 107, 0.55) 100%
+      rgba(2, 65, 107, 0.55) 0%,
+      rgba(2, 65, 107, 0.2) 45%,
+      rgba(1, 44, 73, 0.4) 100%
     );
   }
 
+  /* Positioned (not flowed) so long copy can never push the card taller
+     than its fixed aspect ratio — and a near-opaque panel keeps the text
+     readable no matter what's behind it in the photo. */
   .class-card__description {
     position: absolute;
-    top: var(--space-md);
-    left: var(--space-md);
-    right: var(--space-md);
-    margin: 0;
+    inset: var(--space-md) var(--space-md) auto var(--space-md);
+    z-index: 1;
+    background-color: rgba(1, 44, 73, 0.82);
     color: var(--color-text-inverse);
     font-size: var(--font-size-body);
     line-height: var(--line-height-body);
+    border-radius: var(--radius-md);
+    padding: var(--space-md);
+    margin: 0;
   }
 
   /* Breakpoint: md (768px) — matches the stacking breakpoint used
-     elsewhere in the project (Navbar, grid utilities). */
+     elsewhere in the project. */
   @media (max-width: 768px) {
     .classes-grid {
       grid-template-columns: 1fr;
+      justify-content: stretch;
+    }
+
+    .class-card__image-wrap {
+      aspect-ratio: 3 / 4;
     }
   }
 </style>
