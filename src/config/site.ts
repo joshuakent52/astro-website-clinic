@@ -20,14 +20,14 @@ export const logo = {
 /**
  * Primary navigation, shared by the header (desktop + mobile) and footer.
  *
- * NOTE: This is currently the only page built, so every entry points to
- * "/" as a placeholder. Update each `href` to its real route as that page
- * is built — nothing else needs to change when you do.
+ * NOTE: Most entries still point to "/" as a placeholder until those pages
+ * are built. Update each `href` to its real route as that page is built —
+ * nothing else needs to change when you do.
  */
 export const navItems: NavItem[] = [
   { label: "About", href: "/" },
   { label: "Classes", href: "/" },
   { label: "Donate", href: "/" },
-  { label: "Volunteer", href: "/" },
+  { label: "Volunteer", href: "/volunteer" },
   { label: "Appointments", href: "/" },
 ];

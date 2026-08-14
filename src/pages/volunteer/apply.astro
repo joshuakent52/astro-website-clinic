@@ -1,0 +1,75 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/layout/Header.astro";
+import Footer from "../../components/layout/Footer.astro";
+import Section from "../../components/ui/Section.astro";
+import Button from "../../components/ui/Button.astro";
+
+import { siteName, siteDescription, logo, navItems } from "../../config/site";
+
+/**
+ * Volunteer application page.
+ * Structural shell only — no form yet. See CustomForm.astro /
+ * MicrosoftForm.astro in src/components/forms/ when the real
+ * application is ready to be wired in.
+ */
+---
+
+<BaseLayout
+  title="Volunteer Application"
+  description="Apply to volunteer with Bingham Family Clinic."
+  siteName={siteName}
+>
+  <Header navItems={navItems} slot="header">
+    <a slot="logo" href="/" aria-label={`${siteName} home`}>
+      <img src={logo.src} alt={logo.alt} class="site-logo" />
+    </a>
+  </Header>
+
+  <Section narrow>
+    <div class="apply-page">
+      <h1>Volunteer Application</h1>
+      <p class="text-muted">
+        This application isn't live yet — check back soon. In the meantime, you
+        can head back to the volunteer page, or switch over to the provider
+        application if that's a better fit.
+      </p>
+
+      <div class="apply-page__actions">
+        <Button text="Back to Volunteer" href="/volunteer" variant="outline" />
+        <Button text="Apply as a Provider Instead" href="/volunteer/provider-apply" variant="ghost" />
+      </div>
+    </div>
+  </Section>
+
+  <Footer navItems={navItems} slot="footer">
+    <a slot="logo" href="/" aria-label={`${siteName} home`}>
+      <img src={logo.src} alt={logo.alt} class="site-logo" />
+    </a>
+    <p slot="description" class="text-muted">{siteDescription}</p>
+    <Fragment slot="site-name">{siteName}</Fragment>
+  </Footer>
+</BaseLayout>
+
+<style>
+  .site-logo {
+    height: 2.5rem;
+    width: auto;
+  }
+
+  .apply-page {
+    text-align: center;
+  }
+
+  .apply-page h1 {
+    margin-bottom: var(--space-md);
+  }
+
+  .apply-page__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-sm);
+    margin-top: var(--space-lg);
+  }
+</style>

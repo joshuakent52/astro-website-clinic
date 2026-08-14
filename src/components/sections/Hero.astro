@@ -13,8 +13,9 @@ interface Props {
   backgroundImage: string;
   heading: string;
   subheading: string;
-  ctaText: string;
-  ctaHref: string;
+  /** Omit ctaText/ctaHref for a hero with no button (e.g. a simple intro banner). */
+  ctaText?: string;
+  ctaHref?: string;
 }
 
 const { backgroundImage, heading, subheading, ctaText, ctaHref } = Astro.props;
@@ -27,7 +28,7 @@ const { backgroundImage, heading, subheading, ctaText, ctaHref } = Astro.props;
     <div class="hero__content">
       <h1>{heading}</h1>
       <p class="hero__subheading">{subheading}</p>
-      <Button text={ctaText} href={ctaHref} variant="inverse" />
+      {ctaText && ctaHref && <Button text={ctaText} href={ctaHref} variant="inverse" />}
     </div>
   </Container>
 </section>

@@ -1,0 +1,57 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/layout/Header.astro";
+import Footer from "../components/layout/Footer.astro";
+import Hero from "../components/sections/Hero.astro";
+import VolunteerWhy from "../components/sections/VolunteerWhy.astro";
+import ApplySplit from "../components/sections/ApplySplit.astro";
+import Testimonials from "../components/sections/Testimonials.astro";
+
+import { siteName, siteDescription, logo, navItems } from "../config/site";
+import { hero, why, apply, testimonials } from "../data/volunteer";
+---
+
+<BaseLayout
+  title="Volunteer"
+  description="Volunteer with Bingham Family Clinic — join our team as a volunteer or a clinical provider."
+  siteName={siteName}
+>
+  <Header navItems={navItems} slot="header">
+    <a slot="logo" href="/" aria-label={`${siteName} home`}>
+      <img src={logo.src} alt={logo.alt} class="site-logo" />
+    </a>
+  </Header>
+
+  <Hero
+    backgroundImage={hero.backgroundImage}
+    heading={hero.heading}
+    subheading={hero.subheading}
+  />
+
+  <VolunteerWhy
+    image={why.image}
+    heading={why.heading}
+    benefits={why.benefits}
+    ctaText={why.ctaText}
+    ctaHref={why.ctaHref}
+  />
+
+  <ApplySplit heading={apply.heading} subheading={apply.subheading} options={apply.options} />
+
+  <Testimonials testimonials={testimonials} />
+
+  <Footer navItems={navItems} slot="footer">
+    <a slot="logo" href="/" aria-label={`${siteName} home`}>
+      <img src={logo.src} alt={logo.alt} class="site-logo" />
+    </a>
+    <p slot="description" class="text-muted">{siteDescription}</p>
+    <Fragment slot="site-name">{siteName}</Fragment>
+  </Footer>
+</BaseLayout>
+
+<style>
+  .site-logo {
+    height: 2.5rem;
+    width: auto;
+  }
+</style>
