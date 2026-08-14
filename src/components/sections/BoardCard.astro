@@ -17,7 +17,7 @@ const { member } = Astro.props;
 const paragraphs = member.bio.split("\n").filter(Boolean);
 ---
 
-<details class="board-card" open>
+<details class="board-card">
   <summary class="board-card__summary">
     <span class="board-card__photo-wrap">
       <img src={member.image} alt={member.name} class="board-card__photo" />

@@ -18,7 +18,9 @@ const { members } = Astro.props;
 
 <Section>
   <div class="board-grid">
-    {members.map((member) => <BoardCard member={member} />)}
+    {[...members].reverse().map((member) => (
+      <BoardCard member={member} />
+    ))}
   </div>
 </Section>
 
