@@ -62,8 +62,5 @@ export const eligibility = {
     { size: 10, annual: "$201,240", monthly: "$16,770" },
   ] as EligibilityRow[],
   noteText:
-    "At this time, we are unable to provide pharmaceutical support/outsourced testing to those who cannot provide the necessary documentation. Patients are encouraged to bring proof of residency and income, when available, to support timely access to eligible healthcare services. To qualify for outsourced testing, total household income must be below 250% of the Federal Poverty Limit. For more information:",
-  policyLinkText: "Patient Eligibility Policy",
-  // Placeholder until a dedicated policy page exists.
-  policyLinkHref: "/",
+    "At this time, we are unable to provide pharmaceutical support/outsourced testing to those who cannot provide the necessary documentation. Patients are encouraged to bring proof of residency and income, when available, to support timely access to eligible healthcare services. To qualify for outsourced testing, total household income must be below 250% of the Federal Poverty Limit."
 };
