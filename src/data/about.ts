@@ -19,7 +19,7 @@ export const hero = {
 export const board = {
   heading: "Meet the Board",
   subheading:
-    "Get to know the volunteer board members who guide Bingham Family Clinic's mission.",
+    "Get to know the board members who guide Bingham Family Clinic's mission.",
   ctaText: "Meet the Board",
   ctaHref: "/about/board",
 };

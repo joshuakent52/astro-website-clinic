@@ -1,0 +1,44 @@
+---
+import Section from "../ui/Section.astro";
+import BoardCard from "./BoardCard.astro";
+import type { BoardMember } from "../../data/board";
+
+/**
+ * BoardGrid
+ * Responsive grid of BoardCard members — 4 columns on desktop, 2 on
+ * tablet, 1 on mobile.
+ */
+
+interface Props {
+  members: BoardMember[];
+}
+
+const { members } = Astro.props;
+---
+
+<Section>
+  <div class="board-grid">
+    {members.map((member) => <BoardCard member={member} />)}
+  </div>
+</Section>
+
+<style>
+  .board-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--space-lg);
+    align-items: start;
+  }
+
+  @media (max-width: 900px) {
+    .board-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 520px) {
+    .board-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

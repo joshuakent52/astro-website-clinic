@@ -2,15 +2,11 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Header from "../../components/layout/Header.astro";
 import Footer from "../../components/layout/Footer.astro";
-import Section from "../../components/ui/Section.astro";
-import Button from "../../components/ui/Button.astro";
+import PageBanner from "../../components/sections/PageBanner.astro";
+import BoardGrid from "../../components/sections/BoardGrid.astro";
 
 import { siteName, siteDescription, logo, flat_logo, navItems } from "../../config/site";
-
-/**
- * Meet the Board page.
- * Placeholder only — board member profiles aren't ready yet.
- */
+import { heading, members } from "../../data/board";
 ---
 
 <BaseLayout
@@ -24,19 +20,9 @@ import { siteName, siteDescription, logo, flat_logo, navItems } from "../../conf
     </a>
   </Header>
 
-  <Section narrow>
-    <div class="board-page">
-      <h1>Meet the Board</h1>
-      <p class="text-muted">
-        This page is under construction — check back soon to meet the
-        volunteer board members who guide Bingham Family Clinic's mission.
-      </p>
+  <PageBanner heading={heading} />
 
-      <div class="board-page__actions">
-        <Button text="Back to About" href="/about" variant="outline" />
-      </div>
-    </div>
-  </Section>
+  <BoardGrid members={members} />
 
   <Footer navItems={navItems} slot="footer" />
 </BaseLayout>
@@ -45,21 +31,5 @@ import { siteName, siteDescription, logo, flat_logo, navItems } from "../../conf
   .site-logo {
     height: 5rem;
     width: auto;
-  }
-
-  .board-page {
-    text-align: center;
-  }
-
-  .board-page h1 {
-    margin-bottom: var(--space-md);
-  }
-
-  .board-page__actions {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: var(--space-sm);
-    margin-top: var(--space-lg);
   }
 </style>
