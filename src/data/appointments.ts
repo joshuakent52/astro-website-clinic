@@ -5,8 +5,8 @@
  */
 
 export const banner = {
-  heading: "Book an Appointment",
-  subheading: "Schedule a visit with Bingham Family Clinic using the form below.",
+  heading: "Request an Appointment",
+  subheading: "Request a visit using the form below, or call 801.854.5168 during business hours.",
 };
 
 export const form = {
@@ -16,5 +16,5 @@ export const form = {
   title: "Appointment Request Form",
   // Height/width from the Forms embed code was 6000/1500 = 400%. Adjust this
   // if the real form ends up taller or shorter than expected once it's live.
-  aspectRatio: 400,
+  aspectRatio: 300,
 };
