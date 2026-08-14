@@ -51,13 +51,7 @@ import { hero, stats, mission, eligibility } from "../data/home";
     policyLinkHref={eligibility.policyLinkHref}
   />
 
-  <Footer navItems={navItems} slot="footer">
-    <a slot="logo" href="/" aria-label={`${siteName} home`}>
-      <img src={logo.src} alt={logo.alt} class="site-logo" />
-    </a>
-    <p slot="description" class="text-muted">{siteDescription}</p>
-    <Fragment slot="site-name">{siteName}</Fragment>
-  </Footer>
+  <Footer navItems={navItems} slot="footer" />
 </BaseLayout>
 
 <style>
