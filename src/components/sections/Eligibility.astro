@@ -140,6 +140,17 @@ const {
     border-bottom: none;
   }
 
+  .eligibility__table-wrap {
+    /* Grid items default to min-width: auto, which means they refuse to
+       shrink below the intrinsic min-content size of their contents
+       (here, the table's 28rem min-width). That forces the whole grid
+       column past the viewport on narrow screens. Resetting min-width
+       to 0 lets this column shrink normally so .eligibility__table-scroll
+       below can actually do its job and scroll internally instead of
+       pushing the page wider than the viewport. */
+    min-width: 0;
+  }
+
   .eligibility__table-scroll {
     overflow-x: auto;
   }
