@@ -17,10 +17,10 @@ export const hero = {
 };
 
 export const board = {
-  heading: "Meet the Board",
+  heading: "Meet the Board of Directors",
   subheading:
-    "Get to know the board members who guide Bingham Family Clinic's mission.",
-  ctaText: "Meet the Board",
+    "Get to know the Board of Directors who guide Bingham Family Clinic's mission.",
+  ctaText: "Meet the Board of Directors",
   ctaHref: "/about/board",
 };
 

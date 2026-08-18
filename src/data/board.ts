@@ -16,7 +16,7 @@ export interface BoardMember {
   bio: string;
 }
 
-export const heading = "Bingham Family Clinic Board";
+export const heading = "Bingham Family Clinic Board of Directors";
 
 export const members: BoardMember[] = [
   {
