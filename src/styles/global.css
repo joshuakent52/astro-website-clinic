@@ -66,6 +66,13 @@ html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
   scroll-behavior: smooth;
+  /* Matches body background so pinch-zoom/rubber-band overscroll on iOS
+     never reveals the browser's default white behind the page. */
+  background-color: var(--color-background);
+  /* Belt-and-suspenders: clip any element that overflows the viewport
+     width so zooming in/out can't reveal horizontal whitespace/gutter. */
+  overflow-x: hidden;
+  width: 100%;
 }
 
 body {
@@ -78,6 +85,8 @@ body {
   background-color: var(--color-background);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+  width: 100%;
 }
 
 img,
