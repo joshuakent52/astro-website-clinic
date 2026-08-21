@@ -13,6 +13,11 @@
  * Each bio is written as separate paragraphs, separated by newlines
  * (same convention as data/board.ts).
  *
+ * `roleExplanation` is optional — a short sentence or two on how this
+ * person's role contributes to the clinic's mission. It renders inside
+ * the card's collapsible bio, so it's only visible once expanded, not
+ * on the closed card.
+ *
  * TODO: replace the placeholder entry below with the real Clinic
  * Leadership roster, photos, and bios.
  */
@@ -23,6 +28,8 @@ export interface TeamMember {
   /** Path under /images, e.g. "/images/bio1.png". */
   image: string;
   bio: string;
+  /** Short sentence or two on how this role contributes to the mission. Shown only when the card is expanded. */
+  roleExplanation?: string;
   /** Set true to list this person under "Alumni" instead of the current roster. */
   isAlumni?: boolean;
 }
@@ -36,6 +43,7 @@ export const members: TeamMember[] = [
     title: "Title / Role",
     image: "/images/placeholder.png",
     bio: "TODO: add bio paragraph(s) for this leadership team member.",
+    roleExplanation: "TODO: add a sentence or two on how this role contributes to the clinic's mission.",
     // isAlumni: true,
   },
 ];

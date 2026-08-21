@@ -1,16 +1,31 @@
 ---
-import type { BoardMember } from "../../data/board";
-
 /**
  * BoardCard
- * A single board member's photo, name, and title, with a collapsible
- * bio underneath. Built on native <details>/<summary> so the toggle
- * works with no client-side JS and is keyboard/screen-reader
- * accessible by default. Open by default to match the reference design.
+ * A single member's photo, name, and title, with a collapsible bio
+ * underneath. Built on native <details>/<summary> so the toggle works
+ * with no client-side JS and is keyboard/screen-reader accessible by
+ * default. Open by default to match the reference design.
+ *
+ * `roleExplanation` is optional and, when present, renders as its own
+ * short block at the end of the bio — a sentence or two on how this
+ * person's role contributes to the clinic's mission. Like the rest of
+ * the bio, it's only visible once the card is expanded. Shared by
+ * data/board.ts, data/leadership.ts, and data/contributors.ts, which
+ * all use this same shape.
  */
 
+interface Member {
+  name: string;
+  title: string;
+  /** Path under /images, e.g. "/images/bio1.png". */
+  image: string;
+  bio: string;
+  /** Short sentence or two on how this role contributes to the mission. */
+  roleExplanation?: string;
+}
+
 interface Props {
-  member: BoardMember;
+  member: Member;
 }
 
 const { member } = Astro.props;
@@ -35,6 +50,12 @@ const paragraphs = member.bio.split("\n").filter(Boolean);
 
   <div class="board-card__bio">
     {paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+    {member.roleExplanation && (
+      <div class="board-card__role">
+        <p class="board-card__role-label">How this role supports our mission</p>
+        <p class="board-card__role-text">{member.roleExplanation}</p>
+      </div>
+    )}
   </div>
 </details>
 
@@ -140,5 +161,23 @@ const paragraphs = member.bio.split("\n").filter(Boolean);
     font-size: var(--font-size-small);
     color: var(--color-text-inverse);
     line-height: var(--line-height-body);
+  }
+
+  .board-card__role {
+    padding-top: var(--space-md);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .board-card__role-label {
+    font-size: var(--font-size-label);
+    font-weight: var(--font-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wide);
+    color: var(--color-secondary-light);
+    margin: 0 0 var(--space-2xs) !important;
+  }
+
+  .board-card__role-text {
+    font-style: italic;
   }
 </style>

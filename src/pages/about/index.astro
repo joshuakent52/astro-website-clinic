@@ -3,7 +3,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import Header from "../../components/layout/Header.astro";
 import Footer from "../../components/layout/Footer.astro";
 import Hero from "../../components/sections/Hero.astro";
-import BoardTeaser from "../../components/sections/BoardTeaser.astro";
+import AboutLinksGrid from "../../components/sections/AboutLinksGrid.astro";
 import Values from "../../components/sections/Values.astro";
 
 import { siteName, siteDescription, logo, flat_logo, navItems } from "../../config/site";
@@ -29,26 +29,7 @@ import { hero, board, leadership, contributors, values } from "../../data/about"
     ctaHref={hero.ctaHref}
   />
 
-  <BoardTeaser
-    heading={board.heading}
-    subheading={board.subheading}
-    ctaText={board.ctaText}
-    ctaHref={board.ctaHref}
-  />
-
-  <BoardTeaser
-    heading={leadership.heading}
-    subheading={leadership.subheading}
-    ctaText={leadership.ctaText}
-    ctaHref={leadership.ctaHref}
-  />
-
-  <BoardTeaser
-    heading={contributors.heading}
-    subheading={contributors.subheading}
-    ctaText={contributors.ctaText}
-    ctaHref={contributors.ctaHref}
-  />
+  <AboutLinksGrid items={[board, leadership, contributors]} />
 
   <Values heading={values.heading} items={values.items} />
 
