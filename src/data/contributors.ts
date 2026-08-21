@@ -39,6 +39,55 @@ export const alumniHeading = "Alumni";
 
 export const members: TeamMember[] = [
   {
+    name: "Joseph Tremblay",
+    title: "Facilities Coordinator",
+    image: "/images/placeholder.png",
+    bio: "WHY",
+    // isAlumni: true,
+  },
+  {
+    name: "HR Personnel 2",
+    title: "Human Resources",
+    image: "/images/placeholder.png",
+    bio: "WHY",
+    // isAlumni: true,
+  },
+  {
+    name: "Daniel Gordon",
+    title: "Office Manager",
+    image: "/images/placeholder.png",
+    bio: "WHY",
+    // isAlumni: true,
+  },
+  {
+    name: "Trey Jones",
+    title: "Patient Navigator Trainer",
+    image: "/images/placeholder.png",
+    bio: "WHY",
+    // isAlumni: true,
+  },
+  {
+    name: "Josiah Lee",
+    title: "Patient Navigator Trainer",
+    image: "/images/placeholder.png",
+    bio: "WHY",
+    // isAlumni: true,
+  },
+  {
+    name: "Elise Anderson",
+    title: "Credentialing Committee",
+    image: "/images/placeholder.png",
+    bio: "WHY",
+    // isAlumni: true,
+  },
+  {
+    name: "Annette Adams",
+    title: "Credentialing Committee",
+    image: "/images/placeholder.png",
+    bio: "WHY",
+    // isAlumni: true,
+  },
+  {
     name: "Miranda Mann",
     title: "Community Outreach Lead",
     image: "/images/miranda.png",
