@@ -7,7 +7,10 @@ import BoardGrid from "../../components/sections/BoardGrid.astro";
 import AlumniGrid from "../../components/sections/AlumniGrid.astro";
 
 import { siteName, siteDescription, logo, flat_logo, navItems } from "../../config/site";
-import { heading, members, alumniHeading, alumni } from "../../data/leadership";
+import { heading, members, alumniHeading } from "../../data/leadership";
+
+const currentMembers = members.filter((member) => !member.isAlumni);
+const alumniMembers = members.filter((member) => member.isAlumni);
 ---
 
 <BaseLayout
@@ -23,9 +26,9 @@ import { heading, members, alumniHeading, alumni } from "../../data/leadership";
 
   <PageBanner heading={heading} />
 
-  <BoardGrid members={members} />
+  <BoardGrid members={currentMembers} />
 
-  <AlumniGrid heading={alumniHeading} alumni={alumni} />
+  <AlumniGrid heading={alumniHeading} members={alumniMembers} />
 
   <Footer navItems={navItems} slot="footer" />
 </BaseLayout>
