@@ -1,0 +1,25 @@
+{
+  "redirects": [
+    { "source": "/patient-eligibilty", "destination": "/", "permanent": true },
+    { "source": "/home/esp", "destination": "/", "permanent": true },
+    { "source": "/about/our-team", "destination": "/about", "permanent": true },
+    { "source": "/volunteer/info", "destination": "/volunteer", "permanent": true },
+    { "source": "/volunteer/openings", "destination": "/volunteer", "permanent": true },
+    { "source": "/volunteer/esp", "destination": "/volunteer", "permanent": true },
+    { "source": "/classes/esp", "destination": "/classes", "permanent": true },
+    { "source": "/contact", "destination": "/appointments", "permanent": true },
+    { "source": "/contact/esp", "destination": "/appointments", "permanent": true },
+    { "source": "/donation", "destination": "/donate", "permanent": true },
+    { "source": "/volunteer/application", "destination": "/volunteer/apply", "permanent": true },
+    { "source": "/volunteer/general-form/esp", "destination": "/volunteer/apply", "permanent": true },
+    { "source": "/volunteer/providers-form", "destination": "/volunteer/provider-apply", "permanent": true },
+    { "source": "/maintanence", "destination": "/", "permanent": true },
+    { "source": "/maintanence/esp", "destination": "/", "permanent": true },
+    { "source": "/about/why-our-name", "destination": "/about", "permanent": true },
+    { "source": "/warning_esp", "destination": "/", "permanent": true },
+    { "source": "/classes/nutrition", "destination": "/classes", "permanent": true },
+    { "source": "/classes/exercise-physiology", "destination": "/classes", "permanent": true },
+    { "source": "/classes/nutrition/esp", "destination": "/classes", "permanent": true },
+    { "source": "/classes/exercise-physiology/esp", "destination": "/classes", "permanent": true }
+  ]
+}
