@@ -32,13 +32,6 @@ import { hero, stats, mission, eligibility } from "../data/home";
 
   <StatsBar stats={stats} />
 
-  <Mission
-    backgroundImage={mission.backgroundImage}
-    heading={mission.heading}
-    statement={mission.statement}
-    tagline={mission.tagline}
-  />
-
   <Eligibility
     heading={eligibility.heading}
     subheading={eligibility.subheading}
@@ -49,6 +42,13 @@ import { hero, stats, mission, eligibility } from "../data/home";
     noteText={eligibility.noteText}
     policyLinkText={eligibility.policyLinkText}
     policyLinkHref={eligibility.policyLinkHref}
+  />  
+
+  <Mission
+    backgroundImage={mission.backgroundImage}
+    heading={mission.heading}
+    statement={mission.statement}
+    tagline={mission.tagline}
   />
 
   <Footer navItems={navItems} slot="footer" />
