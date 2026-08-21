@@ -1,0 +1,108 @@
+---
+import Section from "../ui/Section.astro";
+
+/**
+ * DonorRecognition
+ * Static, centered donor "wall" rendered inside a bordered box beneath
+ * the eligibility section. Names come from `data/donors.ts` and the
+ * list is uncapped — the layout wraps and reflows automatically as
+ * more names are added, with no other markup changes required.
+ *
+ * Renders nothing when `names` is empty, so the section can simply be
+ * left out of the page by clearing the data file instead of removing
+ * the component from index.astro.
+ */
+
+interface Props {
+  heading: string;
+  subheading?: string;
+  names: string[];
+}
+
+const { heading, subheading, names } = Astro.props;
+---
+
+{names.length > 0 && (
+  <Section background="muted">
+    <div class="donor-recognition__intro">
+      <h2>{heading}</h2>
+      {subheading && <p class="text-muted">{subheading}</p>}
+    </div>
+
+    <div class="donor-recognition__box">
+      <ul class="donor-recognition__list">
+        {names.map((name) => (
+          <li class="donor-recognition__name">{name}</li>
+        ))}
+      </ul>
+    </div>
+  </Section>
+)}
+
+<style>
+  .donor-recognition__intro {
+    text-align: center;
+    max-width: var(--container-narrow-width);
+    margin-inline: auto;
+    margin-bottom: var(--space-xl);
+  }
+
+  .donor-recognition__intro h2 {
+    margin-bottom: var(--space-sm);
+  }
+
+  .donor-recognition__box {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    padding: var(--space-xl);
+  }
+
+  .donor-recognition__list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: var(--space-sm);
+    /* Horizontal gap is handled by the separator's own margins below
+       so the "·" can sit centered between names regardless of how the
+       list wraps. */
+    column-gap: 0;
+  }
+
+  .donor-recognition__name {
+    position: relative;
+    padding-inline: var(--space-md);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text);
+    text-align: center;
+  }
+
+  /* Separator dot between names, hidden on the last item. Using a
+     pseudo-element (rather than a border) keeps it vertically centered
+     regardless of font metrics and lets it disappear cleanly when a
+     name wraps to the start of a new line. */
+  .donor-recognition__name:not(:last-child)::after {
+    content: "\00B7";
+    position: absolute;
+    right: calc(-1 * var(--space-2xs));
+    color: var(--color-border-strong);
+    font-weight: var(--font-weight-bold);
+  }
+
+  @media (max-width: 480px) {
+    .donor-recognition__box {
+      padding: var(--space-lg) var(--space-md);
+    }
+
+    .donor-recognition__name:not(:last-child)::after {
+      content: "";
+    }
+
+    .donor-recognition__name {
+      width: 100%;
+      padding-inline: 0;
+      padding-block: var(--space-3xs);
+    }
+  }
+</style>
