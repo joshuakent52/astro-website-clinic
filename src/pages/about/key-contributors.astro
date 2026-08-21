@@ -1,0 +1,38 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/layout/Header.astro";
+import Footer from "../../components/layout/Footer.astro";
+import PageBanner from "../../components/sections/PageBanner.astro";
+import BoardGrid from "../../components/sections/BoardGrid.astro";
+import AlumniGrid from "../../components/sections/AlumniGrid.astro";
+
+import { siteName, siteDescription, logo, flat_logo, navItems } from "../../config/site";
+import { heading, members, alumniHeading, alumni } from "../../data/contributors";
+---
+
+<BaseLayout
+  title="Meet Our Key Contributors"
+  description="Meet the Key Contributors of Bingham Family Clinic."
+  siteName={siteName}
+>
+  <Header navItems={navItems} slot="header">
+    <a slot="logo" href="/" aria-label={`${siteName} home`}>
+      <img src={flat_logo.src} alt={flat_logo.alt} class="site-logo" />
+    </a>
+  </Header>
+
+  <PageBanner heading={heading} />
+
+  <BoardGrid members={members} />
+
+  <AlumniGrid heading={alumniHeading} alumni={alumni} />
+
+  <Footer navItems={navItems} slot="footer" />
+</BaseLayout>
+
+<style>
+  .site-logo {
+    height: 5rem;
+    width: auto;
+  }
+</style>

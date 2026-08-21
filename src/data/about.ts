@@ -24,6 +24,22 @@ export const board = {
   ctaHref: "/about/board",
 };
 
+export const leadership = {
+  heading: "Meet Clinic Leadership",
+  subheading:
+    "Get to know the Clinic Leadership team who guide Bingham Family Clinic's day-to-day operations.",
+  ctaText: "Meet Clinic Leadership",
+  ctaHref: "/about/leadership",
+};
+
+export const contributors = {
+  heading: "Meet Our Key Contributors",
+  subheading:
+    "Get to know the Key Contributors who help make Bingham Family Clinic's mission possible.",
+  ctaText: "Meet Our Key Contributors",
+  ctaHref: "/about/key-contributors",
+};
+
 export interface Value {
   icon:
     | "accessible"

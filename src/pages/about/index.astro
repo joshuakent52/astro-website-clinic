@@ -7,7 +7,7 @@ import BoardTeaser from "../../components/sections/BoardTeaser.astro";
 import Values from "../../components/sections/Values.astro";
 
 import { siteName, siteDescription, logo, flat_logo, navItems } from "../../config/site";
-import { hero, board, values } from "../../data/about";
+import { hero, board, leadership, contributors, values } from "../../data/about";
 ---
 
 <BaseLayout
@@ -34,6 +34,20 @@ import { hero, board, values } from "../../data/about";
     subheading={board.subheading}
     ctaText={board.ctaText}
     ctaHref={board.ctaHref}
+  />
+
+  <BoardTeaser
+    heading={leadership.heading}
+    subheading={leadership.subheading}
+    ctaText={leadership.ctaText}
+    ctaHref={leadership.ctaHref}
+  />
+
+  <BoardTeaser
+    heading={contributors.heading}
+    subheading={contributors.subheading}
+    ctaText={contributors.ctaText}
+    ctaHref={contributors.ctaHref}
   />
 
   <Values heading={values.heading} items={values.items} />
