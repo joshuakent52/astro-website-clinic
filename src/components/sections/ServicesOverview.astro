@@ -4,11 +4,10 @@ import type { ServiceItem } from "../../data/about";
 
 /**
  * ServicesOverview
- * A grid of four service overview boxes (Medical Care, Pharmacy, Lab,
- * Dental Suite): each is a background photo with a blue tint wash and
- * white title/description text on top, formatted similarly to the
- * class cards on the classes page. Used on the about page beneath the
- * hero banner.
+ * A grid of four service overview cards (Medical Care, Pharmacy, Lab,
+ * Dental Suite): small solid-blue squares with a white title and
+ * description, no photo. Used on the about page beneath the hero
+ * banner.
  */
 
 interface Props {
@@ -25,12 +24,8 @@ const { heading, items } = Astro.props;
     {
       items.map((item) => (
         <li class="service-card">
-          <img src={item.image} alt="" class="service-card__image" />
-          <div class="service-card__overlay" aria-hidden="true" />
-          <div class="service-card__content">
-            <h3 class="service-card__title">{item.title}</h3>
-            <p class="service-card__description">{item.description}</p>
-          </div>
+          <h3 class="service-card__title">{item.title}</h3>
+          <p class="service-card__description">{item.description}</p>
         </li>
       ))
     }
@@ -53,52 +48,33 @@ const { heading, items } = Astro.props;
   }
 
   .service-card {
-    position: relative;
     display: flex;
-    align-items: flex-end;
-    aspect-ratio: 3 / 4;
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    box-shadow: var(--shadow-md);
-  }
-
-  .service-card__image {
-    position: absolute;
-    inset: 0;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    aspect-ratio: 1 / 1;
+    max-width: 14rem;
+    margin-inline: auto;
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  /* Blue tint wash over every service photo, matching the class cards
-     on the classes page. */
-  .service-card__overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      180deg,
-      rgba(2, 65, 107, 0.55) 0%,
-      rgba(2, 65, 107, 0.35) 45%,
-      rgba(1, 44, 73, 0.85) 100%
-    );
-  }
-
-  .service-card__content {
-    position: relative;
-    z-index: 1;
     padding: var(--space-md);
+    border-radius: var(--radius-lg);
+    background-color: var(--color-primary);
     color: var(--color-text-inverse);
+    box-shadow: var(--shadow-md);
   }
 
   .service-card__title {
     font-size: var(--font-size-h4);
     line-height: var(--line-height-heading);
+    color: var(--color-text-inverse);
     margin: 0 0 var(--space-2xs);
   }
 
   .service-card__description {
     font-size: var(--font-size-small, var(--font-size-body));
     line-height: var(--line-height-body);
+    color: var(--color-text-inverse);
     margin: 0;
   }
 
@@ -110,13 +86,13 @@ const { heading, items } = Astro.props;
     }
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 480px) {
     .services-grid {
       grid-template-columns: 1fr;
     }
 
     .service-card {
-      aspect-ratio: 4 / 3;
+      max-width: 16rem;
     }
   }
 </style>
