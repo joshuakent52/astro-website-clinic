@@ -4,10 +4,11 @@ import Header from "../../components/layout/Header.astro";
 import Footer from "../../components/layout/Footer.astro";
 import Hero from "../../components/sections/Hero.astro";
 import AboutLinksGrid from "../../components/sections/AboutLinksGrid.astro";
+import ServicesOverview from "../../components/sections/ServicesOverview.astro";
 import Values from "../../components/sections/Values.astro";
 
 import { siteName, siteDescription, logo, flat_logo, navItems } from "../../config/site";
-import { hero, board, leadership, contributors, values } from "../../data/about";
+import { hero, services, board, leadership, contributors, values } from "../../data/about";
 ---
 
 <BaseLayout
@@ -28,6 +29,8 @@ import { hero, board, leadership, contributors, values } from "../../data/about"
     ctaText={hero.ctaText}
     ctaHref={hero.ctaHref}
   />
+
+  <ServicesOverview heading={services.heading} items={services.items} />
 
   <AboutLinksGrid items={[board, leadership, contributors]} />
 

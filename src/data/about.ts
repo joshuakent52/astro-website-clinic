@@ -16,6 +16,46 @@ export const hero = {
   ctaHref: "/appointments",
 };
 
+export interface ServiceItem {
+  image: string;
+  title: string;
+  description: string;
+}
+
+export const services = {
+  heading: "Our Services",
+  items: [
+    {
+      // TODO: swap in a real photo of the medical care area.
+      image: "/images/image2.png",
+      title: "Medical Care",
+      description:
+        "Free primary care services including family medicine, pediatric care, maternal health, preventive care, and chronic disease management.",
+    },
+    {
+      // TODO: swap in a real photo of the pharmacy.
+      image: "/images/image2.png",
+      title: "Pharmacy",
+      description:
+        "An on-site pharmacy that fills prescriptions written at the clinic, helping patients access the medications they need at little to no cost.",
+    },
+    {
+      // TODO: swap in a real photo of the lab.
+      image: "/images/image2.png",
+      title: "Lab",
+      description:
+        "In-house lab services for bloodwork and diagnostic testing, giving providers the information they need to diagnose and treat patients quickly.",
+    },
+    {
+      // TODO: swap in a real photo of the dental suite.
+      image: "/images/image2.png",
+      title: "Dental",
+      description:
+        "This program is currently being developed. When open, it will offer exams, cleanings, and basic restorative care from volunteer dentists and hygienists.",
+    },
+  ] as ServiceItem[],
+};
+
 export const board = {
   heading: "Meet the Board of Directors",
   subheading:
