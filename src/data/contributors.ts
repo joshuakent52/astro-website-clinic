@@ -39,13 +39,6 @@ export const alumniHeading = "Alumni";
 
 export const members: TeamMember[] = [
   {
-    name: "Joseph Tremblay",
-    title: "Facilities Coordinator",
-    image: "/images/placeholder.png",
-    bio: "WHY",
-    // isAlumni: true,
-  },
-  {
     name: "HR Personnel 2",
     title: "Human Resources",
     image: "/images/placeholder.png",
@@ -99,6 +92,7 @@ export const members: TeamMember[] = [
     title: "Systems Coordinator",
     image: "/images/joshua_kent.png",
     bio: "WHY: This is a valuable opportunity to give back to my hometown. I've seen first hand the difference the clinic has made in many lives—patients, volunteers, and mine. I'm invested in the mission, because I want to expand these opportunities for others.",
+    roleExplanation: "Oversees the clinic's technology, information systems, data, and other operational support functions to improve efficiency and organizational effectiveness.",
     isAlumni: true,
   },
 ];

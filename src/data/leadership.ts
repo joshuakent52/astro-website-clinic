@@ -43,7 +43,7 @@ export const members: TeamMember[] = [
     title: "CEO / CMO",
     image: "/images/kirk.png",
     bio: "WHY: I believe at the center of every primary care provider is the desire to care for people. Having the opportunity to provide a free clinic where our friends and neighbors can access care is really at the heart of primary cares values.",
-    roleExplanation: "TODO: add a sentence or two on how this role contributes to the clinic's mission.",
+    roleExplanation: "Provides both the strategic and clinical leadership of the free clinic, overseeing its mission, operations, finances, partnerships, and medical quality",
     // isAlumni: true,
   },
   {
@@ -51,7 +51,7 @@ export const members: TeamMember[] = [
     title: "Executive Director",
     image: "/images/sherilee.png",
     bio: "WHY: I am passionate about people and volunteering. The Bingham Family Clinic provides me with the privilege of serving others in a way that connects with my soul. I believe strong families are the foundation of strong communities.",
-    roleExplanation: "TODO: add a sentence or two on how this role contributes to the clinic's mission.",
+    roleExplanation: "Leads the free clinic's strategy, operations, and growth to ensure sustainable, high-quality patient care.",
     // isAlumni: true,
   },
   {
@@ -59,7 +59,7 @@ export const members: TeamMember[] = [
     title: "Medical Director",
     image: "/images/placeholder.png",
     bio: "TODO: add bio paragraph(s) for this leadership team member.",
-    roleExplanation: "TODO: add a sentence or two on how this role contributes to the clinic's mission.",
+    roleExplanation: "Oversees the clinic's medical operations, ensuring safe, high-quality patient care and supporting providers in clinical decision-making.",
     // isAlumni: true,
   },
   {
@@ -67,7 +67,7 @@ export const members: TeamMember[] = [
     title: "Medical Director",
     image: "/images/placeholder.png",
     bio: "TODO: add bio paragraph(s) for this leadership team member.",
-    roleExplanation: "TODO: add a sentence or two on how this role contributes to the clinic's mission.",
+    roleExplanation: "Oversees the clinic's medical operations, ensuring safe, high-quality patient care and supporting providers in clinical decision-making.",
     // isAlumni: true,
   },
   {
@@ -75,7 +75,7 @@ export const members: TeamMember[] = [
     title: "Clinic Director",
     image: "/images/placeholder.png",
     bio: "TODO: add bio paragraph(s) for this leadership team member.",
-    roleExplanation: "TODO: add a sentence or two on how this role contributes to the clinic's mission.",
+    roleExplanation: "Leads the clinic's day-to-day operations and clinical programs, ensuring effective, high-quality patient care.",
     // isAlumni: true,
   },
   {
@@ -83,7 +83,7 @@ export const members: TeamMember[] = [
     title: "Pharmacist",
     image: "/images/placeholder.png",
     bio: "TODO: add bio paragraph(s) for this leadership team member.",
-    roleExplanation: "TODO: add a sentence or two on how this role contributes to the clinic's mission.",
+    roleExplanation: "Oversees the clinic's pharmacy operations, ensuring the safe, effective, and compliant dispensing of medications while leading pharmacy services and staff.",
     // isAlumni: true,
   },
   {
@@ -91,7 +91,7 @@ export const members: TeamMember[] = [
     title: "Dental Director",
     image: "/images/placeholder.png",
     bio: "TODO: add bio paragraph(s) for this leadership team member.",
-    roleExplanation: "TODO: add a sentence or two on how this role contributes to the clinic's mission.",
+    roleExplanation: "Oversees the clinic's dental operations, ensuring high-quality patient care while leading dental services, providers, and clinical standards.",
     // isAlumni: true,
   },
   {
@@ -99,7 +99,7 @@ export const members: TeamMember[] = [
     title: "Lab Director",
     image: "/images/placeholder.png",
     bio: "TODO: add bio paragraph(s) for this leadership team member.",
-    roleExplanation: "TODO: add a sentence or two on how this role contributes to the clinic's mission.",
+    roleExplanation: "Oversees the clinic's laboratory operations, ensuring accurate, timely, and compliant testing while maintaining high standards of quality and patient safety.",
     // isAlumni: true,
   },
   {
@@ -107,7 +107,7 @@ export const members: TeamMember[] = [
     title: "Administrative Assistant",
     image: "/images/placeholder.png",
     bio: "TODO: add bio paragraph(s) for this leadership team member.",
-    roleExplanation: "TODO: add a sentence or two on how this role contributes to the clinic's mission.",
+    roleExplanation: "Supports the Executive Director by coordinating administrative operations, communications, scheduling, and organizational priorities to keep the clinic running efficiently.",
     // isAlumni: true,
   },
   {
@@ -115,7 +115,7 @@ export const members: TeamMember[] = [
     title: "Communications Coordinator",
     image: "/images/placeholder.png",
     bio: "TODO: add bio paragraph(s) for this leadership team member.",
-    roleExplanation: "TODO: add a sentence or two on how this role contributes to the clinic's mission.",
+    roleExplanation: "Oversees the clinic's communications, marketing, and public outreach to promote its mission and engage volunteers, donors, and the community.",
     // isAlumni: true,
   },
   {
@@ -123,7 +123,7 @@ export const members: TeamMember[] = [
     title: "Volunteer Coordinator",
     image: "/images/placeholder.png",
     bio: "TODO: add bio paragraph(s) for this leadership team member.",
-    roleExplanation: "TODO: add a sentence or two on how this role contributes to the clinic's mission.",
+    roleExplanation: "Oversees volunteer recruitment, onboarding, records, and personnel processes to support an effective and engaged workforce.",
     // isAlumni: true,
   },
   {
@@ -131,7 +131,15 @@ export const members: TeamMember[] = [
     title: "Credentialing Coordinator",
     image: "/images/placeholder.png",
     bio: "TODO: add bio paragraph(s) for this leadership team member.",
-    roleExplanation: "TODO: add a sentence or two on how this role contributes to the clinic's mission.",
+    roleExplanation: "Oversees the credentialing and compliance of clinical volunteers, ensuring required licenses, certifications, and documentation remain current and complete.",
+    // isAlumni: true,
+  },
+  {
+    name: "Joseph Tremblay",
+    title: "Facilities Coordinator",
+    image: "/images/placeholder.png",
+    bio: "WHY",
+    roleExplanation: "Oversees the clinic's facilities, equipment, and maintenance to ensure a safe, functional, and welcoming environment.",
     // isAlumni: true,
   },
 ];
