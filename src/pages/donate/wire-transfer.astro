@@ -3,16 +3,19 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import Header from "../../components/layout/Header.astro";
 import Footer from "../../components/layout/Footer.astro";
 import Section from "../../components/ui/Section.astro";
-import Button from "../../components/ui/Button.astro";
+import MicrosoftForm from "../../components/forms/MicrosoftForm.astro";
 
 import { siteName, siteDescription, logo, flat_logo, navItems } from "../../config/site";
 
 /**
  * Wire-transfer donation page.
- * Structural shell only — no form yet. See CustomForm.astro /
- * MicrosoftForm.astro in src/components/forms/ when the real
- * Microsoft Form is ready to be wired in.
+ * Embeds the live Microsoft Forms wire-transfer donation form via
+ * MicrosoftForm.astro. Update `formSrc` here if the form URL ever
+ * changes.
  */
+
+const formSrc =
+  "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=bG_YgFx8hEWuoNnc6TmuLSOHzy2DPGxLjJ5Syg3DTgpUOVBISk45TUI5QURTOEtPUEtYWU1CWUdMTC4u&embed=true";
 ---
 
 <BaseLayout
@@ -27,18 +30,14 @@ import { siteName, siteDescription, logo, flat_logo, navItems } from "../../conf
   </Header>
 
   <Section narrow>
-    <div class="wire-page">
+    <div class="apply-page">
       <h1>Wire-Transfer Donation</h1>
       <p class="text-muted">
-        This form isn't live yet — check back soon. In the meantime, you can
-        head back to the donate page to give a one-time donation through
-        Clover or with Venmo instead.
+        Fill out the form below to make a wire-transfer donation to Bingham Family Clinic.
       </p>
-
-      <div class="wire-page__actions">
-        <Button text="Back to Donate" href="/donate" variant="outline" />
-      </div>
     </div>
+
+    <MicrosoftForm src={formSrc} title="Wire-Transfer Donation" aspectRatio={350} />
   </Section>
 
   <Footer navItems={navItems} slot="footer" />
@@ -50,19 +49,12 @@ import { siteName, siteDescription, logo, flat_logo, navItems } from "../../conf
     width: auto;
   }
 
-  .wire-page {
+  .apply-page {
     text-align: center;
+    margin-bottom: var(--space-lg);
   }
 
-  .wire-page h1 {
+  .apply-page h1 {
     margin-bottom: var(--space-md);
-  }
-
-  .wire-page__actions {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: var(--space-sm);
-    margin-top: var(--space-lg);
   }
 </style>
