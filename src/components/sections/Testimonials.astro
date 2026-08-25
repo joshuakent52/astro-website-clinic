@@ -26,7 +26,7 @@ const { testimonials, visibleSeconds = 5 } = Astro.props;
 const testimonialsShuffled = [...testimonials].sort(() => Math.random() - 0.5);
 
 const count = testimonialsShuffled.length;
-const fadeSeconds = 1;
+const fadeSeconds = .25;
 const slice = visibleSeconds + fadeSeconds;
 const totalDuration = count * slice;
 
