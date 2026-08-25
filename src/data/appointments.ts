@@ -16,5 +16,5 @@ export const form = {
   title: "Appointment Request Form",
   // Height/width from the Forms embed code was 6000/1500 = 400%. Adjust this
   // if the real form ends up taller or shorter than expected once it's live.
-  aspectRatio: 280,
+  aspectRatio: 250,
 };
