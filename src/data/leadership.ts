@@ -97,8 +97,8 @@ export const members: TeamMember[] = [
   {
     name: "Kristen Skinner",
     title: "Lab Director",
-    image: "/images/placeholder.png",
-    bio: "TODO: add bio paragraph(s) for this leadership team member.",
+    image: "/images/kristen_skinner.png",
+    bio: "WHY: I strongly believe that quality, reliable healthcare should be available to anyone who needs it. Having worked as a medical laboratory scientist in hospital, educational, and clinic settings I’ve seen firsthand how important lab values are in making healthcare decisions. Because of this two of my passions are medical laboratory science and healthcare education. At the Bingham Family Clinic I can extend that passion into something that brings value to the community around me.",
     roleExplanation: "Oversees the clinic's laboratory operations, ensuring accurate, timely, and compliant testing while maintaining high standards of quality and patient safety.",
     // isAlumni: true,
   },
