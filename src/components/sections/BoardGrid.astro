@@ -7,6 +7,11 @@ import type { BoardMember } from "../../data/board";
  * BoardGrid
  * Responsive grid of BoardCard members — 4 columns on desktop, 2 on
  * tablet, 1 on mobile.
+ *
+ * Members whose `image` is still a placeholder (e.g.
+ * "/images/placeholder.png") are skipped entirely — no card, photo,
+ * name, or bio/role text is rendered for them — until a real photo is
+ * added to their entry in the data file.
  */
 
 interface Props {
@@ -14,11 +19,14 @@ interface Props {
 }
 
 const { members } = Astro.props;
+const membersWithPhoto = members.filter(
+  (member) => member.image && !member.image.toLowerCase().includes("placeholder")
+);
 ---
 
 <Section>
   <div class="board-grid">
-    {[...members].map((member) => (
+    {[...membersWithPhoto].map((member) => (
       <BoardCard member={member} />
     ))}
   </div>
