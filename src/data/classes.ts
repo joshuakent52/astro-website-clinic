@@ -8,7 +8,7 @@ export const hero = {
   // Placeholder path — add the real photo to public/images and update this.
   // Missing files 404 quietly in the browser rather than breaking the build,
   // same as the homepage images (see CLAUDE.md > Images).
-  backgroundImage: "/images/image9.png",
+  backgroundImage: "/images/image2.png",
   heading: "Classes at Bingham Family Clinic",
   subheading:
     "The unique system model of Bingham Family Clinic allows us to offer a variety of free classes to those searching for opportunities to armor themselves with knowledge. From the UVU Pre-Med club to Nutrition and Diabetes care, everyone can learn with the added benefits of learning from real medical professionals in a clinical setting!",
