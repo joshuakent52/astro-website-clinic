@@ -16,6 +16,12 @@ import BoardCard from "./BoardCard.astro";
  * single roster array into "current" / "alumni" groups before passing
  * them to BoardGrid and AlumniGrid. Flipping `isAlumni` on a person is
  * the only change needed to move them between the two sections.
+ *
+ * Members whose `image` is still a placeholder (e.g.
+ * "/images/placeholder.png") are skipped entirely — no card, photo,
+ * name, or bio/role text is rendered for them — until a real photo is
+ * added. If that leaves no members with a photo, the section is
+ * omitted the same as if `members` had been empty.
  */
 
 export interface AlumniProfile {
@@ -33,14 +39,17 @@ interface Props {
 }
 
 const { heading, members } = Astro.props;
+const membersWithPhoto = members.filter(
+  (member) => member.image && !member.image.toLowerCase().includes("placeholder")
+);
 ---
 
-{members.length > 0 && (
+{membersWithPhoto.length > 0 && (
   <Section background="muted">
     <details class="alumni-grid__details">
       <summary class="alumni-grid__heading">{heading}</summary>
       <div class="alumni-grid">
-        {[...members].reverse().map((member) => (
+        {[...membersWithPhoto].reverse().map((member) => (
           <BoardCard member={member} />
         ))}
       </div>
