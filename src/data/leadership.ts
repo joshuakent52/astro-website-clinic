@@ -105,8 +105,8 @@ export const members: TeamMember[] = [
   {
     name: "Kayla Crapo",
     title: "Administrative Assistant",
-    image: "/images/placeholder.png",
-    bio: "TODO: add bio paragraph(s) for this leadership team member.",
+    image: "/images/kayla_crapo.png",
+    bio: "I began here as a service missionary, painting walls and building shelves, but along the way, I fell in love with the mission of the clinic. I’ve had the opportunity to grow alongside the clinic, learning new skills, taking on new challenges, and seeing firsthand the difference this work makes. Being part of something that continues to grow and provide such meaningful care and support to our community has been incredibly rewarding. I’m grateful to keep learning, growing, and contributing to a mission that truly makes a difference in the lives of others.",
     roleExplanation: "Supports the Executive Director by coordinating administrative operations, communications, scheduling, and organizational priorities to keep the clinic running efficiently.",
     // isAlumni: true,
   },
