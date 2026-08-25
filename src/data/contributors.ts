@@ -39,6 +39,14 @@ export const alumniHeading = "Alumni";
 
 export const members: TeamMember[] = [
   {
+    name: "Joshua Kent",
+    title: "Systems Coordinator",
+    image: "/images/joshua_kent.png",
+    bio: "WHY: This is a valuable opportunity to give back to my hometown. I've seen first hand the difference the clinic has made in many lives—patients, volunteers, and mine. I'm invested in the mission, because I want to expand these opportunities for others.",
+    roleExplanation: "Oversees the clinic's technology, information systems, data, and other operational support functions to improve efficiency and organizational effectiveness.",
+    // isAlumni: true,
+  },
+  {
     name: "HR Personnel 2",
     title: "Human Resources",
     image: "/images/placeholder.png",
@@ -85,14 +93,6 @@ export const members: TeamMember[] = [
     title: "Community Outreach Lead",
     image: "/images/miranda.png",
     bio: "WHY: Healthcare is deeply personal, and navigating it should never be a journey taken alone. I believe that true wellness begins with connection, empathy, and access. My focus is to serve our community with humility and care, ensuring every patient feels seen, supported, and empowered to receive the quality resources and dignified care that they deserve.",
-    // isAlumni: true,
-  },
-  {
-    name: "Joshua Kent",
-    title: "Systems Coordinator",
-    image: "/images/joshua_kent.png",
-    bio: "WHY: This is a valuable opportunity to give back to my hometown. I've seen first hand the difference the clinic has made in many lives—patients, volunteers, and mine. I'm invested in the mission, because I want to expand these opportunities for others.",
-    roleExplanation: "Oversees the clinic's technology, information systems, data, and other operational support functions to improve efficiency and organizational effectiveness.",
     // isAlumni: true,
   },
 ];

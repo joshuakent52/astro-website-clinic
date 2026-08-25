@@ -23,14 +23,16 @@ interface Props {
 
 const { testimonials, visibleSeconds = 5 } = Astro.props;
 
-const count = testimonials.length;
+const testimonialsShuffled = [...testimonials].sort(() => Math.random() - 0.5);
+
+const count = testimonialsShuffled.length;
 const fadeSeconds = 1;
 const slice = visibleSeconds + fadeSeconds;
 const totalDuration = count * slice;
 
 // Build one @keyframes + one nth-child rule per quote so the rotation
 // works for however many quotes are supplied.
-const generatedCss = testimonials
+const generatedCss = testimonialsShuffled
   .map((_, i) => {
     const start = (i * slice * 100) / totalDuration;
     const fadeIn = ((i * slice + fadeSeconds) * 100) / totalDuration;
@@ -57,7 +59,7 @@ const generatedCss = testimonials
 
   <div class="testimonials__stack" style={`--count: ${count}`}>
     {
-      testimonials.map((item) => (
+      testimonialsShuffled.map((item) => (
         <blockquote class="testimonial">
           <p class="testimonial__quote">{item.quote}</p>
           <cite class="testimonial__author">— {item.author}</cite>
