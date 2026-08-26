@@ -70,8 +70,8 @@ export const members: TeamMember[] = [
   {
     name: "Josiah Lee",
     title: "Patient Navigator Trainer",
-    image: "/images/placeholder.png",
-    bio: "WHY",
+    image: "/images/josiah_lee.png",
+    bio: "WHY: I love seeing peoples faces light up once they find out they can finally get the care they need or when you speak to them in their native language. Connecting with patients through their unique cultures is something I’m grateful I can do at the Bingham Family Clinic. While our time may not be much, it really makes a difference in our patients lives. Our mission is to serve our fellow man, and I’m here for it.",
     // isAlumni: true,
   },
   {
