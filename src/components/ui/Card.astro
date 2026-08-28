@@ -13,7 +13,7 @@ interface Props {
   as?: keyof HTMLElementTagNameMap;
 }
 
-const { href, interactive = Boolean(href), as: Tag = "div" } = Astro.props;
+const { href, interactive = Boolean(href), as: Tag = "div" }: Props = Astro.props;
 const classes = ["card", interactive && "card--interactive"].filter(Boolean).join(" ");
 ---
 

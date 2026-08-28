@@ -12,7 +12,7 @@ interface Props {
   as?: keyof HTMLElementTagNameMap;
 }
 
-const { narrow = false, as: Tag = "div" } = Astro.props;
+const { narrow = false, as: Tag = "div" }: Props = Astro.props;
 ---
 
 <Tag class:list={["container", { "container--narrow": narrow }]}>

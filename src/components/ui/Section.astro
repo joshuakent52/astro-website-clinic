@@ -18,7 +18,7 @@ interface Props {
   id?: string;
 }
 
-const { background = "default", spacing = "default", narrow = false, as: Tag = "section", id } = Astro.props;
+const { background = "default", spacing = "default", narrow = false, as: Tag = "section", id }: Props = Astro.props;
 
 const classes = [
   "section",
