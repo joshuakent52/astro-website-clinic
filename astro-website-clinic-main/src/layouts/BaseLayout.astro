@@ -1,0 +1,85 @@
+---
+import "../styles/global.css";
+import "../styles/components.css";
+import type { SeoProps } from "../types";
+
+/**
+ * BaseLayout
+ * Shared document shell for every page: <head> metadata, skip link,
+ * and the surrounding <html>/<body> structure. Page-specific metadata
+ * is passed in via props rather than hardcoded here.
+ */
+
+interface Props extends SeoProps {
+  /** Site name appended to every page title, e.g. "Page Title | Site Name". */
+  siteName?: string;
+  /** BCP 47 language code for the <html lang> attribute. */
+  lang?: string;
+}
+
+const {
+  title,
+  description,
+  canonicalUrl,
+  ogImage,
+  ogType = "website",
+  siteName = "Site Name",
+  lang = "en",
+} = Astro.props;
+
+const pageTitle = title ? `${title} | ${siteName}` : siteName;
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
+
+    <!-- Open Graph -->
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    {canonicalUrl && <meta property="og:url" content={canonicalUrl} />}
+    {ogImage && <meta property="og:image" content={ogImage} />}
+    <meta property="og:site_name" content={siteName} />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content={ogImage ? "summary_large_image" : "summary"} />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    {ogImage && <meta name="twitter:image" content={ogImage} />}
+
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
+
+    <!-- Preload primary body font weight to avoid layout shift -->
+    <link rel="preload" href="/fonts/barlow-400.woff2" as="font" type="font/woff2" crossorigin />
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">Skip to content</a>
+    <slot name="header" />
+    <main id="main-content">
+      <slot />
+    </main>
+    <slot name="footer" />
+
+    <!--
+      Vercel Web Analytics: cookieless, no personal data collected, no
+      consent banner needed. Only does anything once Analytics is
+      enabled for this project in the Vercel dashboard, and only
+      reports data from the deployed (production/preview) site — it's
+      inert during local `astro dev`.
+    -->
+    <script>
+      import { inject } from "@vercel/analytics";
+      inject();
+    </script>
+  </body>
+</html>

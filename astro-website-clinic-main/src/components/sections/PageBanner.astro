@@ -1,0 +1,46 @@
+---
+import Section from "../ui/Section.astro";
+
+/**
+ * PageBanner
+ * Simple solid-color intro banner: a heading and optional subheading,
+ * centered. Used for pages that just need a plain title banner rather
+ * than a photo hero (Hero.astro) or the two-column donate-style banner
+ * (DonateHero.astro).
+ */
+
+interface Props {
+  heading: string;
+  subheading?: string;
+}
+
+const { heading, subheading } = Astro.props;
+---
+
+<Section background="primary" spacing="tight">
+  <div class="page-banner">
+    <h1 class="page-banner__heading">{heading}</h1>
+    {subheading && <p class="page-banner__subheading">{subheading}</p>}
+  </div>
+</Section>
+
+<style>
+  .page-banner {
+    text-align: center;
+    max-width: 60rem;
+    margin-inline: auto;
+  }
+
+  .page-banner__heading {
+    color: var(--color-text-inverse);
+    margin: 0;
+  }
+
+  .page-banner__subheading {
+    color: var(--color-text-inverse);
+    font-size: var(--font-size-h4);
+    font-weight: var(--font-weight-medium);
+    margin-top: var(--space-md);
+    margin-bottom: 0;
+  }
+</style>

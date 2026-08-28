@@ -1,0 +1,110 @@
+---
+import Section from "../ui/Section.astro";
+import BoardCard from "./BoardCard.astro";
+
+/**
+ * AlumniGrid
+ * Renders the same full profile card (photo, name, title, collapsible
+ * bio) as BoardGrid/BoardCard, grouped under an "Alumni" heading.
+ *
+ * Renders nothing at all when `members` is empty, so a page simply
+ * omits the whole section when nobody is flagged as alumni — no need
+ * to conditionally include this component from the page itself.
+ *
+ * Pair with a data file where each person has an `isAlumni?: boolean`
+ * flag (see data/leadership.ts / data/contributors.ts) and split the
+ * single roster array into "current" / "alumni" groups before passing
+ * them to BoardGrid and AlumniGrid. Flipping `isAlumni` on a person is
+ * the only change needed to move them between the two sections.
+ *
+ * Members whose `image` is still a placeholder (e.g.
+ * "/images/placeholder.png") are skipped entirely — no card, photo,
+ * name, or bio/role text is rendered for them — until a real photo is
+ * added. If that leaves no members with a photo, the section is
+ * omitted the same as if `members` had been empty.
+ */
+
+export interface AlumniProfile {
+  name: string;
+  title: string;
+  image: string;
+  bio: string;
+  /** Short sentence or two on how this role contributes to the mission. */
+  roleExplanation?: string;
+}
+
+interface Props {
+  heading: string;
+  members: AlumniProfile[];
+}
+
+const { heading, members } = Astro.props;
+const membersWithPhoto = members.filter(
+  (member) => member.image && !member.image.toLowerCase().includes("placeholder")
+);
+---
+
+{membersWithPhoto.length > 0 && (
+  <Section background="muted">
+    <details class="alumni-grid__details">
+      <summary class="alumni-grid__heading">{heading}</summary>
+      <div class="alumni-grid">
+        {[...membersWithPhoto].reverse().map((member) => (
+          <BoardCard member={member} />
+        ))}
+      </div>
+    </details>
+  </Section>
+)}
+
+<style>
+  .alumni-grid__details {
+    width: 100%;
+  }
+
+  .alumni-grid__heading {
+    text-align: center;
+    margin-bottom: var(--space-lg);
+    cursor: pointer;
+    list-style: none;
+    font-size: var(--text-h2, 1.75rem);
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5em;
+  }
+
+  .alumni-grid__heading::-webkit-details-marker {
+    display: none;
+  }
+
+  .alumni-grid__heading::after {
+    content: "▾";
+    display: inline-block;
+    transition: transform 0.2s ease;
+  }
+
+  .alumni-grid__details[open] .alumni-grid__heading::after {
+    transform: rotate(180deg);
+  }
+
+  .alumni-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--space-lg);
+    align-items: start;
+  }
+
+  @media (max-width: 900px) {
+    .alumni-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 520px) {
+    .alumni-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

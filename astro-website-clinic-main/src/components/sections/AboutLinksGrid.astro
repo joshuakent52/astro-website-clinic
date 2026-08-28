@@ -1,0 +1,124 @@
+---
+import Section from "../ui/Section.astro";
+
+/**
+ * AboutLinksGrid
+ * Condensed replacement for three stacked BoardTeaser banners: shows
+ * the links to the Board, Leadership, and Key Contributors pages as
+ * side-by-side cards in a single section, rather than one full-width
+ * banner per page.
+ */
+
+interface LinkItem {
+  heading: string;
+  subheading: string;
+  ctaText: string;
+  ctaHref: string;
+}
+
+interface Props {
+  items: LinkItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<Section background="muted">
+  <div class="about-links">
+    {items.map((item) => (
+      <a class="about-links__card" href={item.ctaHref}>
+        <h3 class="about-links__heading">{item.heading}</h3>
+        <p class="about-links__subheading">{item.subheading}</p>
+        <span class="about-links__cta">
+          {item.ctaText}
+          <svg class="about-links__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 12h14M13 6l6 6-6 6" />
+          </svg>
+        </span>
+      </a>
+    ))}
+  </div>
+</Section>
+
+<style>
+  .about-links {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-lg);
+  }
+
+  /* 768px (md): shared stacking breakpoint used throughout the project */
+  @media (max-width: 768px) {
+    .about-links {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .about-links__card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+    text-decoration: none;
+    color: inherit;
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow var(--transition-base), transform var(--transition-base),
+      border-color var(--transition-base);
+  }
+
+  .about-links__card:hover,
+  .about-links__card:focus-visible {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+    border-color: var(--color-primary-light);
+  }
+
+  .about-links__card:focus-visible {
+    outline: 2px solid var(--color-focus-ring);
+    outline-offset: 2px;
+  }
+
+  .about-links__heading {
+    color: var(--color-primary);
+    font-size: var(--font-size-h4);
+    margin: 0 0 var(--space-2xs);
+  }
+
+  .about-links__subheading {
+    color: var(--color-text-muted);
+    font-size: var(--font-size-small);
+    line-height: var(--line-height-body);
+    margin: 0 0 var(--space-md);
+    flex-grow: 1;
+  }
+
+  .about-links__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2xs);
+    color: var(--color-primary);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-small);
+  }
+
+  .about-links__arrow {
+    width: 1rem;
+    height: 1rem;
+    transition: transform var(--transition-fast);
+  }
+
+  .about-links__card:hover .about-links__arrow,
+  .about-links__card:focus-visible .about-links__arrow {
+    transform: translateX(3px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .about-links__card,
+    .about-links__arrow {
+      transition: none;
+    }
+  }
+</style>

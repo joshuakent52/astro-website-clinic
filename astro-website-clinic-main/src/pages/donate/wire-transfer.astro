@@ -1,0 +1,60 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/layout/Header.astro";
+import Footer from "../../components/layout/Footer.astro";
+import Section from "../../components/ui/Section.astro";
+import MicrosoftForm from "../../components/forms/MicrosoftForm.astro";
+
+import { siteName, siteDescription, logo, flat_logo, navItems } from "../../config/site";
+
+/**
+ * Wire-transfer donation page.
+ * Embeds the live Microsoft Forms wire-transfer donation form via
+ * MicrosoftForm.astro. Update `formSrc` here if the form URL ever
+ * changes.
+ */
+
+const formSrc =
+  "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=bG_YgFx8hEWuoNnc6TmuLSOHzy2DPGxLjJ5Syg3DTgpUOVBISk45TUI5QURTOEtPUEtYWU1CWUdMTC4u&embed=true";
+---
+
+<BaseLayout
+  title="Wire-Transfer Donation"
+  description="Make a wire-transfer donation to Bingham Family Clinic through your bank."
+  siteName={siteName}
+>
+  <Header navItems={navItems} slot="header">
+    <a slot="logo" href="/" aria-label={`${siteName} home`}>
+      <img src={flat_logo.src} alt={flat_logo.alt} class="site-logo" />
+    </a>
+  </Header>
+
+  <Section narrow>
+    <div class="apply-page">
+      <h1>Wire-Transfer Donation</h1>
+      <p class="text-muted">
+        Fill out the form below to make a wire-transfer donation to Bingham Family Clinic.
+      </p>
+    </div>
+
+    <MicrosoftForm src={formSrc} title="Wire-Transfer Donation" aspectRatio={350} />
+  </Section>
+
+  <Footer navItems={navItems} slot="footer" />
+</BaseLayout>
+
+<style>
+  .site-logo {
+    height: 5rem;
+    width: auto;
+  }
+
+  .apply-page {
+    text-align: center;
+    margin-bottom: var(--space-lg);
+  }
+
+  .apply-page h1 {
+    margin-bottom: var(--space-md);
+  }
+</style>

@@ -1,0 +1,47 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/layout/Header.astro";
+import Footer from "../../components/layout/Footer.astro";
+import Hero from "../../components/sections/Hero.astro";
+import AboutLinksGrid from "../../components/sections/AboutLinksGrid.astro";
+import ServicesOverview from "../../components/sections/ServicesOverview.astro";
+import Values from "../../components/sections/Values.astro";
+
+import { siteName, siteDescription, logo, flat_logo, navItems } from "../../config/site";
+import { hero, services, board, leadership, contributors, values } from "../../data/about";
+---
+
+<BaseLayout
+  title="About"
+  description="Learn about Bingham Family Clinic's mission, our board, and the values that guide our care."
+  siteName={siteName}
+>
+  <Header navItems={navItems} slot="header">
+    <a slot="logo" href="/" aria-label={`${siteName} home`}>
+      <img src={flat_logo.src} alt={flat_logo.alt} class="site-logo" />
+    </a>
+  </Header>
+
+  <Hero
+    backgroundImage={hero.backgroundImage}
+    heading={hero.heading}
+    subheading={hero.subheading}
+    ctaText={hero.ctaText}
+    ctaHref={hero.ctaHref}
+  />
+
+  <ServicesOverview heading={services.heading} items={services.items} />
+
+  <AboutLinksGrid items={[board, leadership, contributors]} />
+
+  <Values heading={values.heading} items={values.items} />
+
+  <Footer navItems={navItems} slot="footer" />
+</BaseLayout>
+
+<style>
+  .site-logo {
+    height: 5rem;
+    width: auto;
+  }
+</style>

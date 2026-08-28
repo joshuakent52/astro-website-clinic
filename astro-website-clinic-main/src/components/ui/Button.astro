@@ -1,0 +1,40 @@
+---
+import type { Variant } from "../../types";
+
+/**
+ * Button
+ * Renders as an <a> when href is provided, otherwise a <button>.
+ * Visual style is controlled entirely via the variant prop; no
+ * hardcoded copy or destinations.
+ */
+
+interface Props {
+  text: string;
+  href?: string;
+  variant?: Variant;
+  type?: "button" | "submit" | "reset";
+  /** Opens in a new tab with safe rel attributes. */
+  external?: boolean;
+}
+
+const { text, href, variant = "primary", type = "button", external = false } = Astro.props;
+
+const classes = ["button", `button--${variant}`];
+---
+
+{
+  href ? (
+    <a
+      class={classes.join(" ")}
+      href={href}
+      target={external ? "_blank" : undefined}
+      rel={external ? "noopener noreferrer" : undefined}
+    >
+      {text}
+    </a>
+  ) : (
+    <button class={classes.join(" ")} type={type}>
+      {text}
+    </button>
+  )
+}

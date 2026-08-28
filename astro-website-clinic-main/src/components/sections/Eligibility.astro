@@ -1,0 +1,271 @@
+---
+import Section from "../ui/Section.astro";
+import type { EligibilityRow } from "../../data/home";
+
+/**
+ * Eligibility
+ * Two-column criteria + income-table layout, plus a full-width note
+ * banner beneath it. Renders as two stacked sections so the note can be
+ * full-bleed with a different background than the table above it.
+ */
+
+interface Props {
+  heading: string;
+  subheading: string;
+  criteria: string[];
+  tableCaption: string;
+  tableColumns: string[];
+  tableRows: EligibilityRow[];
+  noteText: string;
+  policyLinkText: string;
+  policyLinkHref: string;
+}
+
+const {
+  heading,
+  subheading,
+  criteria,
+  tableCaption,
+  tableColumns,
+  tableRows,
+  noteText,
+  policyLinkText,
+  policyLinkHref,
+} = Astro.props;
+---
+
+<Section background="default">
+  <div class="eligibility__intro">
+    <h2>{heading}</h2>
+    <p class="text-muted">{subheading}</p>
+  </div>
+
+  <div class="eligibility__grid">
+    <ol class="eligibility__criteria">
+      {
+        criteria.map((item, index) => (
+          <li>
+            <span class="eligibility__number" aria-hidden="true">
+              {index + 1}
+            </span>
+            <p>{item}</p>
+          </li>
+        ))
+      }
+    </ol>
+
+    <div class="eligibility__table-wrap">
+      <p class="eligibility__caption">{tableCaption}</p>
+      <div class="eligibility__table-scroll">
+        <table class="eligibility__table">
+          <thead>
+            <tr>
+              {tableColumns.map((col) => <th scope="col">{col}</th>)}
+            </tr>
+          </thead>
+          <tbody>
+            {
+              tableRows.map((row) => (
+                <tr>
+                  <th scope="row" data-label={tableColumns[0]}>
+                    {row.size}
+                  </th>
+                  <td data-label={tableColumns[1]}>{row.annual}</td>
+                  <td data-label={tableColumns[2]}>{row.monthly}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</Section>
+
+<Section background="primary" spacing="tight">
+  <p class="eligibility__note">
+    {noteText} <a href={policyLinkHref}>{policyLinkText}</a>
+  </p>
+</Section>
+
+<style>
+  .eligibility__intro {
+    text-align: center;
+    max-width: var(--container-narrow-width);
+    margin-inline: auto;
+    margin-bottom: var(--space-xl);
+  }
+
+  .eligibility__intro h2 {
+    margin-bottom: var(--space-sm);
+  }
+
+  .eligibility__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+    gap: var(--space-2xl);
+    align-items: start;
+  }
+
+  .eligibility__criteria {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+  }
+
+  .eligibility__criteria li {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-sm);
+  }
+
+  .eligibility__number {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: var(--radius-full);
+    background-color: var(--color-primary);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .eligibility__caption {
+    font-size: var(--font-size-label);
+    font-weight: var(--font-weight-semibold);
+    text-align: center;
+    padding: var(--space-xs);
+    background-color: var(--color-surface-muted);
+    border: 1px solid var(--color-border);
+    border-bottom: none;
+  }
+
+  .eligibility__table-wrap {
+    /* Grid items default to min-width: auto, which means they refuse to
+       shrink below the intrinsic min-content size of their contents.
+       Resetting min-width to 0 lets this column shrink normally so it
+       never forces the page wider than the viewport. */
+    min-width: 0;
+  }
+
+  .eligibility__table {
+    width: 100%;
+    border: 1px solid var(--color-border);
+    border-top: none;
+  }
+
+  .eligibility__table th,
+  .eligibility__table td {
+    padding: var(--space-2xs) var(--space-sm);
+    text-align: center;
+    font-size: var(--font-size-small);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .eligibility__table thead th {
+    font-weight: var(--font-weight-semibold);
+    background-color: var(--color-surface-muted);
+  }
+
+  .eligibility__table tbody th {
+    font-weight: var(--font-weight-medium);
+  }
+
+  .eligibility__table tbody tr:last-child th,
+  .eligibility__table tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  /* Below this width the 3-column table can no longer fit its content
+     (currency figures) without shrinking text to the point of being
+     unreadable or forcing horizontal scroll. Instead, restructure each
+     row into a stacked block of labeled rows — every figure stays fully
+     visible with no horizontal scrolling and no separate table caption
+     row needed per line. */
+  @media (max-width: 30rem) {
+    .eligibility__caption {
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .eligibility__table {
+      border: none;
+    }
+
+    .eligibility__table thead {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .eligibility__table,
+    .eligibility__table tbody,
+    .eligibility__table tr,
+    .eligibility__table th,
+    .eligibility__table td {
+      display: block;
+      width: 100%;
+    }
+
+    .eligibility__table tbody tr {
+      padding: var(--space-sm) 0;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .eligibility__table tbody tr:last-child {
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .eligibility__table th,
+    .eligibility__table td {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      text-align: right;
+      padding: var(--space-3xs) var(--space-sm);
+      border-bottom: none;
+    }
+
+    .eligibility__table th[scope="row"] {
+      font-weight: var(--font-weight-semibold);
+      font-size: var(--font-size-body);
+    }
+
+    .eligibility__table th[data-label]::before,
+    .eligibility__table td[data-label]::before {
+      content: attr(data-label);
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-text-muted);
+      text-align: left;
+      text-transform: uppercase;
+      letter-spacing: var(--letter-spacing-wide);
+      font-size: var(--font-size-label);
+    }
+  }
+
+  .eligibility__note {
+    text-align: center;
+    color: var(--color-text-inverse);
+    max-width: var(--container-narrow-width);
+    margin-inline: auto;
+  }
+
+  .eligibility__note a {
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    text-decoration: underline;
+  }
+
+  @media (max-width: 768px) {
+    .eligibility__grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-xl);
+    }
+  }
+</style>

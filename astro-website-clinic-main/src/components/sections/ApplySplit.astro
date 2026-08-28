@@ -1,0 +1,88 @@
+---
+import Section from "../ui/Section.astro";
+import Card from "../ui/Card.astro";
+import Button from "../ui/Button.astro";
+
+/**
+ * ApplySplit
+ * Splits prospective applicants into two paths — volunteer and
+ * provider — each with a short description and a CTA to that path's
+ * dedicated application page.
+ */
+
+interface ApplyOption {
+  title: string;
+  description: string;
+  ctaText: string;
+  ctaHref: string;
+}
+
+interface Props {
+  heading: string;
+  subheading: string;
+  options: ApplyOption[];
+  id?: string;
+}
+
+const { heading, subheading, options, id = "apply" } = Astro.props;
+---
+
+<Section id={id} background="muted">
+  <div class="apply__intro">
+    <h2>{heading}</h2>
+    <p class="text-muted">{subheading}</p>
+  </div>
+
+  <div class="apply__grid">
+    {
+      options.map((option) => (
+        <Card as="article">
+          <div class="apply__card-content">
+            <h3>{option.title}</h3>
+            <p class="apply__description">{option.description}</p>
+            <Button text={option.ctaText} href={option.ctaHref} variant="primary" />
+          </div>
+        </Card>
+      ))
+    }
+  </div>
+</Section>
+
+<style>
+  .apply__intro {
+    text-align: center;
+    max-width: var(--container-narrow-width);
+    margin-inline: auto;
+    margin-bottom: var(--space-xl);
+  }
+
+  .apply__intro h2 {
+    margin-bottom: var(--space-sm);
+  }
+
+  .apply__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-lg);
+  }
+
+  .apply__card-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-sm);
+    height: 100%;
+    text-align: left;
+  }
+
+  .apply__description {
+    color: var(--color-text-muted);
+    flex-grow: 1;
+  }
+
+  @media (max-width: 768px) {
+    .apply__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

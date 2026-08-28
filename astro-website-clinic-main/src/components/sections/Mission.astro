@@ -1,0 +1,85 @@
+---
+import Container from "../layout/Container.astro";
+
+/**
+ * Mission
+ * Centered statement over a full-bleed background image with a color
+ * overlay, plus a short tagline beneath the main statement.
+ */
+
+interface Props {
+  backgroundImage: string;
+  heading: string;
+  statement: string;
+  tagline: string;
+}
+
+const { backgroundImage, heading, statement, tagline } = Astro.props;
+---
+
+<section class="mission">
+  <img src={backgroundImage} alt="" class="mission__bg" />
+  <div class="mission__overlay" aria-hidden="true"></div>
+  <Container narrow>
+    <div class="mission__content">
+      <h2>{heading}</h2>
+      <p class="mission__statement">&ldquo;{statement}&rdquo;</p>
+      <p class="mission__tagline">&ldquo;{tagline}&rdquo;</p>
+    </div>
+  </Container>
+</section>
+
+<style>
+  .mission {
+    position: relative;
+    overflow: hidden;
+    color: var(--color-text-inverse);
+    text-align: center;
+  }
+
+  .mission__bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .mission__overlay {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(2, 65, 107, 0.72);
+  }
+
+  .mission__content {
+    position: relative;
+    z-index: 1;
+    padding-block: var(--space-2xl);
+  }
+
+  .mission h2 {
+    color: var(--color-text-inverse);
+    margin-bottom: var(--space-lg);
+  }
+
+  .mission__statement {
+    font-size: var(--font-size-h4);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--line-height-heading);
+  }
+
+  .mission__tagline {
+    margin-top: var(--space-xl);
+    font-size: var(--font-size-body);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  @media (max-width: 768px) {
+    .mission__content {
+      padding-block: var(--space-xl);
+    }
+  }
+</style>

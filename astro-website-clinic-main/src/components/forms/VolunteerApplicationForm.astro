@@ -1,0 +1,437 @@
+---
+/**
+ * VolunteerApplicationForm
+ * The volunteer application: personal info, shift availability, character
+ * references, background/qualifications, and an optional résumé upload.
+ * Submits directly to Supabase from the browser (this site is statically
+ * rendered — see CLAUDE.md — so there's no server route in between).
+ *
+ * Requires PUBLIC_SUPABASE_URL and PUBLIC_SUPABASE_ANON_KEY to be set
+ * wherever this is deployed. See src/lib/supabase.ts and .env.example.
+ */
+
+const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri"] as const;
+const SHIFTS = ["10-2", "2-6"] as const;
+
+// Maps a Day/Shift pair to the boolean column it corresponds to on
+// `volunteer_applications`, e.g. Mon + 10-2 -> shift_mon_10_2.
+function shiftKey(day: string, shift: string): string {
+  return `shift_${day.toLowerCase()}_${shift.replace(/[^0-9]/g, "_")}`;
+}
+---
+
+<div class="volunteer-form">
+  <div id="form-view">
+    <form id="volunteer-form" novalidate>
+      <!-- ── Personal Info ── -->
+      <fieldset class="form-section">
+        <legend class="label">Personal Information</legend>
+
+        <div class="field">
+          <label for="full-name">Full Name *</label>
+          <input id="full-name" name="full_name" type="text" placeholder="Justa Alias" required />
+        </div>
+
+        <div class="form-row">
+          <div class="field">
+            <label for="email">Email *</label>
+            <input id="email" name="email" type="email" placeholder="justalias@email.com" required />
+          </div>
+          <div class="field">
+            <label for="phone">Phone *</label>
+            <input id="phone" name="phone" type="tel" placeholder="(801) 555-0100" required />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="languages">Languages Spoken</label>
+          <input id="languages" name="languages" type="text" placeholder="English, Spanish…" />
+        </div>
+      </fieldset>
+
+      <!-- ── Shift Availability ── -->
+      <fieldset class="form-section">
+        <legend class="label">Shift Availability</legend>
+        <p class="field-hint shift-hint">Select all shifts you're available for.</p>
+
+        <table class="shift-grid">
+          <thead>
+            <tr>
+              <th scope="col"><span class="visually-hidden">Day</span></th>
+              {SHIFTS.map((shift) => <th scope="col">{shift}</th>)}
+            </tr>
+          </thead>
+          <tbody>
+            {
+              DAYS.map((day) => (
+                <tr>
+                  <th scope="row">{day}</th>
+                  {SHIFTS.map((shift) => {
+                    const key = shiftKey(day, shift);
+                    return (
+                      <td>
+                        <label class="shift-cell" for={key}>
+                          <span class="visually-hidden">
+                            {day} {shift}
+                          </span>
+                          <input
+                            type="checkbox"
+                            id={key}
+                            name={key}
+                            class="shift-checkbox visually-hidden"
+                          />
+                          <span class="shift-box" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                              <path d="m5 13 4 4L19 7" />
+                            </svg>
+                          </span>
+                        </label>
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </fieldset>
+
+      <!-- ── References ── -->
+      <fieldset class="form-section">
+        <legend class="label">Character References</legend>
+
+        <div class="form-row">
+          <div class="field">
+            <label for="ref1-name">Reference 1 — Name</label>
+            <input id="ref1-name" name="ref1_name" type="text" placeholder="Full name" />
+          </div>
+          <div class="field">
+            <label for="ref1-contact">Reference 1 — Contact</label>
+            <input id="ref1-contact" name="ref1_contact" type="text" placeholder="Phone or email" />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="field">
+            <label for="ref2-name">Reference 2 — Name</label>
+            <input id="ref2-name" name="ref2_name" type="text" placeholder="Full name" />
+          </div>
+          <div class="field">
+            <label for="ref2-contact">Reference 2 — Contact</label>
+            <input id="ref2-contact" name="ref2_contact" type="text" placeholder="Phone or email" />
+          </div>
+        </div>
+      </fieldset>
+
+      <!-- ── Background ── -->
+      <fieldset class="form-section">
+        <legend class="label">Background &amp; Qualifications</legend>
+
+        <div class="field">
+          <label for="credentials">Credentials / Certifications</label>
+          <textarea id="credentials" name="credentials" rows="3" placeholder="e.g. CNA, MA, Phlebotomy…"></textarea>
+        </div>
+        <div class="field">
+          <label for="skills">Skills</label>
+          <textarea id="skills" name="skills" rows="3" placeholder="e.g. Patient intake, EMR, IT, Graphic Design…"></textarea>
+        </div>
+        <div class="field">
+          <label for="educational-background">Educational Background</label>
+          <textarea id="educational-background" name="educational_background" rows="3" placeholder="Degrees, programs, schools…"></textarea>
+        </div>
+      </fieldset>
+
+      <!-- ── Resume ── -->
+      <fieldset class="form-section">
+        <legend class="label">Resume</legend>
+
+        <div class="field">
+          <label for="resume-file">Upload Resume (PDF or Word)</label>
+          <div class="file-input">
+            <label class="button button--outline file-input__button" for="resume-file">
+              Choose File
+            </label>
+            <input id="resume-file" name="resume_file" type="file" accept=".pdf,.doc,.docx" class="visually-hidden" />
+            <span id="resume-filename" class="file-input__name text-muted">No file chosen</span>
+          </div>
+        </div>
+      </fieldset>
+
+      <div id="form-error" class="field-error form-error" role="alert" hidden></div>
+
+      <button type="submit" id="submit-button" class="button button--primary submit-button">
+        Submit Application
+      </button>
+    </form>
+  </div>
+
+  <div id="form-success" class="form-success" hidden tabindex="-1">
+    <div class="form-success__icon" aria-hidden="true">✓</div>
+    <h2>Application Submitted</h2>
+    <p class="text-muted">
+      Thank you for applying to volunteer at Bingham Family Clinic. We'll be
+      in touch within a few days. If you have any questions, please reach out
+      to volunteer@binghamfamilyclinic.org.
+    </p>
+  </div>
+</div>
+
+<style>
+  .volunteer-form {
+    max-width: 40rem;
+    margin-inline: auto;
+  }
+
+  #volunteer-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
+  }
+
+  .form-section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    border: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .form-section legend {
+    padding: 0;
+    margin-bottom: var(--space-2xs);
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-md);
+  }
+
+  .shift-hint {
+    margin: calc(-1 * var(--space-2xs)) 0 0;
+  }
+
+  .shift-grid {
+    border-collapse: collapse;
+  }
+
+  .shift-grid th,
+  .shift-grid td {
+    padding: var(--space-3xs) var(--space-sm);
+    text-align: center;
+  }
+
+  .shift-grid thead th {
+    font-size: var(--font-size-small);
+    color: var(--color-text-muted);
+    font-weight: var(--font-weight-medium);
+  }
+
+  .shift-grid tbody th {
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text);
+    text-align: left;
+  }
+
+  .shift-cell {
+    display: inline-flex;
+    cursor: pointer;
+  }
+
+  .shift-box {
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--color-border-strong);
+    border-radius: var(--radius-sm);
+    background-color: var(--color-white);
+    color: var(--color-text-inverse);
+    transition: background-color var(--transition-fast), border-color var(--transition-fast);
+  }
+
+  .shift-box svg {
+    width: 1rem;
+    height: 1rem;
+    opacity: 0;
+    transition: opacity var(--transition-fast);
+  }
+
+  .shift-checkbox:checked + .shift-box {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+  }
+
+  .shift-checkbox:checked + .shift-box svg {
+    opacity: 1;
+  }
+
+  .shift-checkbox:focus-visible + .shift-box {
+    outline: 3px solid var(--color-focus-ring);
+    outline-offset: 2px;
+  }
+
+  .file-input {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    flex-wrap: wrap;
+  }
+
+  .file-input__button {
+    cursor: pointer;
+  }
+
+  .file-input__name {
+    font-size: var(--font-size-small);
+  }
+
+  .form-error {
+    background-color: #fdf0ef;
+    border: 1px solid #b3261e;
+    border-radius: var(--radius-sm);
+    padding: var(--space-sm) var(--space-md);
+  }
+
+  .submit-button {
+    width: 100%;
+  }
+
+  .submit-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .form-success {
+    text-align: center;
+    padding-block: var(--space-xl);
+  }
+
+  .form-success__icon {
+    width: 4rem;
+    height: 4rem;
+    margin: 0 auto var(--space-md);
+    border-radius: var(--radius-full);
+    background-color: #1a7a4a;
+    color: var(--color-text-inverse);
+    font-size: var(--font-size-h4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .form-success h2 {
+    margin-bottom: var(--space-sm);
+  }
+
+  .form-success p {
+    max-width: 28rem;
+    margin-inline: auto;
+  }
+
+  /* Breakpoint: md (768px) — matches the stacking breakpoint used
+     elsewhere in the project. */
+  @media (max-width: 768px) {
+    .form-row {
+      grid-template-columns: 1fr;
+    }
+
+    .shift-grid {
+      width: 100%;
+    }
+  }
+</style>
+
+<script>
+  import { supabase } from "../../lib/supabase";
+
+  const formView = document.getElementById("form-view") as HTMLDivElement;
+  const form = document.getElementById("volunteer-form") as HTMLFormElement;
+  const submitButton = document.getElementById("submit-button") as HTMLButtonElement;
+  const errorBanner = document.getElementById("form-error") as HTMLDivElement;
+  const successView = document.getElementById("form-success") as HTMLDivElement;
+  const resumeInput = document.getElementById("resume-file") as HTMLInputElement;
+  const resumeFilename = document.getElementById("resume-filename") as HTMLSpanElement;
+
+  resumeInput.addEventListener("change", () => {
+    resumeFilename.textContent = resumeInput.files?.[0]?.name ?? "No file chosen";
+  });
+
+  function showError(message: string) {
+    errorBanner.textContent = message;
+    errorBanner.hidden = false;
+  }
+
+  function setLoading(label: string) {
+    submitButton.disabled = true;
+    submitButton.textContent = label;
+  }
+
+  function resetSubmitButton() {
+    submitButton.disabled = false;
+    submitButton.textContent = "Submit Application";
+  }
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    errorBanner.hidden = true;
+    setLoading("Uploading resume…");
+
+    const formData = new FormData(form);
+    const fullName = String(formData.get("full_name") ?? "").trim();
+
+    // 1. Upload the résumé, if one was chosen.
+    let resumeUrl: string | null = null;
+    const file = resumeInput.files?.[0] ?? null;
+    if (file) {
+      const ext = file.name.split(".").pop();
+      const path = `${Date.now()}-${fullName.replace(/\s+/g, "_")}.${ext}`;
+      const { error: uploadError } = await supabase.storage.from("resumes").upload(path, file);
+
+      if (uploadError) {
+        showError("Resume upload failed: " + uploadError.message);
+        resetSubmitButton();
+        return;
+      }
+      resumeUrl = path;
+    }
+
+    // 2. Build the shift-availability booleans from the checkbox grid.
+    const shifts: Record<string, boolean> = {};
+    form.querySelectorAll<HTMLInputElement>(".shift-checkbox").forEach((checkbox) => {
+      shifts[checkbox.name] = checkbox.checked;
+    });
+
+    // 3. Insert the application row.
+    setLoading("Submitting…");
+    const { error: insertError } = await supabase.from("volunteer_applications").insert({
+      full_name: fullName,
+      email: formData.get("email"),
+      phone: formData.get("phone"),
+      languages: formData.get("languages") || null,
+      ...shifts,
+      ref1_name: formData.get("ref1_name") || null,
+      ref1_contact: formData.get("ref1_contact") || null,
+      ref2_name: formData.get("ref2_name") || null,
+      ref2_contact: formData.get("ref2_contact") || null,
+      credentials: formData.get("credentials") || null,
+      skills: formData.get("skills") || null,
+      educational_background: formData.get("educational_background") || null,
+      resume_url: resumeUrl,
+    });
+
+    if (insertError) {
+      showError("Submission failed: " + insertError.message);
+      resetSubmitButton();
+      return;
+    }
+
+    // 4. Success — swap the form out for the confirmation message.
+    formView.hidden = true;
+    successView.hidden = false;
+    successView.focus();
+  });
+</script>

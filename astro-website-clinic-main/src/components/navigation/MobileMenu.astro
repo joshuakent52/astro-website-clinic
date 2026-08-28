@@ -1,0 +1,114 @@
+---
+import type { NavItem } from "../../types";
+
+/**
+ * MobileMenu
+ * Toggleable navigation panel shown below the md breakpoint. The only
+ * client-side JavaScript here is the minimal open/close interaction;
+ * everything else is server-rendered markup and CSS.
+ */
+
+interface Props {
+  navItems?: NavItem[];
+}
+
+const { navItems = [] } = Astro.props;
+---
+
+<div class="mobile-menu">
+  <button
+    type="button"
+    class="mobile-menu__toggle"
+    aria-expanded="false"
+    aria-controls="mobile-menu-panel"
+  >
+    <span class="visually-hidden">Toggle menu</span>
+    <span class="mobile-menu__icon" aria-hidden="true"></span>
+  </button>
+
+  <div id="mobile-menu-panel" class="mobile-menu__panel" hidden>
+    <ul class="mobile-menu__list">
+      {
+        navItems.map((item) => (
+          <li>
+            <a class="nav-link" href={item.href}>
+              {item.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</div>
+
+<style>
+  .mobile-menu {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    .mobile-menu {
+      display: block;
+    }
+  }
+
+  .mobile-menu__toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: var(--radius-sm);
+  }
+
+  .mobile-menu__icon,
+  .mobile-menu__icon::before,
+  .mobile-menu__icon::after {
+    display: block;
+    width: 1.5rem;
+    height: 2px;
+    background-color: var(--color-text);
+    transition: transform var(--transition-fast), opacity var(--transition-fast);
+  }
+
+  .mobile-menu__icon::before,
+  .mobile-menu__icon::after {
+    content: "";
+    position: relative;
+  }
+
+  .mobile-menu__icon::before {
+    top: -6px;
+  }
+
+  .mobile-menu__icon::after {
+    top: 4px;
+  }
+
+  .mobile-menu__panel {
+    position: absolute;
+    inset-inline: 0;
+    top: 100%;
+    z-index: var(--z-mobile-menu);
+    background-color: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--space-md);
+  }
+
+  .mobile-menu__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+</style>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>(".mobile-menu__toggle");
+  const panel = document.querySelector<HTMLElement>("#mobile-menu-panel");
+
+  toggle?.addEventListener("click", () => {
+    const isOpen = toggle.getAttribute("aria-expanded") === "true";
+    toggle.setAttribute("aria-expanded", String(!isOpen));
+    if (panel) panel.hidden = isOpen;
+  });
+</script>

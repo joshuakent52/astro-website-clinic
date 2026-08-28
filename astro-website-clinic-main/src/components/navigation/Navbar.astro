@@ -1,0 +1,57 @@
+---
+import MobileMenu from "./MobileMenu.astro";
+import type { NavItem } from "../../types";
+
+/**
+ * Navbar
+ * Primary site navigation. Renders a horizontal link list on larger
+ * viewports and defers to MobileMenu below the md breakpoint.
+ * Active-page highlighting compares against the current URL.
+ */
+
+interface Props {
+  navItems?: NavItem[];
+}
+
+const { navItems = [] } = Astro.props;
+const currentPath = Astro.url.pathname;
+---
+
+<nav class="navbar" aria-label="Primary">
+  <ul class="navbar__list">
+    {
+      navItems.map((item) => (
+        <li>
+          <a
+            class="nav-link"
+            href={item.href}
+            aria-current={currentPath === item.href ? "page" : undefined}
+          >
+            {item.label}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+
+  <MobileMenu navItems={navItems} />
+</nav>
+
+<style>
+  .navbar {
+    display: flex;
+    align-items: center;
+  }
+
+  .navbar__list {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+  }
+
+  @media (max-width: 768px) {
+    .navbar__list {
+      display: none;
+    }
+  }
+</style>

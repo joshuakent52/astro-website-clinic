@@ -1,0 +1,59 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/layout/Header.astro";
+import Footer from "../../components/layout/Footer.astro";
+import Section from "../../components/ui/Section.astro";
+import VolunteerApplicationForm from "../../components/forms/VolunteerApplicationForm.astro";
+
+import { siteName, flat_logo, navItems } from "../../config/site";
+
+/**
+ * Volunteer application page.
+ * Renders VolunteerApplicationForm, which submits directly to Supabase
+ * from the browser. Requires PUBLIC_SUPABASE_URL and
+ * PUBLIC_SUPABASE_ANON_KEY — see src/lib/supabase.ts.
+ */
+---
+
+<BaseLayout
+  title="Volunteer Application"
+  description="Apply to volunteer with Bingham Family Clinic."
+  siteName={siteName}
+>
+  <Header navItems={navItems} slot="header">
+    <a slot="logo" href="/" aria-label={`${siteName} home`}>
+      <img src={flat_logo.src} alt={flat_logo.alt} class="site-logo" />
+    </a>
+  </Header>
+
+  <Section narrow>
+    <div class="apply-page__heading">
+      <h1>Volunteer Application</h1>
+      <p class="text-muted">
+        Fill out the form below to apply to volunteer with Bingham Family
+        Clinic. Looking to volunteer as a clinical provider instead? Use the 
+        <a href="/volunteer/provider-apply">provider application</a>.
+      </p>
+    </div>
+
+    <VolunteerApplicationForm />
+  </Section>
+
+  <Footer navItems={navItems} slot="footer" />
+</BaseLayout>
+
+<style>
+  .site-logo {
+    height: 5rem;
+    width: auto;
+  }
+
+  .apply-page__heading {
+    text-align: center;
+    margin-bottom: var(--space-xl);
+  }
+
+  .apply-page__heading h1 {
+    margin-bottom: var(--space-md);
+  }
+</style>

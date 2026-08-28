@@ -1,0 +1,135 @@
+---
+import Section from "../ui/Section.astro";
+import type { Testimonial } from "../../data/volunteer";
+
+/**
+ * Testimonials
+ * Rotates through an arbitrary number of quotes using a CSS-only
+ * crossfade (no client-side JS) — each quote is stacked in the same
+ * grid cell and takes its turn via a per-item @keyframes animation
+ * generated at build time from `testimonials.length`. Pauses on
+ * hover/focus for readability, and falls back to a static stacked
+ * list for prefers-reduced-motion / no-JS-needed accessibility.
+ *
+ * To add or remove quotes, edit the `testimonials` array in
+ * src/data/volunteer.ts — nothing here needs to change.
+ */
+
+interface Props {
+  testimonials: Testimonial[];
+  /** Seconds each quote is fully visible for (not counting fade). */
+  visibleSeconds?: number;
+}
+
+const { testimonials, visibleSeconds = 5 } = Astro.props;
+
+const testimonialsShuffled = [...testimonials].sort(() => Math.random() - 0.5);
+
+const count = testimonialsShuffled.length;
+const fadeSeconds = .25;
+const slice = visibleSeconds + fadeSeconds;
+const totalDuration = count * slice;
+
+// Build one @keyframes + one nth-child rule per quote so the rotation
+// works for however many quotes are supplied.
+const generatedCss = testimonialsShuffled
+  .map((_, i) => {
+    const start = (i * slice * 100) / totalDuration;
+    const fadeIn = ((i * slice + fadeSeconds) * 100) / totalDuration;
+    const fadeOutStart = ((i * slice + slice - fadeSeconds) * 100) / totalDuration;
+    const end = ((i * slice + slice) * 100) / totalDuration;
+
+    return `
+      @keyframes testimonial-fade-${i} {
+        0%, ${start}% { opacity: 0; }
+        ${fadeIn}% { opacity: 1; }
+        ${fadeOutStart}% { opacity: 1; }
+        ${end}%, 100% { opacity: 0; }
+      }
+      .testimonial:nth-child(${i + 1}) {
+        animation: testimonial-fade-${i} ${totalDuration}s infinite;
+      }
+    `;
+  })
+  .join("\n");
+---
+
+<Section background="muted" id="testimonials">
+  <h2 class="testimonials__heading">What Our Volunteers Say</h2>
+
+  <div class="testimonials__stack" style={`--count: ${count}`}>
+    {
+      testimonialsShuffled.map((item) => (
+        <blockquote class="testimonial">
+          <p class="testimonial__quote">{item.quote}</p>
+          <cite class="testimonial__author">— {item.author}</cite>
+        </blockquote>
+      ))
+    }
+  </div>
+</Section>
+
+<style is:global set:html={generatedCss}></style>
+
+<style>
+  /* Overrides Section's "muted" background with the secondary brand
+     tint used for this section in the design reference. */
+  :global(#testimonials) {
+    background-color: var(--color-secondary-light);
+  }
+
+  .testimonials__heading {
+    text-align: center;
+    color: var(--color-text-inverse);
+    margin-bottom: var(--space-xl);
+  }
+
+  .testimonials__stack {
+    display: grid;
+    max-width: var(--container-narrow-width);
+    margin-inline: auto;
+  }
+
+  .testimonial {
+    grid-area: 1 / 1 / 2 / 2;
+    background-color: var(--color-surface);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    padding: var(--space-lg);
+    opacity: 0;
+  }
+
+  .testimonial__quote {
+    font-style: italic;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-sm);
+  }
+
+  .testimonial__author {
+    font-style: italic;
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text);
+  }
+
+  /* Pause the rotation while a visitor is reading or has focus inside it. */
+  .testimonials__stack:hover .testimonial,
+  .testimonials__stack:focus-within .testimonial {
+    animation-play-state: paused;
+  }
+
+  /* Reduced motion: drop the crossfade and show every quote as a static,
+     stacked list instead of animating between them. */
+  @media (prefers-reduced-motion: reduce) {
+    .testimonials__stack {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+
+    .testimonial {
+      position: static;
+      opacity: 1;
+      animation: none !important;
+    }
+  }
+</style>

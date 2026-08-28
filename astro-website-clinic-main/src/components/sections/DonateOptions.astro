@@ -1,0 +1,171 @@
+---
+import Section from "../ui/Section.astro";
+import Card from "../ui/Card.astro";
+import Button from "../ui/Button.astro";
+import type { DonateOption } from "../../data/donate";
+
+/**
+ * DonateOptions
+ * Donation methods laid out as a stack of option cards (one-time via
+ * Clover, wire-transfer via bank) alongside a Venmo QR card. Mirrors
+ * the two-column split pattern used by `ApplySplit`/`VolunteerWhy`,
+ * but with a fixed-width side card rather than an even grid.
+ */
+
+interface Props {
+  options: DonateOption[];
+  venmo: {
+    heading: string;
+    qrImage: string;
+    qrAlt: string;
+  };
+  id?: string;
+}
+
+const { options, venmo, id = "donate-options" } = Astro.props;
+
+const icons: Record<DonateOption["icon"], string> = {
+  card: '<rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/>',
+  bank: '<line x1="3" y1="22" x2="21" y2="22"/><line x1="6" y1="18" x2="6" y2="11"/><line x1="10" y1="18" x2="10" y2="11"/><line x1="14" y1="18" x2="14" y2="11"/><line x1="18" y1="18" x2="18" y2="11"/><polygon points="12 2 21 7 3 7 12 2"/>',
+};
+---
+
+<Section id={id} background="surface">
+  <div class="donate-options">
+    <div class="donate-options__list">
+      {
+        options.map((option) => (
+          <Card as="article">
+            <div class="donate-options__card">
+              <div class="donate-options__header">
+                <span class="donate-options__icon" aria-hidden="true">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.75"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    set:html={icons[option.icon]}
+                  />
+                </span>
+                <div>
+                  <h2>{option.title}</h2>
+                  <p class="text-muted">{option.description}</p>
+                </div>
+              </div>
+              <Button
+                text={option.ctaText}
+                href={option.ctaHref}
+                variant="primary"
+                external={option.external}
+              />
+            </div>
+          </Card>
+        ))
+      }
+    </div>
+
+    <div class="donate-options__venmo">
+      <div class="donate-options__venmo-inner">
+        <img src={venmo.qrImage} alt={venmo.qrAlt} class="donate-options__qr" />
+        <p class="donate-options__venmo-label">venmo</p>
+      </div>
+    </div>
+  </div>
+</Section>
+
+<style>
+  .donate-options {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(16rem, 20rem);
+    gap: var(--space-xl);
+    align-items: start;
+  }
+
+  .donate-options__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+  }
+
+  .donate-options__card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+  }
+
+  .donate-options__header {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-md);
+  }
+
+  .donate-options__icon {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: var(--radius-full);
+    background-color: var(--color-surface-muted);
+    color: var(--color-primary);
+  }
+
+  .donate-options__icon svg {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  .donate-options__header h2 {
+    font-size: var(--font-size-h4);
+    color: var(--color-primary);
+    margin-bottom: var(--space-3xs);
+  }
+
+  .donate-options__venmo {
+    background-color: var(--color-primary);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+    box-shadow: var(--shadow-md);
+  }
+
+  .donate-options__venmo-inner {
+    background-color: var(--color-white);
+    border-radius: var(--radius-md);
+    padding: var(--space-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-sm);
+  }
+
+  .donate-options__qr {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: contain;
+  }
+
+  .donate-options__venmo-label {
+    font-family: Georgia, "Times New Roman", serif;
+    font-style: italic;
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-h3);
+    color: var(--color-text);
+  }
+
+  /* Breakpoint: md (768px) — matches the stacking breakpoint used
+     elsewhere in the project. */
+  @media (max-width: 768px) {
+    .donate-options {
+      grid-template-columns: 1fr;
+    }
+
+    .donate-options__venmo {
+      max-width: 20rem;
+      margin-inline: auto;
+    }
+  }
+</style>

@@ -1,0 +1,51 @@
+---
+import Container from "./Container.astro";
+import Navbar from "../navigation/Navbar.astro";
+import type { NavItem } from "../../types";
+
+/**
+ * Header
+ * Site header shell: logo/wordmark slot plus the primary Navbar.
+ * Content (logo, nav items) is passed in via props/slots, not hardcoded.
+ */
+
+interface Props {
+  navItems?: NavItem[];
+}
+
+const { navItems = [] } = Astro.props;
+---
+
+<header class="site-header">
+  <Container>
+    <div class="site-header__inner">
+      <div class="site-header__logo">
+        <slot name="logo" />
+      </div>
+      <Navbar navItems={navItems} />
+    </div>
+  </Container>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: var(--z-header);
+    background-color: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .site-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-md);
+    padding-block: var(--space-sm);
+  }
+
+  .site-header__logo {
+    display: flex;
+    align-items: center;
+  }
+</style>

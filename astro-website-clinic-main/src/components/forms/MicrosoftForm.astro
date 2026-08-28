@@ -1,0 +1,42 @@
+---
+/**
+ * MicrosoftForm
+ * Responsive wrapper for embedding a Microsoft Forms form via iframe.
+ * Pass the form's embed URL once it is available; nothing is
+ * hardcoded here. Uses lazy loading since forms are typically
+ * below the fold.
+ */
+
+interface Props {
+  /** The Microsoft Forms embed URL. */
+  src: string;
+  title: string;
+  /** Aspect ratio as height/width percentage, e.g. 120 for a tall form. */
+  aspectRatio?: number;
+}
+
+const { src, title, aspectRatio = 100 } = Astro.props;
+---
+
+<div class="ms-form" style={`--ms-form-ratio: ${aspectRatio}%`}>
+  <iframe src={src} title={title} loading="lazy" allowfullscreen></iframe>
+</div>
+
+<style>
+  .ms-form {
+    position: relative;
+    width: 100%;
+    padding-top: var(--ms-form-ratio, 100%);
+    background-color: var(--color-surface-muted);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+
+  .ms-form iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+</style>

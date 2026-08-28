@@ -1,0 +1,124 @@
+---
+import Section from "../ui/Section.astro";
+import Button from "../ui/Button.astro";
+import type { Benefit } from "../../data/volunteer";
+
+/**
+ * VolunteerWhy
+ * Two-column "why volunteer" section: a photo on one side, a list of
+ * icon + title + description benefits and a CTA on the other.
+ */
+
+interface Props {
+  image: string;
+  heading: string;
+  benefits: Benefit[];
+  ctaText: string;
+  ctaHref: string;
+}
+
+const { image, heading, benefits, ctaText, ctaHref } = Astro.props;
+
+const icons: Record<Benefit["icon"], string> = {
+  impact:
+    '<path d="M12 21s-7.5-4.6-10-9.3C.4 8.4 2 5 5.4 5 7.5 5 9 6.1 12 9c3-2.9 4.5-4 6.6-4C22 5 23.6 8.4 22 11.7 19.5 16.4 12 21 12 21Z"/>',
+  growth:
+    '<path d="M12 2v6M12 22c4.4-1.2 7-4.3 7-9V8l-7-3-7 3v5c0 4.7 2.6 7.8 7 9Z"/><path d="m9.5 12 1.8 1.8L15 10"/>',
+  team: '<circle cx="8" cy="9" r="3"/><circle cx="16" cy="9" r="3"/><path d="M2 20c0-3 2.7-5 6-5s6 2 6 5"/><path d="M10 20c0-3 2.7-5 6-5s6 2 6 5"/>',
+};
+---
+
+<Section id="why" background="surface">
+  <div class="why__grid">
+    <div class="why__image-wrap">
+      <img src={image} alt="" class="why__image" />
+    </div>
+
+    <div class="why__content">
+      <h2>{heading}</h2>
+      <ul class="why__list">
+        {
+          benefits.map((benefit) => (
+            <li class="why__item">
+              <span class="why__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" set:html={icons[benefit.icon]} />
+              </span>
+              <p>
+                <strong>{benefit.title}</strong> {benefit.description}
+              </p>
+            </li>
+          ))
+        }
+      </ul>
+      <Button text={ctaText} href={ctaHref} />
+    </div>
+  </div>
+</Section>
+
+<style>
+  .why__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--space-2xl);
+    align-items: center;
+  }
+
+  .why__image-wrap {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  .why__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    aspect-ratio: 4 / 3;
+  }
+
+  .why__content h2 {
+    margin-bottom: var(--space-lg);
+  }
+
+  .why__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    margin-bottom: var(--space-lg);
+  }
+
+  .why__item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-sm);
+  }
+
+  .why__icon {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: var(--radius-full);
+    background-color: var(--color-surface-muted);
+    color: var(--color-primary);
+  }
+
+  .why__icon svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  /* Breakpoint: md (768px) — matches the stacking breakpoint used
+     elsewhere in the project. */
+  @media (max-width: 768px) {
+    .why__grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-xl);
+    }
+
+    .why__image-wrap {
+      order: -1;
+    }
+  }
+</style>

@@ -1,0 +1,38 @@
+---
+/**
+ * CustomForm
+ * Structural skeleton for the site's one custom TypeScript form.
+ * Fields, validation, and submission behavior are intentionally not
+ * implemented yet. When building this out, keep the submit handler in
+ * a dedicated script (see src/scripts/) so JavaScript stays isolated
+ * to the component that needs it.
+ */
+
+interface Props {
+  /** Optional id, useful if the page needs to link/scroll to the form. */
+  id?: string;
+}
+
+const { id } = Astro.props;
+---
+
+<form class="custom-form" id={id}>
+  <!--
+    Fields are intentionally not implemented yet.
+    Compose fields using the shared `.field` styles in components.css, e.g.:
+
+    <div class="field">
+      <label for="name">Name</label>
+      <input type="text" id="name" name="name" required />
+    </div>
+  -->
+  <slot />
+</form>
+
+<style>
+  .custom-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+</style>

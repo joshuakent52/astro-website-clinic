@@ -1,0 +1,98 @@
+---
+import Section from "../ui/Section.astro";
+import type { ServiceItem } from "../../data/about";
+
+/**
+ * ServicesOverview
+ * A grid of four service overview cards (Medical Care, Pharmacy, Lab,
+ * Dental Suite): small solid-blue squares with a white title and
+ * description, no photo. Used on the about page beneath the hero
+ * banner.
+ */
+
+interface Props {
+  heading?: string;
+  items: ServiceItem[];
+}
+
+const { heading, items } = Astro.props;
+---
+
+<Section background="surface">
+  {heading && <h2 class="services__heading">{heading}</h2>}
+  <ul class="services-grid">
+    {
+      items.map((item) => (
+        <li class="service-card">
+          <h3 class="service-card__title">{item.title}</h3>
+          <p class="service-card__description">{item.description}</p>
+        </li>
+      ))
+    }
+  </ul>
+</Section>
+
+<style>
+  .services__heading {
+    margin: 0 0 var(--space-lg);
+    text-align: center;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--space-lg);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .service-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    aspect-ratio: 1 / 1;
+    max-width: 14rem;
+    margin-inline: auto;
+    width: 100%;
+    padding: var(--space-md);
+    border-radius: var(--radius-lg);
+    background-color: var(--color-primary);
+    color: var(--color-text-inverse);
+    box-shadow: var(--shadow-md);
+  }
+
+  .service-card__title {
+    font-size: var(--font-size-h4);
+    line-height: var(--line-height-heading);
+    color: var(--color-text-inverse);
+    margin: 0 0 var(--space-2xs);
+  }
+
+  .service-card__description {
+    font-size: var(--font-size-small, var(--font-size-body));
+    line-height: var(--line-height-body);
+    color: var(--color-text-inverse);
+    margin: 0;
+  }
+
+  /* Breakpoint: md (768px) — matches the shared stacking breakpoint
+     used elsewhere in the project. */
+  @media (max-width: 1024px) {
+    .services-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 480px) {
+    .services-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .service-card {
+      max-width: 16rem;
+    }
+  }
+</style>

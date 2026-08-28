@@ -1,0 +1,183 @@
+---
+/**
+ * BoardCard
+ * A single member's photo, name, and title, with a collapsible bio
+ * underneath. Built on native <details>/<summary> so the toggle works
+ * with no client-side JS and is keyboard/screen-reader accessible by
+ * default. Open by default to match the reference design.
+ *
+ * `roleExplanation` is optional and, when present, renders as its own
+ * short block at the end of the bio — a sentence or two on how this
+ * person's role contributes to the clinic's mission. Like the rest of
+ * the bio, it's only visible once the card is expanded. Shared by
+ * data/board.ts, data/leadership.ts, and data/contributors.ts, which
+ * all use this same shape.
+ */
+
+interface Member {
+  name: string;
+  title: string;
+  /** Path under /images, e.g. "/images/bio1.png". */
+  image: string;
+  bio: string;
+  /** Short sentence or two on how this role contributes to the mission. */
+  roleExplanation?: string;
+}
+
+interface Props {
+  member: Member;
+}
+
+const { member } = Astro.props;
+const paragraphs = member.bio.split("\n").filter(Boolean);
+---
+
+<details class="board-card">
+  <summary class="board-card__summary">
+    <span class="board-card__photo-wrap">
+      <img src={member.image} alt={member.name} class="board-card__photo" />
+    </span>
+    <span class="board-card__name">{member.name}</span>
+    <span class="board-card__title">{member.title}</span>
+    <span class="board-card__toggle">
+      <span class="board-card__toggle-label board-card__toggle-label--show">Expand</span>
+      <span class="board-card__toggle-label board-card__toggle-label--hide">Hide</span>
+      <svg class="board-card__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="m6 9 6 6 6-6" />
+      </svg>
+    </span>
+  </summary>
+
+  <div class="board-card__bio">
+    {paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+    {member.roleExplanation && (
+      <div class="board-card__role">
+        <p class="board-card__role-label">How this role supports our mission</p>
+        <p class="board-card__role-text">{member.roleExplanation}</p>
+      </div>
+    )}
+  </div>
+</details>
+
+<style>
+  .board-card {
+    background-color: var(--color-surface-muted);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  .board-card__summary {
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: var(--space-lg) var(--space-md) var(--space-md);
+  }
+
+  .board-card__summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .board-card__summary:focus-visible {
+    outline: 2px solid var(--color-focus-ring);
+    outline-offset: 2px;
+  }
+
+  .board-card__photo-wrap {
+    width: 8.5rem;
+    height: 8.5rem;
+    border-radius: var(--radius-full);
+    overflow: hidden;
+    margin-bottom: var(--space-md);
+    box-shadow: var(--shadow-md);
+    flex-shrink: 0;
+  }
+
+  .board-card__photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .board-card__name {
+    font-size: var(--font-size-h4);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-primary);
+  }
+
+  .board-card__title {
+    color: var(--color-text-muted);
+    margin-top: var(--space-3xs);
+    margin-bottom: var(--space-md);
+  }
+
+  .board-card__toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2xs);
+    background-color: var(--color-primary);
+    color: var(--color-text-inverse);
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-semibold);
+    padding: var(--space-2xs) var(--space-md);
+    border-radius: var(--radius-full);
+  }
+
+  .board-card__toggle-label--hide {
+    display: none;
+  }
+
+  .board-card[open] .board-card__toggle-label--show {
+    display: none;
+  }
+
+  .board-card[open] .board-card__toggle-label--hide {
+    display: inline;
+  }
+
+  .board-card__chevron {
+    width: 1rem;
+    height: 1rem;
+    transition: transform 0.2s ease;
+  }
+
+  .board-card[open] .board-card__chevron {
+    transform: rotate(180deg);
+  }
+
+  .board-card__bio {
+    background-color: var(--color-primary-dark);
+    color: var(--color-text-inverse);
+    padding: var(--space-lg) var(--space-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+
+  .board-card__bio p {
+    margin: 0;
+    font-size: var(--font-size-small);
+    color: var(--color-text-inverse);
+    line-height: var(--line-height-body);
+  }
+
+  .board-card__role {
+    padding-top: var(--space-md);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .board-card__role-label {
+    font-size: var(--font-size-label);
+    font-weight: var(--font-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wide);
+    color: var(--color-secondary-light);
+    margin: 0 0 var(--space-2xs) !important;
+  }
+
+  .board-card__role-text {
+    font-style: italic;
+  }
+</style>
