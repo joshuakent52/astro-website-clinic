@@ -37,7 +37,7 @@ export const services = {
       image: "/images/image2.png",
       title: "Pharmacy",
       description:
-        "An on-site pharmacy that fills prescriptions written at the clinic, helping patients access the medications they need at little to no cost.",
+        "An on-site pharmacy that fills prescriptions written at the clinic, helping patients access the medications they need at no cost.",
     },
     {
       // TODO: swap in a real photo of the lab.
