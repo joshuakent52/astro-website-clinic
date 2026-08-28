@@ -69,5 +69,17 @@ const pageTitle = title ? `${title} | ${siteName}` : siteName;
       <slot />
     </main>
     <slot name="footer" />
+
+    <!--
+      Vercel Web Analytics: cookieless, no personal data collected, no
+      consent banner needed. Only does anything once Analytics is
+      enabled for this project in the Vercel dashboard, and only
+      reports data from the deployed (production/preview) site — it's
+      inert during local `astro dev`.
+    -->
+    <script>
+      import { inject } from "@vercel/analytics";
+      inject();
+    </script>
   </body>
 </html>
