@@ -5,7 +5,7 @@
  */
 
 export const hero = {
-  backgroundImage: "/images/image2.png",
+  backgroundImage: "/images/image2.webp",
   heading: "Caring for the Families of Utah County",
   subheading: "Every Family Deserves Compassionate Care - Everyone Welcome",
   ctaText: "Request an Appointment",
