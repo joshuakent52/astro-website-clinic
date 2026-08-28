@@ -57,8 +57,8 @@ export const members: TeamMember[] = [
   {
     name: "Darrell Stacey",
     title: "Medical Director",
-    image: "/images/placeholder.png",
-    bio: "TODO: add bio paragraph(s) for this leadership team member.",
+    image: "/images/stacey.png",
+    bio: "WHY: Feeling like he’s greatly blessed in his life, Doctor Stacey is overjoyed to be able to give back and try to bless the lives of other people by serving at the Bingham Family Clinic. Loretta is the first to say that having this opportunity to serve has added meaning and joy to his life.",
     roleExplanation: "Oversees the clinic's medical operations, ensuring safe, high-quality patient care and supporting providers in clinical decision-making.",
     // isAlumni: true,
   },
