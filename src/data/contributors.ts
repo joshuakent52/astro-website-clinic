@@ -63,8 +63,9 @@ export const members: TeamMember[] = [
   {
     name: "Trey Jones",
     title: "Patient Navigator Trainer",
-    image: "/images/placeholder.png",
-    bio: "WHY",
+    image: "/images/trey_jones.png",
+    bio: "WHY: I believe the center of equitable healthcare begins with equal access to language services regardless of English proficiency. Leading the Patient Navigator Program allows volunteers to bridge the linguistic, cultural, and familiarity gaps in a professional and compassionate manner.",
+    roleExplanation: "Supports medical interpretation through volunteer onboarding, competency assessments, interviews, and quality standards to ensure ethical and effective interpretation."    
     // isAlumni: true,
   },
   {
@@ -72,7 +73,7 @@ export const members: TeamMember[] = [
     title: "Patient Navigator Trainer",
     image: "/images/josiah_lee.png",
     bio: "WHY: I love seeing peoples faces light up once they find out they can finally get the care they need or when you speak to them in their native language. Connecting with patients through their unique cultures is something I’m grateful I can do at the Bingham Family Clinic. While our time may not be much, it really makes a difference in our patients lives. Our mission is to serve our fellow man, and I’m here for it.",
-    roleExplanation: "Supports patient navigation by training medical interpreters and promoting effective communication throughout the clinic."    
+    roleExplanation: "Supports medical interpretation through volunteer onboarding, competency assessments, interviews, and quality standards to ensure ethical and effective interpretation."    
     // isAlumni: true,
   },
   {

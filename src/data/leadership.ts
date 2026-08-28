@@ -135,10 +135,10 @@ export const members: TeamMember[] = [
     // isAlumni: true,
   },
   {
-    name: "Joseph Tremblay",
+    name: "Elder Joseph Tremblay",
     title: "Facilities Coordinator",
-    image: "/images/placeholder.png",
-    bio: "WHY",
+    image: "/images/joseph_tremblay.png",
+    bio: "WHY:  Elder Tremblay is passionate about serving and helping people in the community. He enjoys using his skills and talents to help and serve others.",
     roleExplanation: "Oversees the clinic's facilities, equipment, and maintenance to ensure a safe, functional, and welcoming environment.",
     // isAlumni: true,
   },
