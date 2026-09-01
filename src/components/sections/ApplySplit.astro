@@ -40,7 +40,14 @@ const { heading, subheading, options, id = "apply" } = Astro.props;
           <div class="apply__card-content">
             <h3>{option.title}</h3>
             <p class="apply__description">{option.description}</p>
-            <Button text={option.ctaText} href={option.ctaHref} variant="primary" />
+
+            {option.title !== "Volunteer" && (
+              <Button
+                text={option.ctaText}
+                href={option.ctaHref}
+                variant="primary"
+              />
+            )}
           </div>
         </Card>
       ))
