@@ -106,4 +106,12 @@ export const members: TeamMember[] = [
     roleExplanation: "Promotes the clinic through community events, outreach activities, and public engagement."
     // isAlumni: true,
   },
+  {
+    name: "Loretta Stacey",
+    title: "Volunteer Appreciation Team Member",
+    image: "/images/stacey.webp",
+    bio: "",
+    roleExplanation: "Aids in appreciation efforts for volunteers.",
+    // isAlumni: true,
+  },
 ];
