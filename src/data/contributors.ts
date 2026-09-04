@@ -39,10 +39,10 @@ export const alumniHeading = "Alumni";
 
 export const members: TeamMember[] = [
   {
-    name: "HR Personnel 2",
+    name: "Ethan Callaway",
     title: "Human Resources",
-    image: "/images/placeholder.png",
-    bio: "WHY",
+    image: "/images/ethan_callaway.jpg",
+    bio: "WHY: I enjoy serving at the Bingham Family Clinic to help forward the organization's operation as it blesses the lives of so many people in our community. ",
     // isAlumni: true,
   },
   {
