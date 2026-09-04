@@ -121,7 +121,7 @@ export const members: TeamMember[] = [
   {
     name: "Elise Dowdle",
     title: "Volunteer Coordinator",
-    image: "/images/placeholder.png",
+    image: "/images/elise_dowdle.jpeg",
     bio: "I have always loved the healthcare field because of its ability to lift people up and change lives. Small acts of service can make someone feel cared for, supported, and valued. Every small thing we do in the clinic makes a real impact on both our patients and our volunteers. Through serving here, I have seen the growth of others as well as my own. I feel so grateful to be a part of the good work being done here at the clinic and to experience the joy that comes from it.",
     roleExplanation: "Oversees volunteer recruitment, onboarding, records, and personnel processes to support an effective and engaged workforce.",
     // isAlumni: true,

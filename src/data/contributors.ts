@@ -98,4 +98,12 @@ export const members: TeamMember[] = [
     roleExplanation: "Promotes the clinic through community events, outreach activities, and public engagement."
     // isAlumni: true,
   },
+  {
+    name: "Elle Crawford",
+    title: "Community Outreach Lead",
+    image: "/images/elle_crawford.jpg",
+    bio: "WHY: To start, I love both the clinical and outreach aspects of the Clinic. I’ve learned through my various experiences that connecting people to resources is just as important as the care they receive inside a clinic. I volunteer at the Bingham Family Clinic because I genuinely care about helping people access the healthcare they need, and I want to make a difference for those in need in my community. A lot of people out there need help but don’t know who or where to turn to. That’s why outreach matters so much to me! Because it’s not just about the care inside the clinic; it’s about making sure families know the clinic exists, feel welcome walking in, and understand that there are resources available for them. By volunteering, I get to bridge that gap, connect people to the support they deserve, and remind them they’re not alone. Every time I help someone find the right resource or feel more confident about their care plan, it reinforces my commitment to becoming a nurse who serves with compassion and advocates for those who need it most.",
+    roleExplanation: "Promotes the clinic through community events, outreach activities, and public engagement."
+    // isAlumni: true,
+  },
 ];
