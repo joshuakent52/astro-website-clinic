@@ -31,6 +31,6 @@ export const classes: ClassItem[] = [
     image: "/images/image11.png",
     title: "Exercise and Physiology Class",
     description:
-      "Join us for this exciting class every Tuesday and Thursday! Sessions are one hour in duration, and begin at 11:00 AM on Thursdays, and at 1:00 PM on Tuesdays. Call 801-854-5168 to reserve your spot.",
+      "Join us for this exciting class. Please call the clinic to learn about upcoming sessions, and scheduling information.",
   },
 ];
