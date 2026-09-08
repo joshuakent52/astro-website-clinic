@@ -65,8 +65,8 @@ export const members: TeamMember[] = [
   {
     name: "Bryant Marchant",
     title: "Medical Director",
-    image: "/images/placeholder.png",
-    bio: "TODO: add bio paragraph(s) for this leadership team member.",
+    image: "/images/marchant.jpeg",
+    bio: "",
     roleExplanation: "Oversees the clinic's medical operations, ensuring safe, high-quality patient care and supporting providers in clinical decision-making.",
     // isAlumni: true,
   },
