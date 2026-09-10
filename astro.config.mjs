@@ -6,7 +6,7 @@ import sitemap from "@astrojs/sitemap";
 export default defineConfig({
   // TODO: replace with the site's real production URL once known.
   // Required for the sitemap and for absolute canonical/OG URLs.
-  site: "https://example.com",
+  site: "https://binghamfamilyclinic.org",
 
   output: "static",
 
