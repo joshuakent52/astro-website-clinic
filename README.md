@@ -1,8 +1,7 @@
-# Website Foundation
+# Bingham Family Clinic Website
 
 A static, 12-page public-facing website built with Astro, TypeScript, and
-modern CSS, ready for deployment on Vercel. Page content has not been
-built yet — see `CLAUDE.md` for the development guide.
+modern CSS, deployed on Vercel. See `CLAUDE.md` for the development guide.
 
 ## Getting started
 

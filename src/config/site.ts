@@ -35,11 +35,8 @@ export const defaultOgImage = {
 };
 
 /**
- * Primary navigation, shared by the header (desktop + mobile) and footer.
- *
- * NOTE: Most entries still point to "/" as a placeholder until those pages
- * are built. Update each `href` to its real route as that page is built —
- * nothing else needs to change when you do.
+ * Primary navigation, used by the header (desktop + mobile).
+ * All entries point at live routes — keep it that way when adding pages.
  */
 export const navItems: NavItem[] = [
   { label: "About", href: "/about" },
