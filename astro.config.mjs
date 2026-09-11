@@ -4,8 +4,6 @@ import sitemap from "@astrojs/sitemap";
 
 // https://astro.build/config
 export default defineConfig({
-  // TODO: replace with the site's real production URL once known.
-  // Required for the sitemap and for absolute canonical/OG URLs.
   site: "https://binghamfamilyclinic.org",
 
   output: "static",
