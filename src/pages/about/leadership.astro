@@ -8,9 +8,38 @@ import AlumniGrid from "../../components/sections/AlumniGrid.astro";
 
 import { siteName, siteDescription, logo, flat_logo, navItems } from "../../config/site";
 import { heading, members, alumniHeading } from "../../data/leadership";
+import { slugifyName } from "../../lib/slug";
 
 const currentMembers = members.filter((member) => !member.isAlumni);
 const alumniMembers = members.filter((member) => member.isAlumni);
+
+// Per-person entities for search: ItemList of Person with deep-link
+// URLs (#slug) matching the BoardCard anchors. Only members with a
+// real photo are listed, mirroring what the grids render.
+const siteOrigin = "https://binghamfamilyclinic.org";
+const listedMembers = members.filter(
+  (member) => member.image && !member.image.toLowerCase().includes("placeholder")
+);
+const peopleJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  itemListElement: listedMembers.map((member, index) => ({
+    "@type": "ListItem",
+    position: index + 1,
+    item: {
+      "@type": "Person",
+      name: member.name,
+      jobTitle: member.title,
+      image: `${siteOrigin}${member.image}`,
+      url: `${siteOrigin}/about/leadership#${slugifyName(member.name)}`,
+      description:
+        member.roleExplanation ??
+        member.bio.split("\n").filter(Boolean)[0] ??
+        "",
+      worksFor: { "@type": "Organization", name: siteName, url: siteOrigin },
+    },
+  })),
+};
 ---
 
 <BaseLayout
@@ -25,6 +54,8 @@ const alumniMembers = members.filter((member) => member.isAlumni);
   </Header>
 
   <PageBanner heading={heading} />
+
+  <script type="application/ld+json" set:html={JSON.stringify(peopleJsonLd)} />
 
   <BoardGrid members={currentMembers} />
 

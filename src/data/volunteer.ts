@@ -81,11 +81,6 @@ export interface Testimonial {
 export const testimonials: Testimonial[] = [
   {
     quote:
-      "I have had an amazing experience volunteering at the Bingham Family Clinic. They truly care about both the people they serve and are serving with. I feel I've made a meaningful impact in the community and am excited to keep giving back.",
-    author: "Joshua Kent",
-  },
-  {
-    quote:
       "What I love about the clinic, is the opportunity it gives to those who can't afford medical care. I love serving here as Christ would: through compassion, helping those in need, and meeting others where they're at.",
     author: "Lily Savage",
   },

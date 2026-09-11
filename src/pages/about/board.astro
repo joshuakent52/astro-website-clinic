@@ -7,6 +7,38 @@ import BoardGrid from "../../components/sections/BoardGrid.astro";
 
 import { siteName, siteDescription, logo, flat_logo, navItems } from "../../config/site";
 import { heading, members } from "../../data/board";
+import { slugifyName } from "../../lib/slug";
+
+// Per-person entities for search: ItemList of Person with deep-link
+// URLs (#slug) matching the BoardCard anchors. Only members with a
+// real photo are listed, mirroring what BoardGrid renders.
+const siteOrigin = "https://binghamfamilyclinic.org";
+const listedMembers = members.filter(
+  (member) => member.image && !member.image.toLowerCase().includes("placeholder")
+);
+const peopleJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  itemListElement: listedMembers.map((member, index) => {
+    const extras = member as typeof member & { roleExplanation?: string };
+    return {
+      "@type": "ListItem",
+      position: index + 1,
+      item: {
+        "@type": "Person",
+        name: member.name,
+        jobTitle: member.title,
+        image: `${siteOrigin}${member.image}`,
+        url: `${siteOrigin}/about/board#${slugifyName(member.name)}`,
+        description:
+          extras.roleExplanation ??
+          member.bio.split("\n").filter(Boolean)[0] ??
+          "",
+        worksFor: { "@type": "Organization", name: siteName, url: siteOrigin },
+      },
+    };
+  }),
+};
 ---
 
 <BaseLayout
@@ -21,6 +53,8 @@ import { heading, members } from "../../data/board";
   </Header>
 
   <PageBanner heading={heading} />
+
+  <script type="application/ld+json" set:html={JSON.stringify(peopleJsonLd)} />
 
   <BoardGrid members={members} />
 

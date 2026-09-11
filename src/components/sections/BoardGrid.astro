@@ -32,6 +32,15 @@ const membersWithPhoto = members.filter(
   </div>
 </Section>
 
+<!--
+  Deep-link support (shared script, see src/scripts/board-deep-link.ts):
+  /about/leadership#joshua-kent expands that person's bio on load and
+  on in-page hash changes so duties/WHY text is already visible.
+-->
+<script>
+  import "../../scripts/board-deep-link";
+</script>
+
 <style>
   .board-grid {
     display: grid;

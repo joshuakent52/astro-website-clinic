@@ -6,13 +6,24 @@
  * with no client-side JS and is keyboard/screen-reader accessible by
  * default. Open by default to match the reference design.
  *
- * `roleExplanation` is optional and, when present, renders as its own
- * short block at the end of the bio — a sentence or two on how this
- * person's role contributes to the clinic's mission. Like the rest of
- * the bio, it's only visible once the card is expanded. Shared by
- * data/board.ts, data/leadership.ts, and data/contributors.ts, which
- * all use this same shape.
+ * SEO notes (individual discoverability on shared list pages):
+ * - The card is an <article itemscope itemtype="Person"> with an
+ *   `id` slug anchor (e.g. #joshua-kent), so a name search can
+ *   deep-link straight to the person and the bio auto-opens (see the
+ *   deep-link script in BoardGrid).
+ * - Name is a real heading (h2) and duties (`roleExplanation`) render
+ *   FIRST inside the bio, so the DOM order matches the desired snippet:
+ *   Name – Title – duties.
+ * - The Expand/Hide pill carries no text nodes: its label comes from
+ *   CSS `content` (not indexed for snippets) and the wrapper is marked
+ *   `aria-hidden` + `data-nosnippet`, so Google never shows
+ *   "Expand ... Hide" in the result understext.
+ *
+ * Shared by data/board.ts, data/leadership.ts, and
+ * data/contributors.ts, which all use this same shape.
  */
+
+import { slugifyName } from "../../lib/slug";
 
 interface Member {
   name: string;
@@ -20,7 +31,7 @@ interface Member {
   /** Path under /images, e.g. "/images/bio1.png". */
   image: string;
   bio: string;
-  /** Short sentence or two on how this role contributes to the mission. */
+  /** Short sentence or two on how this role contributes to the mission. Rendered first as the duties summary. */
   roleExplanation?: string;
 }
 
@@ -29,37 +40,49 @@ interface Props {
 }
 
 const { member } = Astro.props;
+const slug = slugifyName(member.name);
 const paragraphs = member.bio.split("\n").filter(Boolean);
 ---
 
-<details class="board-card">
-  <summary class="board-card__summary">
-    <span class="board-card__photo-wrap">
-      <img src={member.image} alt={member.name} class="board-card__photo" />
-    </span>
-    <span class="board-card__name">{member.name}</span>
-    <span class="board-card__title">{member.title}</span>
-    <span class="board-card__toggle">
-      <span class="board-card__toggle-label board-card__toggle-label--show">Expand</span>
-      <span class="board-card__toggle-label board-card__toggle-label--hide">Hide</span>
-      <svg class="board-card__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="m6 9 6 6 6-6" />
-      </svg>
-    </span>
-  </summary>
+<article class="board-card-wrap" id={slug} itemscope itemtype="https://schema.org/Person">
+  <meta itemprop="name" content={member.name} />
+  <meta itemprop="jobTitle" content={member.title} />
+  <details class="board-card" id={`bio-${slug}`}>
+    <summary class="board-card__summary">
+      <span class="board-card__photo-wrap">
+        <img src={member.image} alt={`${member.name} — ${member.title}`} class="board-card__photo" itemprop="image" loading="lazy" />
+      </span>
+      <h2 class="board-card__name" itemprop="name">{member.name}</h2>
+      <p class="board-card__title" itemprop="jobTitle">{member.title}</p>
+      <span class="board-card__toggle" aria-hidden="true" data-nosnippet>
+        <svg class="board-card__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="m6 9 6 6 6-6" />
+        </svg>
+      </span>
+    </summary>
 
-  <div class="board-card__bio">
-    {paragraphs.map((paragraph) => <p>{paragraph}</p>)}
-    {member.roleExplanation && (
-      <div class="board-card__role">
-        <p class="board-card__role-label">How this role supports our mission</p>
-        <p class="board-card__role-text">{member.roleExplanation}</p>
-      </div>
-    )}
-  </div>
-</details>
+    <div class="board-card__bio" itemprop="description">
+      {member.roleExplanation && (
+        <div class="board-card__role">
+          <p class="board-card__role-label">How this role supports our mission</p>
+          <p class="board-card__role-text">{member.roleExplanation}</p>
+        </div>
+      )}
+      {paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+    </div>
+  </details>
+</article>
 
 <style>
+  .board-card-wrap {
+    scroll-margin-top: 6rem;
+  }
+
+  .board-card-wrap:target .board-card {
+    outline: 2px solid var(--color-focus-ring);
+    outline-offset: 2px;
+  }
+
   .board-card {
     background-color: var(--color-surface-muted);
     border-radius: var(--radius-lg);
@@ -105,6 +128,7 @@ const paragraphs = member.bio.split("\n").filter(Boolean);
     font-size: var(--font-size-h4);
     font-weight: var(--font-weight-semibold);
     color: var(--color-primary);
+    margin: 0;
   }
 
   .board-card__title {
@@ -113,6 +137,11 @@ const paragraphs = member.bio.split("\n").filter(Boolean);
     margin-bottom: var(--space-md);
   }
 
+  /*
+   * Toggle pill label comes from CSS `content` (Expand/Hide), not from
+   * text nodes, so search-engine snippet generation never sees it. The
+   * wrapping span is additionally marked aria-hidden + data-nosnippet.
+   */
   .board-card__toggle {
     display: inline-flex;
     align-items: center;
@@ -125,16 +154,12 @@ const paragraphs = member.bio.split("\n").filter(Boolean);
     border-radius: var(--radius-full);
   }
 
-  .board-card__toggle-label--hide {
-    display: none;
+  .board-card__toggle::before {
+    content: "Expand";
   }
 
-  .board-card[open] .board-card__toggle-label--show {
-    display: none;
-  }
-
-  .board-card[open] .board-card__toggle-label--hide {
-    display: inline;
+  .board-card[open] .board-card__toggle::before {
+    content: "Hide";
   }
 
   .board-card__chevron {
@@ -164,8 +189,8 @@ const paragraphs = member.bio.split("\n").filter(Boolean);
   }
 
   .board-card__role {
-    padding-top: var(--space-md);
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    padding-bottom: var(--space-md);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   }
 
   .board-card__role-label {
@@ -179,5 +204,11 @@ const paragraphs = member.bio.split("\n").filter(Boolean);
 
   .board-card__role-text {
     font-style: italic;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .board-card__chevron {
+      transition: none;
+    }
   }
 </style>
