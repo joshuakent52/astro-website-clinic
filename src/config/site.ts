@@ -30,8 +30,8 @@ export const flat_logo = {
 export const defaultOgImage = {
   src: "/images/image2.webp",
   alt: "Waiting room at Bingham Family Clinic",
-  width: 4032,
-  height: 3024,
+  width: 4279,
+  height: 2853,
 };
 
 /**
