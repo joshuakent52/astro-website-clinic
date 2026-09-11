@@ -25,6 +25,7 @@ const {
   canonicalUrl,
   ogImage,
   ogType = "website",
+  robots,
   siteName = "Site Name",
   lang = "en",
 } = Astro.props;
@@ -70,6 +71,7 @@ const isDefaultOgImage = resolvedOgImage === defaultOgImageUrl;
 
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
+    {robots && <meta name="robots" content={robots} />}
     {resolvedCanonical && <link rel="canonical" href={resolvedCanonical} />}
 
     <!-- Open Graph -->

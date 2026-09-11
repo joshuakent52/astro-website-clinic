@@ -16,6 +16,8 @@ export interface SeoProps {
   ogImage?: string;
   /** Open Graph content type, e.g. "website" or "article". */
   ogType?: "website" | "article";
+  /** Robots directive, e.g. "noindex". Omitted for normal indexable pages. */
+  robots?: string;
 }
 
 /**

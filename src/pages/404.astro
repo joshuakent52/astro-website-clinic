@@ -1,0 +1,102 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/layout/Header.astro";
+import Footer from "../components/layout/Footer.astro";
+import Section from "../components/ui/Section.astro";
+import Button from "../components/ui/Button.astro";
+
+import { siteName, flat_logo, navItems } from "../config/site";
+
+/**
+ * Custom 404 page.
+ * Astro emits this as dist/404.html, which Vercel serves with a 404
+ * status for unknown routes — no adapter or config needed. Kept out of
+ * search indexes via robots="noindex" and excluded from the sitemap
+ * automatically by @astrojs/sitemap.
+ */
+---
+
+<BaseLayout
+  title="Page Not Found"
+  description="The page you're looking for doesn't exist. Find appointments, classes, donation, and volunteer options at Bingham Family Clinic."
+  robots="noindex"
+  siteName={siteName}
+>
+  <Header navItems={navItems} slot="header">
+    <a slot="logo" href="/" aria-label={`${siteName} home`}>
+      <img src={flat_logo.src} alt={flat_logo.alt} class="site-logo" />
+    </a>
+  </Header>
+
+  <Section narrow>
+    <div class="not-found">
+      <svg
+        class="not-found__icon"
+        viewBox="0 0 64 64"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="3"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <circle cx="32" cy="32" r="28" />
+        <path d="M32 20v16" />
+        <circle cx="32" cy="46" r="0.5" fill="currentColor" />
+      </svg>
+      <p class="not-found__code" aria-hidden="true">404</p>
+      <h1>Page not found</h1>
+      <p class="text-muted">
+        The page you're looking for doesn't exist or was moved — but the
+        clinic is open. Start over from one of these:
+      </p>
+      <div class="not-found__links">
+        <Button text="Request an Appointment" href="/appointments" variant="primary" />
+        <Button text="Classes" href="/classes" variant="outline" />
+        <Button text="Donate" href="/donate" variant="outline" />
+        <Button text="Volunteer" href="/volunteer" variant="outline" />
+      </div>
+    </div>
+  </Section>
+
+  <Footer navItems={navItems} slot="footer" />
+</BaseLayout>
+
+<style>
+  .site-logo {
+    height: 5rem;
+    width: auto;
+  }
+
+  .not-found {
+    text-align: center;
+    padding-block: var(--space-xl);
+  }
+
+  .not-found__icon {
+    width: 4rem;
+    height: 4rem;
+    color: var(--color-primary);
+  }
+
+  .not-found__code {
+    font-size: var(--font-size-h1);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-primary);
+    letter-spacing: var(--letter-spacing-tight);
+    margin: var(--space-md) 0 0;
+  }
+
+  .not-found h1 {
+    margin-top: var(--space-2xs);
+    margin-bottom: var(--space-md);
+  }
+
+  .not-found__links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-md);
+    margin-top: var(--space-lg);
+  }
+</style>

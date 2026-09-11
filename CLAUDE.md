@@ -321,9 +321,6 @@ npm run build
   backend is Supabase, used solely as the submission store for the
   volunteer application form (see "Forms"). None of the rest should be
   added without an explicit decision to do so.
-- No custom 404 page (`src/pages/404.astro` doesn't exist) — Astro's
-  default serves in the meantime. A branded one with links back to
-  Appointments/Classes/Donate/Volunteer is still on the wishlist.
 - No per-page share images — every page falls back to `defaultOgImage`
   (see "SEO conventions"). The default file is ~1.8 MB; a ~1200×630
   crop would unfurl faster if one is ever exported.
