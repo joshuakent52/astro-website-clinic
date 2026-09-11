@@ -102,7 +102,7 @@ these files — no component changes are needed to do this.
 Homepage images are referenced by path and are expected at:
 
 - `public/images/image1.png` — hero background (clinic waiting room)
-- `public/images/image2.png` — mission section background (exam room)
+- `public/images/image2.webp` — mission section background (exam room)
 - `public/images/image3.png` — logo, used in the header and footer
 - `public/images/volunteer-hero.jpg` — volunteer page hero background
 - `public/images/volunteer-why.jpg` — "Why Volunteer" section photo
