@@ -23,6 +23,18 @@ export const flat_logo = {
 }
 
 /**
+ * Default social share image (Open Graph / Twitter), used by
+ * BaseLayout when a page doesn't pass its own `ogImage`. Clinic
+ * waiting room photo; dimensions are the real file dimensions.
+ */
+export const defaultOgImage = {
+  src: "/images/image2.webp",
+  alt: "Waiting room at Bingham Family Clinic",
+  width: 4032,
+  height: 3024,
+};
+
+/**
  * Primary navigation, shared by the header (desktop + mobile) and footer.
  *
  * NOTE: Most entries still point to "/" as a placeholder until those pages

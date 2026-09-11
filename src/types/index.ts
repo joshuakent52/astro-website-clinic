@@ -10,9 +10,9 @@ export interface SeoProps {
   title: string;
   /** Short page description used for meta description and social cards. */
   description: string;
-  /** Absolute canonical URL for this page. */
+  /** Absolute canonical URL for this page. Defaults to site origin + current path. */
   canonicalUrl?: string;
-  /** Absolute URL to an Open Graph / Twitter share image. */
+  /** Absolute URL to an Open Graph / Twitter share image. Defaults to the site-wide share image. */
   ogImage?: string;
   /** Open Graph content type, e.g. "website" or "article". */
   ogType?: "website" | "article";

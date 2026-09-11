@@ -2,6 +2,7 @@
 import "../styles/global.css";
 import "../styles/components.css";
 import ClinicSchema from "../components/seo/ClinicSchema.astro";
+import { defaultOgImage } from "../config/site";
 import type { SeoProps } from "../types";
 
 /**
@@ -29,6 +30,35 @@ const {
 } = Astro.props;
 
 const pageTitle = title ? `${title} | ${siteName}` : siteName;
+
+/**
+ * Canonical URL: explicit `canonicalUrl` prop wins, otherwise derived
+ * from the site origin + current path so every page is self-canonical
+ * by default. Paths are normalized to the trailing-slash form Astro
+ * emits for directory routes (e.g. /about/), so /about and /about/
+ * never compete as duplicates.
+ */
+function defaultCanonical(): string | undefined {
+  if (!Astro.site) return undefined;
+  let path = Astro.url.pathname.replace(/\/index\.html$/, "/");
+  if (!path.endsWith("/") && !path.split("/").pop()?.includes(".")) {
+    path += "/";
+  }
+  return new URL(path, Astro.site).toString();
+}
+
+const resolvedCanonical = canonicalUrl ?? defaultCanonical();
+
+/**
+ * Share image: explicit `ogImage` prop wins, otherwise the site-wide
+ * default from config/site.ts (made absolute). Dimensions/alt are
+ * only known for the default, so they're emitted only in that case.
+ */
+const defaultOgImageUrl = Astro.site
+  ? new URL(defaultOgImage.src, Astro.site).toString()
+  : defaultOgImage.src;
+const resolvedOgImage = ogImage ?? defaultOgImageUrl;
+const isDefaultOgImage = resolvedOgImage === defaultOgImageUrl;
 ---
 
 <!doctype html>
@@ -40,21 +70,28 @@ const pageTitle = title ? `${title} | ${siteName}` : siteName;
 
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
-    {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
+    {resolvedCanonical && <link rel="canonical" href={resolvedCanonical} />}
 
     <!-- Open Graph -->
     <meta property="og:type" content={ogType} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
-    {canonicalUrl && <meta property="og:url" content={canonicalUrl} />}
-    {ogImage && <meta property="og:image" content={ogImage} />}
+    {resolvedCanonical && <meta property="og:url" content={resolvedCanonical} />}
+    {resolvedOgImage && <meta property="og:image" content={resolvedOgImage} />}
+    {isDefaultOgImage && (
+      <>
+        <meta property="og:image:width" content={String(defaultOgImage.width)} />
+        <meta property="og:image:height" content={String(defaultOgImage.height)} />
+        <meta property="og:image:alt" content={defaultOgImage.alt} />
+      </>
+    )}
     <meta property="og:site_name" content={siteName} />
 
     <!-- Twitter / X -->
-    <meta name="twitter:card" content={ogImage ? "summary_large_image" : "summary"} />
+    <meta name="twitter:card" content={resolvedOgImage ? "summary_large_image" : "summary"} />
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={description} />
-    {ogImage && <meta name="twitter:image" content={ogImage} />}
+    {resolvedOgImage && <meta name="twitter:image" content={resolvedOgImage} />}
 
     <!-- Favicon -->
     <link rel="icon" href="/favicon.ico" sizes="any" />
