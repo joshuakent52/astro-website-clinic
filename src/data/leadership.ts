@@ -10,16 +10,16 @@
  * section disappears automatically on the page if nobody currently
  * has `isAlumni: true`.
  *
- * Each bio is written as separate paragraphs, separated by newlines
- * (same convention as data/board.ts).
+ * Each bio is this person's "why" statement — why they serve at the
+ * clinic — written as separate paragraphs separated by newlines. It
+ * renders under a "Why I serve" label on the card (see BoardCard's
+ * `bioLabel` prop), so write it in the member's voice, not as a
+ * third-person biography.
  *
  * `roleExplanation` is optional — a short sentence or two on how this
  * person's role contributes to the clinic's mission. It renders inside
  * the card's collapsible bio, so it's only visible once expanded, not
  * on the closed card.
- *
- * TODO: replace the placeholder entry below with the real Clinic
- * Leadership roster, photos, and bios.
  */
 
 export interface TeamMember {
@@ -79,22 +79,6 @@ export const members: TeamMember[] = [
     // isAlumni: true,
   },
   {
-    name: "Pharamacist 1",
-    title: "Pharmacist",
-    image: "/images/placeholder.png",
-    bio: "TODO: add bio paragraph(s) for this leadership team member.",
-    roleExplanation: "Oversees the clinic's pharmacy operations, ensuring the safe, effective, and compliant dispensing of medications while leading pharmacy services and staff.",
-    // isAlumni: true,
-  },
-  {
-    name: "Dix Densley",
-    title: "Dental Director",
-    image: "/images/placeholder.png",
-    bio: "TODO: add bio paragraph(s) for this leadership team member.",
-    roleExplanation: "Oversees the clinic's dental operations, ensuring high-quality patient care while leading dental services, providers, and clinical standards.",
-    // isAlumni: true,
-  },
-  {
     name: "Kristen Skinner",
     title: "Lab Director",
     image: "/images/kristen_skinner.webp",
@@ -127,27 +111,11 @@ export const members: TeamMember[] = [
     // isAlumni: true,
   },
   {
-    name: "Clark Rowley",
-    title: "Communications Coordinator",
-    image: "/images/placeholder.png",
-    bio: "TODO: add bio paragraph(s) for this leadership team member.",
-    roleExplanation: "Oversees the clinic's communications, marketing, and public outreach to promote its mission and engage volunteers, donors, and the community.",
-    // isAlumni: true,
-  },
-  {
     name: "Elder Joseph Tremblay",
     title: "Facilities Coordinator",
     image: "/images/joseph_tremblay.webp",
     bio: "WHY: I am passionate about serving and helping people in the community. I enjoy using my skills and talents to help and serve others.",
     roleExplanation: "Oversees the clinic's facilities, equipment, and maintenance to ensure a safe, functional, and welcoming environment.",
-    // isAlumni: true,
-  },
-  {
-    name: "Abigail Hartle",
-    title: "Credentialing Coordinator",
-    image: "/images/placeholder.png",
-    bio: "TODO: add bio paragraph(s) for this leadership team member.",
-    roleExplanation: "Oversees the credentialing and compliance of clinical volunteers, ensuring required licenses, certifications, and documentation remain current and complete.",
     // isAlumni: true,
   },
 ];

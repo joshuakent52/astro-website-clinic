@@ -21,6 +21,13 @@
  *
  * Shared by data/board.ts, data/leadership.ts, and
  * data/contributors.ts, which all use this same shape.
+ *
+ * `bioLabel` is optional: when set (and the member has bio text), the
+ * bio paragraphs render under that label — used by the leadership and
+ * key-contributors pages, whose "bios" are first-person why-statements
+ * ("Why I serve"). The board page omits it and renders plain bio
+ * paragraphs. Members with no bio text render no label and no
+ * paragraphs either way.
  */
 
 import { slugifyName } from "../../lib/slug";
@@ -37,9 +44,11 @@ interface Member {
 
 interface Props {
   member: Member;
+  /** Label rendered above the bio paragraphs, e.g. "Why I serve". Omitted for plain bios. */
+  bioLabel?: string;
 }
 
-const { member } = Astro.props;
+const { member, bioLabel } = Astro.props;
 const slug = slugifyName(member.name);
 const paragraphs = member.bio.split("\n").filter(Boolean);
 ---
@@ -68,7 +77,14 @@ const paragraphs = member.bio.split("\n").filter(Boolean);
           <p class="board-card__role-text">{member.roleExplanation}</p>
         </div>
       )}
-      {paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+      {bioLabel && paragraphs.length > 0 ? (
+        <div class="board-card__why">
+          <p class="board-card__why-label">{bioLabel}</p>
+          {paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+        </div>
+      ) : (
+        paragraphs.map((paragraph) => <p>{paragraph}</p>)
+      )}
     </div>
   </details>
 </article>
@@ -200,6 +216,21 @@ const paragraphs = member.bio.split("\n").filter(Boolean);
     letter-spacing: var(--letter-spacing-wide);
     color: var(--color-secondary-light);
     margin: 0 0 var(--space-2xs) !important;
+  }
+
+  .board-card__why {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+
+  .board-card__why-label {
+    font-size: var(--font-size-label);
+    font-weight: var(--font-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wide);
+    color: var(--color-secondary-light);
+    margin: 0 !important;
   }
 
   .board-card__role-text {

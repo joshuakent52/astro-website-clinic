@@ -36,9 +36,11 @@ export interface AlumniProfile {
 interface Props {
   heading: string;
   members: AlumniProfile[];
+  /** Label rendered above each card's bio paragraphs, e.g. "Why I serve". */
+  bioLabel?: string;
 }
 
-const { heading, members } = Astro.props;
+const { heading, members, bioLabel } = Astro.props;
 const membersWithPhoto = members.filter(
   (member) => member.image && !member.image.toLowerCase().includes("placeholder")
 );
@@ -50,7 +52,7 @@ const membersWithPhoto = members.filter(
       <summary class="alumni-grid__heading">{heading}</summary>
       <div class="alumni-grid">
         {[...membersWithPhoto].reverse().map((member) => (
-          <BoardCard member={member} />
+          <BoardCard member={member} bioLabel={bioLabel} />
         ))}
       </div>
     </details>

@@ -58,13 +58,13 @@ export const members: BoardMember[] = [
   {
     name: "Michael Bingham",
     title: "Founder",
-    image: "/images/gina.webp",
+    image: "/images/micheal-gina.webp",
     bio: "Michael is an active philanthropist with a desire to provide help focused on healthcare, education and animal rescue.\nMichael Bingham is co-founder and Chief Investment Officer of Blue Diamond Capital. Mr. Bingham is an Investment professional and CPA with over thirty years of investment management, M and A, financing, and operations management. As the CIO for Blue Diamond Capital, Mr. Bingham helped the company significantly grow its portfolio. In addition to his involvement at Blue Diamond Capital, Mr. Bingham serves on for profit and not for profit boards.\nHe enjoys spending time with family, traveling the world, boating at Lake Powell and serving in their community.\nWHY: I believe that we have been blessed in our life and in return we must be good stewards of what God has given us. I am grateful to be able to help others and believe that it is our responsibility to do so. One of the core elements of happiness in life is health. Health impacts the way a person lives, loves and serves. As stewards, we want to provide a path for those without means to receive care in a dignified manner so that they can enjoy the fruits of what life has to offer.",
   },
   {
     name: "Gina Bingham",
     title: "Founder",
-    image: "/images/gina.webp",
+    image: "/images/micheal-gina.webp",
     bio: "Gina Bingham is an active philanthropist with a desire to provide help focused on healthcare, education and animal rescue.\nGina Bingham is active as a mother, in her church and as a kitten foster with the South Utah County shelter. Her love of animals began at a young age and continues through today. Her most successful foster was a farm boy from Box Elder county.\nShe enjoys spending time with family, traveling the world, boating and serving in her community.\nWHY: I believe that we have been blessed in our life and in return we must be good stewards of what God has given us. I am grateful to be able to help others and believe that it is our responsibility to do so. One of the core elements of happiness in life is health. Health impacts the way a person lives, loves and serves. As stewards, we want to provide a path for those without means to receive care in a dignified manner so that they can enjoy the fruits of what life has to offer.",
   },
 ];

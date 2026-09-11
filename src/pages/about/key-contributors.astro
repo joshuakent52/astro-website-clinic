@@ -57,9 +57,9 @@ const peopleJsonLd = {
 
   <script type="application/ld+json" set:html={JSON.stringify(peopleJsonLd)} />
 
-  <BoardGrid members={currentMembers} />
+  <BoardGrid members={currentMembers} bioLabel="Why I serve" />
 
-  <AlumniGrid heading={alumniHeading} members={alumniMembers} />
+  <AlumniGrid heading={alumniHeading} members={alumniMembers} bioLabel="Why I serve" />
 
   <Footer navItems={navItems} slot="footer" />
 </BaseLayout>

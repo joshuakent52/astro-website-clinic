@@ -121,7 +121,8 @@ Key images are referenced by path and are expected at:
 - `public/images/<name>.webp` — board/leadership/contributor portraits
   (e.g. `kirk.webp`, `sherilee.webp`); a member whose `image` is still
   `/images/placeholder.png` is hidden from the grids until a real
-  photo is added
+  photo is added. Exception: `micheal-gina.webp` is a joint photo
+  shared by the Michael and Gina Bingham board cards.
 
 These are plain `<img>` references (not Astro's `Image` component), so a
 missing file 404s in the browser rather than breaking the build — useful
@@ -189,7 +190,9 @@ paths in `src/config/site.ts` (`logo.src`, `flat_logo.src`,
   `data-nosnippet` — never render "Expand"/"Hide" as text nodes or
   Google snippets pick them up. Deep-link opening (`#slug` expands the
   bio) lives in `src/scripts/board-deep-link.ts`, imported by
-  `BoardGrid` and `AlumniGrid`.
+  `BoardGrid` and `AlumniGrid`. The leadership/contributors pages pass
+  `bioLabel="Why I serve"` (their bios are first-person why-statements);
+  the board page omits it for plain third-person bios.
 - **Sitemap is generated, not written.** `@astrojs/sitemap` emits
   `sitemap-index.xml` at build time from `src/pages/`; never add a
   static `public/sitemap.xml`. `public/robots.txt` points at the

@@ -16,9 +16,11 @@ import type { BoardMember } from "../../data/board";
 
 interface Props {
   members: BoardMember[];
+  /** Label rendered above each card's bio paragraphs, e.g. "Why I serve". */
+  bioLabel?: string;
 }
 
-const { members } = Astro.props;
+const { members, bioLabel } = Astro.props;
 const membersWithPhoto = members.filter(
   (member) => member.image && !member.image.toLowerCase().includes("placeholder")
 );
@@ -27,7 +29,7 @@ const membersWithPhoto = members.filter(
 <Section>
   <div class="board-grid">
     {[...membersWithPhoto].map((member) => (
-      <BoardCard member={member} />
+      <BoardCard member={member} bioLabel={bioLabel} />
     ))}
   </div>
 </Section>
