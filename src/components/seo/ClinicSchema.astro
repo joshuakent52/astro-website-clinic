@@ -1,0 +1,164 @@
+---
+/**
+ * ClinicSchema
+ * Sitewide structured data for SEO: a MedicalClinic node (name,
+ * address, phone, hours, geo, free-care flags) plus a WebSite node.
+ * Rendered once by BaseLayout so every page carries it.
+ *
+ * All editable values come from src/config/site.ts and
+ * src/config/footer.ts — update the NAP/hours/socials there and the
+ * schema follows. Nothing is hardcoded here except the schema shape
+ * and the geo coordinates (taken from the footer map embed).
+ */
+
+import { siteName, siteDescription, flat_logo } from "../../config/site";
+import { contact, socialLinks } from "../../config/footer";
+
+const FALLBACK_ORIGIN = "https://binghamfamilyclinic.org";
+const siteOrigin = Astro.site ? Astro.site.toString().replace(/\/$/, "") : FALLBACK_ORIGIN;
+const clinicId = `${siteOrigin}/#clinic`;
+
+// "Orem, UT 84058" -> locality / region / postal. Falls back to the
+// known values if the footer format ever changes.
+const localityMatch = (contact.addressLines[1] ?? "").match(/^(.+),\s*([A-Z]{2})\s*(\d{5})/);
+const locality = localityMatch?.[1] ?? "Orem";
+const region = localityMatch?.[2] ?? "UT";
+const postalCode = localityMatch?.[3] ?? "84058";
+
+// Geo coordinates for 987 South Geneva Road Suite 141, Orem, UT —
+// matches the footer map embed. Update if the clinic relocates.
+const GEO_LATITUDE = 40.28056;
+const GEO_LONGITUDE = -111.72958;
+
+const WEEKDAYS = [
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday",
+] as const;
+
+/** Expand "Monday - Friday" (or a single "Sunday") into weekday names. */
+function expandDays(range: string): string[] {
+  const parts = range.split("-").map((s) => s.trim());
+  if (parts.length === 1) {
+    return (WEEKDAYS as readonly string[]).includes(parts[0]) ? [parts[0]] : [];
+  }
+  const start = WEEKDAYS.indexOf(parts[0] as (typeof WEEKDAYS)[number]);
+  const end = WEEKDAYS.indexOf(parts[1] as (typeof WEEKDAYS)[number]);
+  if (start === -1 || end === -1) return [];
+  const days: string[] = [];
+  for (let i = start; ; i = (i + 1) % WEEKDAYS.length) {
+    days.push(WEEKDAYS[i]);
+    if (i === end) break;
+  }
+  return days;
+}
+
+/**
+ * Parse "10:00" / "6:00" / "6:00 PM" into "HH:MM" 24h.
+ * Closing times without a meridiem that fall at/before the opening
+ * hour are assumed PM (e.g. open 10:00, close "6:00" -> "18:00").
+ * Returns null when unparseable so the caller can omit the spec.
+ */
+function to24Hour(time: string, opensHour?: number): string | null {
+  const match = time.trim().match(/^(\d{1,2})(?::(\d{2}))?\s*([AaPp])\.?\s*[Mm]\.?$/);
+  let hour: number;
+  let minute = "00";
+  if (match) {
+    hour = parseInt(match[1], 10);
+    if (match[2]) minute = match[2];
+    const isPM = match[3].toLowerCase() === "p";
+    if (isPM && hour < 12) hour += 12;
+    if (!isPM && hour === 12) hour = 0;
+  } else {
+    const plain = time.trim().match(/^(\d{1,2})(?::(\d{2}))?$/);
+    if (!plain) return null;
+    hour = parseInt(plain[1], 10);
+    if (plain[2]) minute = plain[2];
+    if (hour > 23 || parseInt(minute, 10) > 59) return null;
+    // Bare closing hour at/before opening is PM (10:00 open, "6:00" close).
+    if (opensHour !== undefined && hour <= opensHour) hour += 12;
+    if (hour > 23) return null;
+  }
+  return `${String(hour).padStart(2, "0")}:${minute}`;
+}
+
+/**
+ * Convert footer `hours` entries into openingHoursSpecification.
+ * "Closed" entries are skipped (absence = closed). Unparseable
+ * entries are skipped rather than emitting wrong hours.
+ */
+function openingHoursSpecification() {
+  const specs: Record<string, string | string[]>[] = [];
+  for (const entry of contact.hours) {
+    if (entry.time.trim().toLowerCase() === "closed") continue;
+    const [opensRaw, closesRaw] = entry.time.split("-").map((s) => s.trim());
+    if (!opensRaw || !closesRaw) continue;
+    const opensHour = parseInt(opensRaw, 10);
+    const opens = to24Hour(opensRaw);
+    const closes = to24Hour(closesRaw, Number.isNaN(opensHour) ? undefined : opensHour);
+    const days = expandDays(entry.days);
+    if (!opens || !closes || days.length === 0) continue;
+    specs.push({ dayOfWeek: days, opens, closes });
+  }
+  return specs;
+}
+
+const hoursSpecs = openingHoursSpecification();
+
+const clinicNode: Record<string, unknown> = {
+  "@type": "MedicalClinic",
+  "@id": clinicId,
+  name: siteName,
+  description: siteDescription,
+  url: `${siteOrigin}/`,
+  image: `${siteOrigin}/images/image1.png`,
+  logo: `${siteOrigin}${flat_logo.src}`,
+  telephone: contact.phoneHref.replace("tel:", ""),
+  email: contact.email,
+  priceRange: "Free",
+  isAccessibleForFree: true,
+  medicalSpecialty: "PrimaryCare",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: contact.addressLines[0],
+    addressLocality: locality,
+    addressRegion: region,
+    postalCode: postalCode,
+    addressCountry: "US",
+  },
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: GEO_LATITUDE,
+    longitude: GEO_LONGITUDE,
+  },
+  hasMap: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+    `${siteName} ${contact.addressLines.join(", ")}`
+  )}`,
+  sameAs: socialLinks.map((link) => link.href),
+};
+
+if (hoursSpecs.length > 0) {
+  clinicNode.openingHoursSpecification = hoursSpecs;
+}
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    clinicNode,
+    {
+      "@type": "WebSite",
+      "@id": `${siteOrigin}/#website`,
+      url: `${siteOrigin}/`,
+      name: siteName,
+      inLanguage: "en",
+      publisher: { "@id": clinicId },
+    },
+  ],
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />
