@@ -66,7 +66,7 @@ export const members: TeamMember[] = [
     name: "Bryant Marchant, MD",
     title: "Medical Director",
     image: "/images/marchant.jpeg",
-    bio: "",
+    bio: "WHY: After a career spent caring for soldiers, families, and patients from many walks of life, he hopes to bring his experience and genuine love for people to the Bingham Family Clinic. He sees the BFC as a wonderful opportunity to continue doing the things he loves most about medicine—caring for people, teaching students, and giving back.  His goal is to treat each person he meets as though they are the reason he is volunteering that day.",
     roleExplanation: "Oversees the clinic's medical operations, ensuring safe, high-quality patient care and supporting providers in clinical decision-making.",
     // isAlumni: true,
   },
