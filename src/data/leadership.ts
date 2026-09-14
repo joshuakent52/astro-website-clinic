@@ -41,7 +41,7 @@ export const members: TeamMember[] = [
   {
     name: "Kirk Woodward",
     title: "CEO / CMO",
-    image: "/images/kirk.webp",
+    image: "/images/kirk.png",
     bio: "WHY: I believe at the center of every primary care provider is the desire to care for people. Having the opportunity to provide a free clinic where our friends and neighbors can access care is really at the heart of primary cares values.",
     roleExplanation: "Provides both the strategic and clinical leadership of the free clinic, overseeing its mission, operations, finances, partnerships, and medical quality",
     // isAlumni: true,
@@ -49,7 +49,7 @@ export const members: TeamMember[] = [
   {
     name: "Sherilee Woodward",
     title: "Executive Director",
-    image: "/images/sherilee.webp",
+    image: "/images/sherilee.jpg",
     bio: "WHY: I am passionate about people and volunteering. The Bingham Family Clinic provides me with the privilege of serving others in a way that connects with my soul. I believe strong families are the foundation of strong communities.",
     roleExplanation: "Leads the free clinic's strategy, operations, and growth to ensure sustainable, high-quality patient care.",
     // isAlumni: true,
@@ -111,7 +111,7 @@ export const members: TeamMember[] = [
     // isAlumni: true,
   },
   {
-    name: "Elder Joseph Tremblay",
+    name: "Joseph Tremblay",
     title: "Facilities Coordinator",
     image: "/images/joseph_tremblay.webp",
     bio: "WHY: I am passionate about serving and helping people in the community. I enjoy using my skills and talents to help and serve others.",
