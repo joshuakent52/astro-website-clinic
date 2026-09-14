@@ -39,7 +39,7 @@ export const alumniHeading = "Alumni";
 
 export const members: TeamMember[] = [
   {
-    name: "Kirk Woodward",
+    name: "Kirk Woodward, MD",
     title: "CEO / CMO",
     image: "/images/kirk.png",
     bio: "WHY: I believe at the center of every primary care provider is the desire to care for people. Having the opportunity to provide a free clinic where our friends and neighbors can access care is really at the heart of primary cares values.",
@@ -55,7 +55,7 @@ export const members: TeamMember[] = [
     // isAlumni: true,
   },
   {
-    name: "Darrell Stacey",
+    name: "Darrell Stacey, MD",
     title: "Medical Director",
     image: "/images/stacey.webp",
     bio: "WHY: Feeling like he’s greatly blessed in his life, Doctor Stacey is overjoyed to be able to give back and try to bless the lives of other people by serving at the Bingham Family Clinic. Loretta is the first to say that having this opportunity to serve has added meaning and joy to his life.",
@@ -63,7 +63,7 @@ export const members: TeamMember[] = [
     // isAlumni: true,
   },
   {
-    name: "Bryant Marchant",
+    name: "Bryant Marchant, MD",
     title: "Medical Director",
     image: "/images/marchant.jpeg",
     bio: "",

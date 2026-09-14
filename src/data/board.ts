@@ -20,7 +20,7 @@ export const heading = "Bingham Family Clinic Board of Directors";
 
 export const members: BoardMember[] = [
   {
-    name: "Kirk Woodward",
+    name: "Kirk Woodward, MD",
     title: "CEO",
     image: "/images/kirk.png",
     bio: "Kirk Woodward M.D. brings a distinguished blend of clinical expertise, compassionate care, and decades of real-world experience to the Bingham Family Clinic. As a dedicated physician, he has served countless individuals and families with integrity, precision and heart.\nBeyond his clinical practice, Dr. Woodward is an advocate for education and community health. He has mentored future healthcare professionals, participated in service-driven medical initiatives, and consistently contributed to advancing healthcare delivery through thoughtful leadership and innovation.\nWHY: I believe at the center of every primary care provider is the desire to care for people. Having the opportunity to provide a free clinic where our friends and neighbors can access care is really at the heart of primary cares values.",
