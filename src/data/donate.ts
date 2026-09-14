@@ -44,6 +44,6 @@ export const options: DonateOption[] = [
 
 export const venmo = {
   heading: "Donate with Venmo",
-  qrImage: "/images/venmo-qr.png",
+  qrImage: "/images/venmo-qr.webp",
   qrAlt: "Venmo QR code — scan to donate to Bingham Family Clinic",
 };

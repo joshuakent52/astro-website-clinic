@@ -8,7 +8,7 @@ export const hero = {
   // Placeholder path — add the real photo to public/images and update this.
   // Missing files 404 quietly in the browser rather than breaking the build,
   // same as the homepage images (see CLAUDE.md > Images).
-  backgroundImage: "/images/volunteer-hero.jpg",
+  backgroundImage: "/images/volunteer-hero.webp",
   heading: "Interested in Giving Back to the Community?",
   subheading:
     "Look no further. We offer meaningful roles and a welcoming community for all.",
@@ -22,7 +22,7 @@ export interface Benefit {
 
 export const why = {
   // Placeholder path — add the real photo to public/images and update this.
-  image: "/images/volunteer-why.jpg",
+  image: "/images/volunteer-why.webp",
   heading: "Why Volunteer With Us?",
   benefits: [
     {

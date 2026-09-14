@@ -25,7 +25,7 @@
 export interface TeamMember {
   name: string;
   title: string;
-  /** Path under /images, e.g. "/images/bio1.png". */
+  /** Path under /images, e.g. "/images/bio1.webp". */
   image: string;
   bio: string;
   /** Short sentence or two on how this role contributes to the mission. Shown only when the card is expanded. */
@@ -41,7 +41,7 @@ export const members: TeamMember[] = [
   {
     name: "Kirk Woodward, MD",
     title: "CEO / CMO",
-    image: "/images/kirk.png",
+    image: "/images/kirk.webp",
     bio: "WHY: I believe at the center of every primary care provider is the desire to care for people. Having the opportunity to provide a free clinic where our friends and neighbors can access care is really at the heart of primary cares values.",
     roleExplanation: "Provides both the strategic and clinical leadership of the free clinic, overseeing its mission, operations, finances, partnerships, and medical quality",
     // isAlumni: true,
@@ -49,7 +49,7 @@ export const members: TeamMember[] = [
   {
     name: "Sherilee Woodward",
     title: "Executive Director",
-    image: "/images/sherilee.jpg",
+    image: "/images/sherilee.webp",
     bio: "WHY: I am passionate about people and volunteering. The Bingham Family Clinic provides me with the privilege of serving others in a way that connects with my soul. I believe strong families are the foundation of strong communities.",
     roleExplanation: "Leads the free clinic's strategy, operations, and growth to ensure sustainable, high-quality patient care.",
     // isAlumni: true,
@@ -65,7 +65,7 @@ export const members: TeamMember[] = [
   {
     name: "Bryant Marchant, MD",
     title: "Medical Director",
-    image: "/images/marchant.jpeg",
+    image: "/images/marchant.webp",
     bio: "WHY: After a career spent caring for soldiers, families, and patients from many walks of life, he hopes to bring his experience and genuine love for people to the Bingham Family Clinic. He sees the BFC as a wonderful opportunity to continue doing the things he loves most about medicine—caring for people, teaching students, and giving back.  His goal is to treat each person he meets as though they are the reason he is volunteering that day.",
     roleExplanation: "Oversees the clinic's medical operations, ensuring safe, high-quality patient care and supporting providers in clinical decision-making.",
     // isAlumni: true,
@@ -97,7 +97,7 @@ export const members: TeamMember[] = [
   {
     name: "Elise Dowdle",
     title: "Volunteer Coordinator",
-    image: "/images/elise_dowdle.jpeg",
+    image: "/images/elise_dowdle.webp",
     bio: "WHY: I have always loved the healthcare field because of its ability to lift people up and change lives. Small acts of service can make someone feel cared for, supported, and valued. Every small thing we do in the clinic makes a real impact on both our patients and our volunteers. Through serving here, I have seen the growth of others as well as my own. I feel so grateful to be a part of the good work being done here at the clinic and to experience the joy that comes from it.",
     roleExplanation: "Oversees volunteer recruitment, onboarding, records, and personnel processes to support an effective and engaged workforce.",
     // isAlumni: true,

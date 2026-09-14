@@ -13,12 +13,12 @@ export const siteDescription =
   "Free, community-focused healthcare for families in Utah County.";
 
 export const logo = {
-  src: "/images/image3.png",
+  src: "/images/image3.webp",
   alt: "Bingham Family Clinic",
 };
 
 export const flat_logo = {
-  src: "/images/image4.png",
+  src: "/images/image4.webp",
   alt: "Bingham Family Clinic",
 }
 

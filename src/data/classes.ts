@@ -22,13 +22,13 @@ export interface ClassItem {
 
 export const classes: ClassItem[] = [
   {
-    image: "/images/image10.png",
+    image: "/images/image10.webp",
     title: "Nutrition and Diabetes Care",
     description:
       "Join us for this ongoing class, held on the third Wednesday of each month at 5:00 PM—we'd love to have you there! Call 801-854-5168 to reserve your spot.",
   },
   {
-    image: "/images/image11.png",
+    image: "/images/image11.webp",
     title: "Exercise and Physiology Class",
     description:
       "Join us for this exciting class. Please call the clinic to learn about upcoming sessions, and scheduling information.",

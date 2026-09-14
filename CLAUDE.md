@@ -109,20 +109,24 @@ Key images are referenced by path and are expected at:
   hero background (`hero.backgroundImage` in `src/data/home.ts`) and
   the default social share image (`defaultOgImage` in
   `src/config/site.ts`)
-- `public/images/image1.png` — medical suite (4032×3024); mission
+- `public/images/image1.webp` — medical suite (4032×3024); mission
   section background (`mission.backgroundImage` in `src/data/home.ts`)
   and the `ClinicSchema` structured-data image
-- `public/images/image3.png` — logo, used in the header and footer
-- `public/images/image4.png` — flat logo variant (`flat_logo` in
+- `public/images/image3.webp` — logo, used in the header and footer
+- `public/images/image4.webp` — flat logo variant (`flat_logo` in
   `src/config/site.ts`), used in the header and footer on most pages
-- `public/images/volunteer-hero.jpg` — volunteer page hero background
-- `public/images/volunteer-why.jpg` — "Why Volunteer" section photo
-- `public/images/venmo-qr.png` — Venmo QR code shown on the donate page
+- `public/images/volunteer-hero.webp` — volunteer page hero background
+- `public/images/volunteer-why.webp` — "Why Volunteer" section photo
+- `public/images/venmo-qr.webp` — Venmo QR code shown on the donate page
 - `public/images/<name>.webp` — board/leadership/contributor portraits
   (e.g. `kirk.webp`, `sherilee.webp`); a member whose `image` is still
-  `/images/placeholder.png` is hidden from the grids until a real
+  `/images/placeholder.webp` is hidden from the grids until a real
   photo is added. Exception: `micheal-gina.webp` is a joint photo
   shared by the Michael and Gina Bingham board cards.
+
+All images are WebP: photos are lossy (quality 82), while the logos
+(`image3`, `image4`) and the Venmo QR are lossless so edges stay crisp
+and the QR stays scannable — keep that split when replacing files.
 
 These are plain `<img>` references (not Astro's `Image` component), so a
 missing file 404s in the browser rather than breaking the build — useful

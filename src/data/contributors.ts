@@ -25,7 +25,7 @@
 export interface TeamMember {
   name: string;
   title: string;
-  /** Path under /images, e.g. "/images/bio1.png". */
+  /** Path under /images, e.g. "/images/bio1.webp". */
   image: string;
   bio: string;
   /** Short sentence or two on how this role contributes to the mission. Shown only when the card is expanded. */
@@ -41,7 +41,7 @@ export const members: TeamMember[] = [
   {
     name: "Ethan Callaway",
     title: "Human Resources",
-    image: "/images/ethan_callaway.jpg",
+    image: "/images/ethan_callaway.webp",
     bio: "WHY: I enjoy serving at the Bingham Family Clinic to help forward the organization's operation as it blesses the lives of so many people in our community. ",
     // isAlumni: true,
   },
@@ -72,7 +72,7 @@ export const members: TeamMember[] = [
   {
     name: "Elle Crawford",
     title: "Community Outreach Lead",
-    image: "/images/elle_crawford.jpg",
+    image: "/images/elle_crawford.webp",
     bio: "WHY: To start, I love both the clinical and outreach aspects of the Clinic. I’ve learned through my various experiences that connecting people to resources is just as important as the care they receive inside a clinic. I volunteer at the Bingham Family Clinic because I genuinely care about helping people access the healthcare they need, and I want to make a difference for those in need in my community. A lot of people out there need help but don’t know who or where to turn to. That’s why outreach matters so much to me! Because it’s not just about the care inside the clinic; it’s about making sure families know the clinic exists, feel welcome walking in, and understand that there are resources available for them. By volunteering, I get to bridge that gap, connect people to the support they deserve, and remind them they’re not alone. Every time I help someone find the right resource or feel more confident about their care plan, it reinforces my commitment to becoming a nurse who serves with compassion and advocates for those who need it most.",
     roleExplanation: "Promotes the clinic through community events, outreach activities, and public engagement."
     // isAlumni: true,
