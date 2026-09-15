@@ -1,0 +1,79 @@
+---
+import Section from "../ui/Section.astro";
+import type { RoleItem } from "../../data/volunteer-roles";
+
+/**
+ * RolesGrid
+ * Responsive grid of role cards — 4 columns on desktop, 2 on tablet,
+ * 1 on mobile (md breakpoint 768px).
+ */
+
+interface Props {
+  items: RoleItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<Section background="surface">
+  <ul class="roles-grid">
+    {
+      items.map((item) => (
+        <li class="role-card">
+          <h3 class="role-card__title">{item.title}</h3>
+          <p class="role-card__description">{item.description}</p>
+        </li>
+      ))
+    }
+  </ul>
+</Section>
+
+<style>
+  .roles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--space-lg);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .role-card {
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-lg);
+    border-radius: var(--radius-lg);
+    background-color: var(--color-surface);
+    box-shadow: var(--shadow-md);
+    transition: transform var(--transition-fast) ease,
+      box-shadow var(--transition-fast) ease;
+  }
+
+  .role-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .role-card__title {
+    font-size: var(--font-size-h3);
+    line-height: var(--line-height-heading);
+    color: var(--color-primary);
+    margin: 0 0 var(--space-sm);
+  }
+
+  .role-card__description {
+    font-size: var(--font-size-body);
+    line-height: var(--line-height-body);
+    color: var(--color-text);
+    margin: 0;
+  }
+
+  /* Breakpoint: md (768px) — matches the shared stacking breakpoint
+     used elsewhere in the project. */
+  @media (max-width: 768px) {
+    .roles-grid {
+      grid-template-columns: 1fr;
+      justify-content: stretch;
+    }
+  }
+</style>

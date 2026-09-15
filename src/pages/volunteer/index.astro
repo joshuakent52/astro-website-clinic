@@ -38,9 +38,13 @@ import { hero, why, apply, testimonials } from "../../data/volunteer";
 
   <ApplySplit heading={apply.heading} subheading={apply.subheading} options={apply.options} />
 
-  <Testimonials testimonials={testimonials} />
+  <p>
+    <a href="/volunteer/roles" class="link-secondary">
+      View All Volunteer Roles
+    </a>
+  </p>
 
-  <Footer navItems={navItems} slot="footer" />
+  <Testimonials testimonials={testimonials} />
 </BaseLayout>
 
 <style>
