@@ -1,17 +1,54 @@
 ---
 /**
  * VolunteerApplicationForm
- * The volunteer application: personal info, shift availability, character
- * references, background/qualifications, and an optional résumé upload.
+ * The volunteer application: personal info, shift availability, role
+ * preferences (multi-select interests, volunteer type radio, how-heard
+ * select), character references, background/qualifications, and an
+ * optional résumé upload.
  * Submits directly to Supabase from the browser (this site is statically
  * rendered — see CLAUDE.md — so there's no server route in between).
  *
  * Requires PUBLIC_SUPABASE_URL and PUBLIC_SUPABASE_ANON_KEY to be set
  * wherever this is deployed. See src/lib/supabase.ts and .env.example.
+ *
+ * Backend columns for the Role Preferences section live in
+ * supabase/migration1.sql — run it before deploying this form or the
+ * insert will fail on unknown columns.
  */
 
 const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri"] as const;
 const SHIFTS = ["10-2", "2-6"] as const;
+
+// Multi-select options for "Areas of Interest". Values are stored as a
+// text[] array in `volunteer_applications.interests`.
+const INTERESTS = [
+  { value: "patient_intake", label: "Patient intake / front desk" },
+  { value: "clinical_support", label: "Clinical support" },
+  { value: "admin", label: "Admin / data entry" },
+  { value: "it_tech", label: "IT / tech support" },
+  { value: "outreach", label: "Outreach / events" },
+  { value: "translation", label: "Translation / interpretation" },
+  { value: "facilities", label: "Facilities / maintenance" },
+  { value: "other", label: "Other (tell us below)" },
+] as const;
+
+// Single-select radio options -> `volunteer_applications.volunteer_type`.
+const VOLUNTEER_TYPES = [
+  { value: "non_clinical", label: "Non-clinical" },
+  { value: "clinical", label: "Clinical (licensed only)" },
+  { value: "either", label: "Either / not sure yet" },
+] as const;
+
+// Dropdown options -> `volunteer_applications.how_heard`.
+const HOW_HEARD_OPTIONS = [
+  { value: "", label: "Select one…" },
+  { value: "friend_family", label: "Friend / family" },
+  { value: "website", label: "Clinic website" },
+  { value: "school", label: "School / university" },
+  { value: "church", label: "Church / community group" },
+  { value: "social_media", label: "Social media" },
+  { value: "other", label: "Other" },
+] as const;
 
 // Maps a Day/Shift pair to the boolean column it corresponds to on
 // `volunteer_applications`, e.g. Mon + 10-2 -> shift_mon_10_2.
@@ -94,6 +131,69 @@ function shiftKey(day: string, shift: string): string {
             }
           </tbody>
         </table>
+      </fieldset>
+
+      <!-- ── Role Preferences ── -->
+      <fieldset class="form-section">
+        <legend class="label">Role Preferences</legend>
+        <p class="field-hint shift-hint">Select all areas you're interested in.</p>
+
+        <div class="check-list" role="group" aria-label="Areas of interest">
+          {
+            INTERESTS.map((interest) => (
+              <label class="check-item" for={`interest-${interest.value}`}>
+                <input
+                  type="checkbox"
+                  id={`interest-${interest.value}`}
+                  name="interests"
+                  value={interest.value}
+                  class="check-input"
+                />
+                <span class="check-box" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m5 13 4 4L19 7" />
+                  </svg>
+                </span>
+                <span>{interest.label}</span>
+              </label>
+            ))
+          }
+        </div>
+
+        <div class="field">
+          <span class="field-label" id="volunteer-type-label">I want to volunteer as *</span>
+          <div class="radio-list" role="radiogroup" aria-labelledby="volunteer-type-label">
+            {
+              VOLUNTEER_TYPES.map((type) => (
+                <label class="radio-item" for={`volunteer-type-${type.value}`}>
+                  <input
+                    type="radio"
+                    id={`volunteer-type-${type.value}`}
+                    name="volunteer_type"
+                    value={type.value}
+                    class="radio-input"
+                    required
+                  />
+                  <span class="radio-dot" aria-hidden="true" />
+                  <span>{type.label}</span>
+                </label>
+              ))
+            }
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="field">
+            <label for="how-heard">How did you hear about us?</label>
+            <select id="how-heard" name="how_heard">
+              {HOW_HEARD_OPTIONS.map((option) => <option value={option.value}>{option.label}</option>)}
+            </select>
+          </div>
+          <div class="field">
+            <label for="motivation">Why do you want to volunteer?</label>
+            <textarea id="motivation" name="motivation" rows="3" placeholder="A sentence or two is plenty…"></textarea>
+          </div>
+        </div>
       </fieldset>
 
       <!-- ── References ── -->
@@ -274,6 +374,102 @@ function shiftKey(day: string, shift: string): string {
     outline-offset: 2px;
   }
 
+  .field-label {
+    font-size: var(--font-size-label);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text);
+  }
+
+  .check-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-2xs) var(--space-md);
+  }
+
+  .check-item,
+  .radio-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2xs);
+    font-size: var(--font-size-body);
+    color: var(--color-text);
+    cursor: pointer;
+    padding: var(--space-3xs) 0;
+  }
+
+  .radio-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3xs);
+  }
+
+  .check-box {
+    width: 1.5rem;
+    height: 1.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border: 2px solid var(--color-border-strong);
+    border-radius: var(--radius-sm);
+    background-color: var(--color-white);
+    color: var(--color-text-inverse);
+    transition: background-color var(--transition-fast), border-color var(--transition-fast);
+  }
+
+  .check-box svg {
+    width: 0.875rem;
+    height: 0.875rem;
+    opacity: 0;
+    transition: opacity var(--transition-fast);
+  }
+
+  .check-input:checked + .check-box {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+  }
+
+  .check-input:checked + .check-box svg {
+    opacity: 1;
+  }
+
+  .check-input:focus-visible + .check-box,
+  .radio-input:focus-visible + .radio-dot {
+    outline: 3px solid var(--color-focus-ring);
+    outline-offset: 2px;
+  }
+
+  .radio-dot {
+    width: 1.5rem;
+    height: 1.5rem;
+    flex-shrink: 0;
+    border: 2px solid var(--color-border-strong);
+    border-radius: var(--radius-full);
+    background-color: var(--color-white);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color var(--transition-fast);
+  }
+
+  .radio-dot::after {
+    content: "";
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: var(--radius-full);
+    background-color: var(--color-primary);
+    opacity: 0;
+    transition: opacity var(--transition-fast);
+  }
+
+  .radio-input:checked + .radio-dot {
+    border-color: var(--color-primary);
+  }
+
+  .radio-input:checked + .radio-dot::after {
+    opacity: 1;
+  }
+
   .file-input {
     display: flex;
     align-items: center;
@@ -339,6 +535,10 @@ function shiftKey(day: string, shift: string): string {
       grid-template-columns: 1fr;
     }
 
+    .check-list {
+      grid-template-columns: 1fr;
+    }
+
     .shift-grid {
       width: 100%;
     }
@@ -378,6 +578,15 @@ function shiftKey(day: string, shift: string): string {
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
     errorBanner.hidden = true;
+
+    // Native constraint validation (form has `novalidate`, so run it
+    // manually to keep custom error-banner behavior plus browser hints).
+    if (!form.checkValidity()) {
+      showError("Please fill in the required fields (name, email, phone, volunteer type).");
+      form.reportValidity();
+      return;
+    }
+
     setLoading("Uploading resume…");
 
     const formData = new FormData(form);
@@ -405,7 +614,15 @@ function shiftKey(day: string, shift: string): string {
       shifts[checkbox.name] = checkbox.checked;
     });
 
-    // 3. Insert the application row.
+    // 3. Collect the Role Preferences answers. Multi-select checkboxes
+    // share name="interests", so getAll() returns string[] for the
+    // text[] column. Radio/select/textarea fall back to null when empty.
+    const interests = formData.getAll("interests").map(String).filter(Boolean);
+    const volunteerType = String(formData.get("volunteer_type") ?? "").trim() || null;
+    const howHeard = String(formData.get("how_heard") ?? "").trim() || null;
+    const motivation = String(formData.get("motivation") ?? "").trim() || null;
+
+    // 4. Insert the application row.
     setLoading("Submitting…");
     const { error: insertError } = await supabase.from("volunteer_applications").insert({
       full_name: fullName,
@@ -413,6 +630,10 @@ function shiftKey(day: string, shift: string): string {
       phone: formData.get("phone"),
       languages: formData.get("languages") || null,
       ...shifts,
+      interests: interests.length > 0 ? interests : null,
+      volunteer_type: volunteerType,
+      how_heard: howHeard,
+      motivation: motivation,
       ref1_name: formData.get("ref1_name") || null,
       ref1_contact: formData.get("ref1_contact") || null,
       ref2_name: formData.get("ref2_name") || null,
@@ -429,7 +650,7 @@ function shiftKey(day: string, shift: string): string {
       return;
     }
 
-    // 4. Success — swap the form out for the confirmation message.
+    // 5. Success — swap the form out for the confirmation message.
     formView.hidden = true;
     successView.hidden = false;
     successView.focus();
