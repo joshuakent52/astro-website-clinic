@@ -38,13 +38,23 @@ import { hero, why, apply, testimonials } from "../../data/volunteer";
 
   <ApplySplit heading={apply.heading} subheading={apply.subheading} options={apply.options} />
 
-  <p style="text-align: center;">
-    <a href="/volunteer/roles" class="role-link">
-      View All Volunteer Roles
-    </a>
-  </p>
+  <section class="roles-cta">
+    <div class="roles-cta__inner">
+      <p class="roles-cta__kicker">Still exploring?</p>
+      <h2 class="roles-cta__heading">See every volunteer role we offer</h2>
+      <p class="roles-cta__subheading">
+        From patient-facing positions to behind-the-scenes support, browse the
+        full list of roles and find the one that fits you best.
+      </p>
+      <a href="/volunteer/roles" class="button button--primary roles-cta__button">
+        View All Volunteer Roles
+      </a>
+    </div>
+  </section>
 
   <Testimonials testimonials={testimonials} />
+
+  <Footer navItems={navItems} slot="footer" />
 </BaseLayout>
 
 <style>
@@ -53,23 +63,44 @@ import { hero, why, apply, testimonials } from "../../data/volunteer";
     width: auto;
   }
 
-  .role-link {
-    display: inline-block;
-    margin-top: var(--space-lg);
-    padding: var(--space-md) var(--space-lg);
-    font-size: var(--font-size-h2);
-    font-weight: 600;
-    color: var(--color-primary);
-    text-align: center;
-    text-decoration: none;
-    border: 2px solid var(--color-primary);
-    border-radius: var(--radius-md);
-    transition: color var(--transition-fast) ease,
-      background-color var(--transition-fast) ease;
+  .roles-cta {
+    padding: var(--space-2xl) var(--space-lg);
+    background-color: var(--color-surface, #f7f7f5);
+    border-block: 1px solid var(--color-border);
   }
 
-  .role-link:hover {
-    color: var(--color-text-inverse);
-    background-color: var(--color-primary);
+  .roles-cta__inner {
+    max-width: 34rem;
+    margin-inline: auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2xs);
+  }
+
+  .roles-cta__kicker {
+    font-size: var(--font-size-small);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-primary);
+    margin: 0;
+  }
+
+  .roles-cta__heading {
+    font-size: var(--font-size-h3);
+    font-weight: 700;
+    margin: 0;
+  }
+
+  .roles-cta__subheading {
+    color: var(--color-text-muted);
+    line-height: 1.6;
+    margin: 0 0 var(--space-sm);
+  }
+
+  .roles-cta__button {
+    margin-top: var(--space-2xs);
   }
 </style>
