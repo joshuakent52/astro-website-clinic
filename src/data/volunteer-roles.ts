@@ -23,7 +23,7 @@ export const volunteerRoles: RoleItem[] = [
   {
     title: "Support Center",
     description:
-      "Welcome patients, manage check-in and check-out, and assist with scheduling, payments, and administrative questions. Help ensure every patient has a smooth and positive experience from arrival to departure.",
+      "Welcome patients, manage check-out, and assist with patient scheduling, documentation, and resource support. Help ensure every patient has a smooth and positive experience at departure.",
   },
   {
     title: "Scribe",
