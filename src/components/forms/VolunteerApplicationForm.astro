@@ -218,85 +218,29 @@ const EXPERIENCE_MAX_WORDS = 250;
         </div>
       </fieldset>
 
-      <!-- ── Shift Availability ── -->
+      <!-- ── Experience ── -->
       <fieldset class="form-section">
-        <legend class="label">Shift Availability</legend>
-        <p class="field-hint shift-hint">Select all shifts you're available for.</p>
-
-        <table class="shift-grid">
-          <thead>
-            <tr>
-              <th scope="col"><span class="visually-hidden">Day</span></th>
-              {SHIFTS.map((shift) => <th scope="col">{shift}</th>)}
-            </tr>
-          </thead>
-          <tbody>
-            {
-              DAYS.map((day) => (
-                <tr>
-                  <th scope="row">{day}</th>
-                  {SHIFTS.map((shift) => {
-                    const key = shiftKey(day, shift);
-                    return (
-                      <td>
-                        <label class="shift-cell" for={key}>
-                          <span class="visually-hidden">
-                            {day} {shift}
-                          </span>
-                          <input
-                            type="checkbox"
-                            id={key}
-                            name={key}
-                            class="shift-checkbox visually-hidden"
-                          />
-                          <span class="shift-box" aria-hidden="true">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                              <path d="m5 13 4 4L19 7" />
-                            </svg>
-                          </span>
-                        </label>
-                      </td>
-                    );
-                  })}
-                </tr>
-              ))
-            }
-          </tbody>
-        </table>
+        <legend class="label">Experience</legend>
 
         <div class="field">
-          <label for="expected-duration">How long do you expect to volunteer? *</label>
-          <select id="expected-duration" name="expected_duration" required>
-            <option value="">Select one…</option>
-            {VOLUNTEER_DURATIONS.map((duration) => <option value={duration}>{duration}</option>)}
-          </select>
+          <label for="patient-care-hours">
+            Approximately how many direct patient care / clinical hours have you completed?
+          </label>
+          <input id="patient-care-hours" name="patient_care_hours" type="number" min="0" step="1" placeholder="Optional" />
         </div>
-      </fieldset>
-
-      <!-- ── Role Interest ── -->
-      <fieldset class="form-section">
-        <legend class="label">Role Interest</legend>
 
         <div class="field">
-          <span class="label-text">Which role(s) interest you?</span>
-          <div class="option-list">
-            {
-              ROLES.map((role) => {
-                const id = `role-${slug(role)}`;
-                return (
-                  <label class="option-item" for={id}>
-                    <input type="checkbox" id={id} class="option-checkbox role-checkbox visually-hidden" value={role} />
-                    <span class="option-box" aria-hidden="true">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="m5 13 4 4L19 7" />
-                      </svg>
-                    </span>
-                    <span class="option-label-text">{role}</span>
-                  </label>
-                );
-              })
-            }
-          </div>
+          <label for="experience-notes">
+            Tell us about any previous healthcare, leadership, work, or volunteer experience that
+            would help us place you in the right role.
+          </label>
+          <textarea
+            id="experience-notes"
+            name="experience_notes"
+            rows="5"
+            placeholder={`Max ${EXPERIENCE_MAX_WORDS} words`}
+          ></textarea>
+          <span id="experience-notes-count" class="field-hint word-count">0 / {EXPERIENCE_MAX_WORDS} words</span>
         </div>
       </fieldset>
 
@@ -376,29 +320,85 @@ const EXPERIENCE_MAX_WORDS = 250;
         </div>
       </fieldset>
 
-      <!-- ── Experience ── -->
+      <!-- ── Role Interest ── -->
       <fieldset class="form-section">
-        <legend class="label">Experience</legend>
+        <legend class="label">Role Interest</legend>
 
         <div class="field">
-          <label for="patient-care-hours">
-            Approximately how many direct patient care / clinical hours have you completed?
-          </label>
-          <input id="patient-care-hours" name="patient_care_hours" type="number" min="0" step="1" placeholder="Optional" />
+          <span class="label-text">Which role(s) interest you?</span>
+          <div class="option-list">
+            {
+              ROLES.map((role) => {
+                const id = `role-${slug(role)}`;
+                return (
+                  <label class="option-item" for={id}>
+                    <input type="checkbox" id={id} class="option-checkbox role-checkbox visually-hidden" value={role} />
+                    <span class="option-box" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m5 13 4 4L19 7" />
+                      </svg>
+                    </span>
+                    <span class="option-label-text">{role}</span>
+                  </label>
+                );
+              })
+            }
+          </div>
         </div>
+      </fieldset>
+
+      <!-- ── Shift Availability ── -->
+      <fieldset class="form-section">
+        <legend class="label">Shift Availability</legend>
+        <p class="field-hint shift-hint">Select all shifts you're available for.</p>
+
+        <table class="shift-grid">
+          <thead>
+            <tr>
+              <th scope="col"><span class="visually-hidden">Day</span></th>
+              {SHIFTS.map((shift) => <th scope="col">{shift}</th>)}
+            </tr>
+          </thead>
+          <tbody>
+            {
+              DAYS.map((day) => (
+                <tr>
+                  <th scope="row">{day}</th>
+                  {SHIFTS.map((shift) => {
+                    const key = shiftKey(day, shift);
+                    return (
+                      <td>
+                        <label class="shift-cell" for={key}>
+                          <span class="visually-hidden">
+                            {day} {shift}
+                          </span>
+                          <input
+                            type="checkbox"
+                            id={key}
+                            name={key}
+                            class="shift-checkbox visually-hidden"
+                          />
+                          <span class="shift-box" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                              <path d="m5 13 4 4L19 7" />
+                            </svg>
+                          </span>
+                        </label>
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
 
         <div class="field">
-          <label for="experience-notes">
-            Tell us about any previous healthcare, leadership, work, or volunteer experience that
-            would help us place you in the right role.
-          </label>
-          <textarea
-            id="experience-notes"
-            name="experience_notes"
-            rows="5"
-            placeholder={`Max ${EXPERIENCE_MAX_WORDS} words`}
-          ></textarea>
-          <span id="experience-notes-count" class="field-hint word-count">0 / {EXPERIENCE_MAX_WORDS} words</span>
+          <label for="expected-duration">How long do you expect to volunteer? *</label>
+          <select id="expected-duration" name="expected_duration" required>
+            <option value="">Select one…</option>
+            {VOLUNTEER_DURATIONS.map((duration) => <option value={duration}>{duration}</option>)}
+          </select>
         </div>
       </fieldset>
 
