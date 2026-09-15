@@ -501,6 +501,20 @@ const EXPERIENCE_MAX_WORDS = 250;
     border-left: 2px solid var(--color-border);
   }
 
+  /*
+   * FIX: some global stylesheet in this project sets `display` on `.field`
+   * (or a similarly-scoped selector), which beats the browser's built-in
+   * `[hidden] { display: none }` user-agent rule. That caused conditional
+   * fields (Program, Other Language, Language Proficiency, Other
+   * Certification, Other Skill) to stay visible even while `hidden` was
+   * set on them. This rule re-asserts `display: none` with enough
+   * specificity + !important to guarantee hidden conditional fields are
+   * actually hidden, regardless of what else styles `.field` globally.
+   */
+  .conditional-field[hidden] {
+    display: none !important;
+  }
+
   .shift-grid {
     border-collapse: collapse;
   }
