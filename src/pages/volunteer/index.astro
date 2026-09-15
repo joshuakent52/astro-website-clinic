@@ -38,8 +38,8 @@ import { hero, why, apply, testimonials } from "../../data/volunteer";
 
   <ApplySplit heading={apply.heading} subheading={apply.subheading} options={apply.options} />
 
-  <p>
-    <a href="/volunteer/roles" class="link-secondary">
+  <p style="text-align: center;">
+    <a href="/volunteer/roles" class="role-link">
       View All Volunteer Roles
     </a>
   </p>
@@ -51,5 +51,25 @@ import { hero, why, apply, testimonials } from "../../data/volunteer";
   .site-logo {
     height: 5rem;
     width: auto;
+  }
+
+  .role-link {
+    display: inline-block;
+    margin-top: var(--space-lg);
+    padding: var(--space-md) var(--space-lg);
+    font-size: var(--font-size-h2);
+    font-weight: 600;
+    color: var(--color-primary);
+    text-align: center;
+    text-decoration: none;
+    border: 2px solid var(--color-primary);
+    border-radius: var(--radius-md);
+    transition: color var(--transition-fast) ease,
+      background-color var(--transition-fast) ease;
+  }
+
+  .role-link:hover {
+    color: var(--color-text-inverse);
+    background-color: var(--color-primary);
   }
 </style>
