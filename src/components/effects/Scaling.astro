@@ -1,0 +1,60 @@
+---
+/**
+ * Scaling
+ * Subtle, fast scale-in for every other top-level section inside
+ * <main id="main-content"> (the 2nd, 4th, 6th...). No translate, no
+ * blur — just opacity + scale, which is cheap to animate and works
+ * the same at any viewport size. Renders no markup of its own.
+ */
+---
+
+<style is:global>
+  main#main-content > section:nth-of-type(even) {
+    opacity: 0;
+    transform: scale(0.98);
+    transition:
+      opacity 200ms var(--ease-standard),
+      transform 200ms var(--ease-standard);
+  }
+
+  main#main-content > section:nth-of-type(even).is-revealed {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  /* No-JS fallback: content must never be stuck invisible. */
+  html:not(.js) main#main-content > section:nth-of-type(even) {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    main#main-content > section {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  document.documentElement.classList.add("js");
+
+  const sections = document.querySelectorAll<HTMLElement>(
+    "main#main-content > section:nth-of-type(even)",
+  );
+
+  if (sections.length && "IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          entry.target.classList.toggle("is-revealed", entry.isIntersecting);
+        }
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -10% 0px" },
+    );
+    sections.forEach((section) => observer.observe(section));
+  } else {
+    sections.forEach((section) => section.classList.add("is-revealed"));
+  }
+</script>
