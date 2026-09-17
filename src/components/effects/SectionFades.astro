@@ -2,11 +2,12 @@
 /**
  * SectionFades
  * Drop this into any page (once) to give that page's top-level
- * <main id="main-content"> sections a subtle fade/slide transition:
- *  - the first section (expected to be the hero, class "hero") fades in
- *    once on load, since it's already visible above the fold
- *  - every other top-level section fades in as it scrolls into view,
- *    and fades back out if scrolled back out of view
+ * <main id="main-content"> sections a quick fade/slide transition:
+ *  - only every OTHER top-level section fades (the 2nd, 4th, 6th...,
+ *    e.g. hero stays put, the section after it fades, the one after
+ *    that stays put, etc.) via :nth-of-type(even)
+ *  - those sections fade in as they scroll into view, and fade back
+ *    out if scrolled back out of view
  *
  * Renders no markup of its own — just scoped style/script tags — so it
  * can be dropped anywhere in a page's template. Astro only ships this
@@ -15,42 +16,25 @@
 ---
 
 <style is:global>
-  /* Hero fades in once, immediately on load, since it's visible above
-     the fold before any scrolling happens. */
-  main#main-content > section.hero {
-    animation: home-fade-in 900ms var(--ease-standard) both;
-  }
-
-  /* Every other top-level section fades in as it scrolls into view, and
-     fades back out if scrolled back out of view, via the .is-revealed
-     class toggled in the script below. */
-  main#main-content > section:not(.hero) {
+  /* Every other top-level section (2nd, 4th, 6th...) fades in as it
+     scrolls into view, and fades back out if scrolled back out of
+     view, via the .is-revealed class toggled in the script below. */
+  main#main-content > section:nth-of-type(odd) {
     opacity: 0;
-    transform: translateY(14px);
+    transform: translateY(6px);
     transition:
-      opacity 700ms var(--ease-standard),
-      transform 700ms var(--ease-standard);
+      opacity 200ms var(--ease-standard),
+      transform 200ms var(--ease-standard);
   }
 
-  main#main-content > section:not(.hero).is-revealed {
+  main#main-content > section:nth-of-type(odd).is-revealed {
     opacity: 1;
     transform: translateY(0);
   }
 
-  @keyframes home-fade-in {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
   /* No-JS fallback: without the script to toggle .is-revealed, content
      must never be stuck invisible. */
-  html:not(.js) main#main-content > section:not(.hero) {
+  html:not(.js) main#main-content > section:nth-of-type(even) {
     opacity: 1;
     transform: none;
   }
@@ -70,7 +54,7 @@
   document.documentElement.classList.add("js");
 
   const sections = document.querySelectorAll<HTMLElement>(
-    "main#main-content > section:not(.hero)",
+    "main#main-content > section:nth-of-type(even)",
   );
 
   if (sections.length === 0) {
