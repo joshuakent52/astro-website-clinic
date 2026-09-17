@@ -3,9 +3,9 @@
  * SectionFades
  * Drop this into any page (once) to give that page's top-level
  * <main id="main-content"> sections a quick fade/slide transition:
- *  - only every OTHER top-level section fades (the 2nd, 4th, 6th...,
+ *  - only every OTHER top-level section fades (the 1nd, 3th, 5th...,
  *    e.g. hero stays put, the section after it fades, the one after
- *    that stays put, etc.) via :nth-of-type(even)
+ *    that stays put, etc.) via :nth-of-type(odd)
  *  - those sections fade in as they scroll into view, and fade back
  *    out if scrolled back out of view
  *
@@ -34,7 +34,7 @@
 
   /* No-JS fallback: without the script to toggle .is-revealed, content
      must never be stuck invisible. */
-  html:not(.js) main#main-content > section:nth-of-type(even) {
+  html:not(.js) main#main-content > section:nth-of-type(odd) {
     opacity: 1;
     transform: none;
   }
@@ -54,7 +54,7 @@
   document.documentElement.classList.add("js");
 
   const sections = document.querySelectorAll<HTMLElement>(
-    "main#main-content > section:nth-of-type(even)",
+    "main#main-content > section:nth-of-type(odd)",
   );
 
   if (sections.length === 0) {
