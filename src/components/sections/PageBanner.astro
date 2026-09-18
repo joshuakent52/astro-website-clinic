@@ -31,6 +31,9 @@ const { heading, subheading, backgroundImage } = Astro.props;
 <style>
   .page-banner {
     position: relative;
+    display: flex;
+    align-items: center;
+    min-height: var(--hero-min-height);
     overflow: hidden;
     background-color: var(--color-primary);
     color: var(--color-text-inverse);
@@ -62,7 +65,7 @@ const { heading, subheading, backgroundImage } = Astro.props;
     text-align: center;
     max-width: 60rem;
     margin-inline: auto;
-    padding-block: calc(var(--space-section) * 0.6);
+    padding-block: var(--space-2xl);
   }
 
   .page-banner__heading {
@@ -76,5 +79,17 @@ const { heading, subheading, backgroundImage } = Astro.props;
     font-weight: var(--font-weight-medium);
     margin-top: var(--space-md);
     margin-bottom: 0;
+  }
+
+  /* Breakpoint: md (768px) — min-height mirrors Hero since vars
+     aren't usable inside media queries. */
+  @media (max-width: 768px) {
+    .page-banner {
+      min-height: clamp(24rem, 90vw, 34rem);
+    }
+
+    .page-banner__inner {
+      padding-block: var(--space-xl);
+    }
   }
 </style>
