@@ -105,6 +105,12 @@ const paragraphs = quote.text.split("\n").filter(Boolean);
     color: var(--color-text-inverse);
   }
 
+  /* Global `p` sets dark text; override so quote paragraphs stay white. */
+  .donate-hero__quote blockquote p {
+    margin: 0;
+    color: var(--color-text-inverse);
+  }
+
   .donate-hero__quote figcaption {
     margin-top: var(--space-md);
     margin-bottom: 0;
