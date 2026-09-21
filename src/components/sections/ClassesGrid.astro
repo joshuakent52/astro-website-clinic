@@ -89,6 +89,10 @@ const { items } = Astro.props;
     width: 100%;
     height: 100%;
     object-fit: cover;
+    /* Blurs the logo backdrop past easy readability; scaled up to hide
+       the transparent fringe blur creates at the edges. */
+    filter: blur(6px);
+    transform: scale(1.08);
   }
 
   /* Blue fade wash over every class image. */
