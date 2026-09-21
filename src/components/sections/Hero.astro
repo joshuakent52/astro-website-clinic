@@ -38,7 +38,7 @@ const { backgroundImage, heading, subheading, ctaText, ctaHref } = Astro.props;
     position: relative;
     display: flex;
     align-items: center;
-    min-height: var(--hero-min-height);
+    min-height: clamp(28rem, 65vw, 42rem);
     overflow: hidden;
     color: var(--color-text-inverse);
   }

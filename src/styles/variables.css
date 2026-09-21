@@ -89,11 +89,6 @@
   --container-narrow-width: 800px;
   --container-padding-inline: clamp(1.25rem, 1rem + 2vw, 3rem);
 
-  /* Shared top-hero banner height (Hero, DonateHero, PageBanner). Mobile
-     override clamp(24rem, 90vw, 34rem) is mirrored in each component's
-     768px query since vars aren't usable inside media queries. */
-  --hero-min-height: clamp(28rem, 65vw, 42rem);
-
   /* ---------------------------------------------------------------- */
   /* Radius                                                             */
   /* ---------------------------------------------------------------- */
