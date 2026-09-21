@@ -53,6 +53,17 @@ export const portal = {
   ctaHref: "https://portal.binghamfamilyclinic.org",
 };
 
+export interface VolunteerPhoto {
+  src: string;
+  alt: string;
+}
+
+export const photos: VolunteerPhoto[] = [
+  { src: "/images/volunteer1.JPG", alt: "Volunteers serving at Bingham Family Clinic" },
+  { src: "/images/volunteer2.JPG", alt: "Volunteers serving at Bingham Family Clinic" },
+  { src: "/images/volunteer3.JPG", alt: "Volunteers serving at Bingham Family Clinic" },
+];
+
 export const apply = {
   heading: "Ready to Apply?",
   subheading: "Choose the path that fits you.",
