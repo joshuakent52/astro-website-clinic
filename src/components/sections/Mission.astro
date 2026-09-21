@@ -1,5 +1,6 @@
 ---
 import Container from "../layout/Container.astro";
+import Button from "../ui/Button.astro";
 
 /**
  * Mission
@@ -12,9 +13,12 @@ interface Props {
   heading: string;
   statement: string;
   tagline: string;
+  /** Omit ctaText/ctaHref for a mission block with no button. */
+  ctaText?: string;
+  ctaHref?: string;
 }
 
-const { backgroundImage, heading, statement, tagline } = Astro.props;
+const { backgroundImage, heading, statement, tagline, ctaText, ctaHref } = Astro.props;
 ---
 
 <section class="mission">
@@ -25,6 +29,11 @@ const { backgroundImage, heading, statement, tagline } = Astro.props;
       <h2>{heading}</h2>
       <p class="mission__statement">&ldquo;{statement}&rdquo;</p>
       <p class="mission__tagline">&ldquo;{tagline}&rdquo;</p>
+      {ctaText && ctaHref && (
+        <div class="mission__cta">
+          <Button text={ctaText} href={ctaHref} variant="inverse" />
+        </div>
+      )}
     </div>
   </Container>
 </section>
@@ -75,6 +84,12 @@ const { backgroundImage, heading, statement, tagline } = Astro.props;
     font-size: var(--font-size-body);
     color: var(--color-text-inverse);
     font-weight: var(--font-weight-semibold);
+  }
+
+  .mission__cta {
+    display: flex;
+    justify-content: center;
+    margin-top: var(--space-lg);
   }
 
   @media (max-width: 768px) {
