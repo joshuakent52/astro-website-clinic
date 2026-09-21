@@ -46,6 +46,13 @@ export const why = {
   ctaHref: "#apply",
 };
 
+export const portal = {
+  heading: "Current Volunteers",
+  subheading: "Access scheduling and communications",
+  ctaText: "Volunteer Portal",
+  ctaHref: "https://portal.binghamfamilyclinic.org",
+};
+
 export const apply = {
   heading: "Ready to Apply?",
   subheading: "Choose the path that fits you.",
