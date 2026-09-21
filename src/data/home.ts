@@ -38,7 +38,7 @@ export interface EligibilityRow {
 }
 
 export const eligibility = {
-  heading: "Who Is Eligible For Care?",
+  heading: "Who Is Eligible For Free Healthcare?",
   subheading: "Clients must meet the following two pieces of criteria.",
   criteria: [
     "Clients must be uninsured.",
