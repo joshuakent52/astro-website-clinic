@@ -23,7 +23,7 @@ export const stats: Stat[] = [
 ];
 
 export const mission = {
-  backgroundImage: "/images/image1.webp",
+  backgroundImage: "/images/image12.JPG",
   heading: "Our Mission",
   statement:
     "Providing health and wellness for everyday people through quality, compassionate medical care. We are committed to fostering a healthy community through accessible services, preventive care and patient-centered support.",

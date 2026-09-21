@@ -1,34 +1,71 @@
 ---
-import Section from "../ui/Section.astro";
+import Container from "../layout/Container.astro";
 
 /**
  * PageBanner
- * Simple solid-color intro banner: a heading and optional subheading,
- * centered. Used for pages that just need a plain title banner rather
- * than a photo hero (Hero.astro) or the two-column donate-style banner
- * (DonateHero.astro).
+ * Centered intro banner: a heading and optional subheading. Solid primary
+ * by default; pass `backgroundImage` for the full-bleed image + overlay
+ * pattern (same as `Hero`) so text stays readable over the photo.
  */
 
 interface Props {
   heading: string;
   subheading?: string;
+  backgroundImage?: string;
 }
 
-const { heading, subheading } = Astro.props;
+const { heading, subheading, backgroundImage } = Astro.props;
 ---
 
-<Section background="primary" spacing="tight">
-  <div class="page-banner">
-    <h1 class="page-banner__heading">{heading}</h1>
-    {subheading && <p class="page-banner__subheading">{subheading}</p>}
-  </div>
-</Section>
+<section class="page-banner">
+  {backgroundImage && <img src={backgroundImage} alt="" class="page-banner__bg" />}
+  {backgroundImage && <div class="page-banner__overlay" aria-hidden="true"></div>}
+  <Container>
+    <div class="page-banner__inner">
+      <h1 class="page-banner__heading">{heading}</h1>
+      {subheading && <p class="page-banner__subheading">{subheading}</p>}
+    </div>
+  </Container>
+</section>
 
 <style>
   .page-banner {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: var(--hero-min-height);
+    overflow: hidden;
+    background-color: var(--color-primary);
+    color: var(--color-text-inverse);
+  }
+
+  .page-banner__bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .page-banner__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      100deg,
+      rgba(1, 44, 73, 0.82) 0%,
+      rgba(2, 65, 107, 0.68) 55%,
+      rgba(2, 65, 107, 0.45) 100%
+    );
+  }
+
+  .page-banner__inner {
+    position: relative;
+    z-index: 1;
     text-align: center;
     max-width: 60rem;
     margin-inline: auto;
+    padding-block: var(--space-2xl);
   }
 
   .page-banner__heading {
@@ -42,5 +79,17 @@ const { heading, subheading } = Astro.props;
     font-weight: var(--font-weight-medium);
     margin-top: var(--space-md);
     margin-bottom: 0;
+  }
+
+  /* Breakpoint: md (768px) — min-height mirrors Hero since vars
+     aren't usable inside media queries. */
+  @media (max-width: 768px) {
+    .page-banner {
+      min-height: clamp(24rem, 90vw, 34rem);
+    }
+
+    .page-banner__inner {
+      padding-block: var(--space-xl);
+    }
   }
 </style>
