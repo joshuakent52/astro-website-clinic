@@ -64,6 +64,11 @@ const { heading, items } = Astro.props;
     box-shadow: var(--shadow-md);
   }
 
+  .service-card__image,
+  .service-card__body {
+    min-width: 0;
+  }
+
   .service-card__image {
     display: block;
     width: 100%;
@@ -97,6 +102,26 @@ const { heading, items } = Astro.props;
     line-height: var(--line-height-body);
     color: var(--color-text-inverse);
     margin: 0;
+  }
+
+  /* Hover expansion (fine-pointer desktops only): the text box grows
+     from 50% to ~80%, leaving a peek of the photo. Guarded so touch
+     devices and the stacked mobile layout are unaffected. */
+  @media (hover: hover) and (min-width: 769px) {
+    .service-card {
+      transition: grid-template-columns var(--transition-fast);
+    }
+
+    .service-card:hover {
+      grid-template-columns: 0.4fr 1.6fr;
+    }
+  }
+
+  /* Reduced motion: toggle instantly instead of animating. */
+  @media (prefers-reduced-motion: reduce) {
+    .service-card {
+      transition: none;
+    }
   }
 
   /* Breakpoint: md (768px) — matches the shared stacking breakpoint

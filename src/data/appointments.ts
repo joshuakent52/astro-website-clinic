@@ -5,7 +5,7 @@
  */
 
 export const banner = {
-  backgroundImage: "/images/appointments.JPG",
+  backgroundImage: "/images/outside.JPG",
   heading: "Request an Appointment",
   subheading: "Request a visit using the form below, or call 801.854.5168 during business hours.",
 };
