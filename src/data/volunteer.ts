@@ -22,7 +22,7 @@ export interface Benefit {
 
 export const why = {
   // Placeholder path — add the real photo to public/images and update this.
-  image: "/images/volunteer-why.webp",
+  image: "/images/lab_volunteer.JPG",
   heading: "Why Volunteer With Us?",
   benefits: [
     {
