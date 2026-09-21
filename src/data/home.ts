@@ -6,8 +6,8 @@
 
 export const hero = {
   backgroundImage: "/images/image2.webp",
-  heading: "Caring for the Individuals of Utah County",
-  subheading: "Everyone Deserves Compassionate Care - Free Healthcare",
+  heading: "Caring for the Individuals of Utah County - Free Healthcare",
+  subheading: "Everyone Deserves Compassionate Care",
   ctaText: "Request an Appointment",
   // Placeholder until the Appointments page exists.
   ctaHref: "/appointments",

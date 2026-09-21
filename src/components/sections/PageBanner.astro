@@ -43,6 +43,10 @@ const { heading, subheading, backgroundImage } = Astro.props;
     height: 100%;
     object-fit: cover;
     object-position: center;
+    /* Blurs background lettering so it doesn't compete with the heading;
+       scaled up to hide the transparent fringe blur creates at the edges. */
+    filter: blur(3px);
+    transform: scale(1.05);
   }
 
   .page-banner__overlay {
@@ -50,9 +54,9 @@ const { heading, subheading, backgroundImage } = Astro.props;
     inset: 0;
     background: linear-gradient(
       100deg,
-      rgba(1, 44, 73, 0.82) 0%,
-      rgba(2, 65, 107, 0.68) 55%,
-      rgba(2, 65, 107, 0.45) 100%
+      rgba(1, 44, 73, 0.93) 0%,
+      rgba(2, 65, 107, 0.9) 55%,
+      rgba(2, 65, 107, 0.88) 100%
     );
   }
 
