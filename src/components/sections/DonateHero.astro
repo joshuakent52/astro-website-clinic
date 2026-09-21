@@ -46,9 +46,6 @@ const paragraphs = quote.text.split("\n").filter(Boolean);
 <style>
   .donate-hero {
     position: relative;
-    display: flex;
-    align-items: center;
-    min-height: var(--hero-min-height);
     overflow: hidden;
     color: var(--color-text-inverse);
     background-color: var(--color-primary);
@@ -81,7 +78,7 @@ const paragraphs = quote.text.split("\n").filter(Boolean);
     grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
     gap: var(--space-2xl);
     align-items: center;
-    padding-block: var(--space-2xl);
+    padding-block: calc(var(--space-section) * 0.6);
   }
 
   .donate-hero__heading {
@@ -124,17 +121,11 @@ const paragraphs = quote.text.split("\n").filter(Boolean);
   }
 
   /* Breakpoint: md (768px) — matches the stacking breakpoint used
-     elsewhere in the project. Min-height mirrors Hero since vars
-     aren't usable inside media queries. */
+     elsewhere in the project. */
   @media (max-width: 768px) {
-    .donate-hero {
-      min-height: clamp(24rem, 90vw, 34rem);
-    }
-
     .donate-hero__inner {
       grid-template-columns: 1fr;
       gap: var(--space-lg);
-      padding-block: var(--space-xl);
     }
   }
 </style>
