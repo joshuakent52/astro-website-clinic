@@ -26,29 +26,25 @@ export const services = {
   heading: "Our Services",
   items: [
     {
-      // TODO: swap in a real photo of the medical care area.
-      image: "/images/image2.webp",
+      image: "/images/image12.JPG",
       title: "Medical Care",
       description:
         "Free primary care services including family medicine, pediatric care, maternal health, preventive care, and chronic disease management.",
     },
     {
-      // TODO: swap in a real photo of the pharmacy.
-      image: "/images/image2.webp",
+      image: "/images/pharmacy.JPG",
       title: "Pharmacy",
       description:
         "An on-site pharmacy that fills prescriptions written at the clinic, helping patients access the medications they need at no cost.",
     },
     {
-      // TODO: swap in a real photo of the lab.
-      image: "/images/image2.webp",
+      image: "/images/lab.JPG",
       title: "Lab",
       description:
         "In-house lab services for bloodwork and diagnostic testing, giving providers the information they need to diagnose and treat patients quickly.",
     },
     {
-      // TODO: swap in a real photo of the dental suite.
-      image: "/images/image2.webp",
+      image: "/images/dental.JPG",
       title: "Dental",
       description:
         "This program is currently being developed. When open, it will offer exams, cleanings, and basic restorative care from volunteer dentists and hygienists.",
