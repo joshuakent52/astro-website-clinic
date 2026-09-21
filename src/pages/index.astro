@@ -45,20 +45,17 @@ import { donorRecognition } from "../data/donors";
     policyLinkText={eligibility.policyLinkText}
     policyLinkHref={eligibility.policyLinkHref}
   />  
-
-  <DonorRecognition
-    heading={donorRecognition.heading}
-    subheading={donorRecognition.subheading}
-    names={donorRecognition.names}
-  />
-
   <Mission
     backgroundImage={mission.backgroundImage}
     heading={mission.heading}
     statement={mission.statement}
     tagline={mission.tagline}
   />
-
+  <DonorRecognition
+    heading={donorRecognition.heading}
+    subheading={donorRecognition.subheading}
+    names={donorRecognition.names}
+  />
   <Footer navItems={navItems} slot="footer" />
 
 </BaseLayout>
