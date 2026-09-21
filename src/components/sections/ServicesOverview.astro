@@ -6,7 +6,8 @@ import type { ServiceItem } from "../../data/about";
  * ServicesOverview
  * A compact 2-per-row grid of four service cards (Medical Care,
  * Pharmacy, Lab, Dental): each card joins a photo and a solid-blue
- * text box side by side (50/50, image left) with no gap between them.
+ * text box side by side (60/40 image/text, image left) with no gap
+ * between them.
  * Used on the about page beneath the hero banner.
  */
 
@@ -52,12 +53,13 @@ const { heading, items } = Astro.props;
 
   .service-card {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1.5fr 1fr;
     gap: 0;
     /* Fixed (not min-) height so hover reflow can't change row/page
-       height. Sized to fit the longest description at the narrowest
-       desktop card width — bump this if service copy grows much longer. */
-    height: 18rem;
+       height. Sized to fit the longest description in the 40% text
+       column at the narrowest desktop card width — bump this if
+       service copy grows much longer. */
+    height: 22rem;
     margin: 0;
     padding: 0;
     overflow: hidden;
@@ -108,7 +110,7 @@ const { heading, items } = Astro.props;
   }
 
   /* Hover expansion (fine-pointer desktops only): the text box grows
-     from 50% to ~80%, leaving a peek of the photo. Guarded so touch
+     from 40% to ~80%, leaving a peek of the photo. Guarded so touch
      devices and the stacked mobile layout are unaffected. */
   @media (hover: hover) and (min-width: 769px) {
     .service-card {
