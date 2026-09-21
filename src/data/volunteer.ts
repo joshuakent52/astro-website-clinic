@@ -59,7 +59,7 @@ export interface VolunteerPhoto {
 }
 
 export const photos: VolunteerPhoto[] = [
-  { src: "/images/volunteer1.JPG", alt: "Volunteers serving at Bingham Family Clinic" },
+  { src: "/images/volunteer4.JPG", alt: "Volunteers serving at Bingham Family Clinic" },
   { src: "/images/volunteer2.JPG", alt: "Volunteers serving at Bingham Family Clinic" },
   { src: "/images/volunteer3.JPG", alt: "Volunteers serving at Bingham Family Clinic" },
 ];
