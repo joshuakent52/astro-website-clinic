@@ -54,7 +54,10 @@ const { heading, items } = Astro.props;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 0;
-    min-height: 12rem;
+    /* Fixed (not min-) height so hover reflow can't change row/page
+       height. Sized to fit the longest description at the narrowest
+       desktop card width — bump this if service copy grows much longer. */
+    height: 18rem;
     margin: 0;
     padding: 0;
     overflow: hidden;
@@ -133,7 +136,7 @@ const { heading, items } = Astro.props;
 
     .service-card {
       grid-template-columns: 1fr;
-      min-height: 0;
+      height: auto;
     }
 
     .service-card__image {
