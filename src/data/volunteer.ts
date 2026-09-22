@@ -71,7 +71,7 @@ export const apply = {
     {
       title: "Volunteer",
       description:
-        "At this time we are not accepting clinical volunteers. Please check back later. If interested in a HR, Administration, IT, Media, or other non-clinical role, please call our number and ask for the HR team.",
+        "We are currently accepting applications for volunteers. Whether you have a healthcare background or simply want to make a difference, we encourage you to apply.",
       ctaText: "Volunteer Application",
       ctaHref: "/volunteer",
     },
