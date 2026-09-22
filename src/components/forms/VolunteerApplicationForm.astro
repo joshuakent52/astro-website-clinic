@@ -1,13 +1,19 @@
 ---
 /**
  * VolunteerApplicationForm
- * The volunteer application: personal info, shift availability, character
- * references, background/qualifications, and an optional résumé upload.
- * Submits directly to Supabase from the browser (this site is statically
- * rendered — see CLAUDE.md — so there's no server route in between).
+ * The volunteer application: personal info, shift availability, role
+ * interest, certifications, skills, experience, and referral source, with
+ * an optional résumé upload. Submits directly to Supabase from the browser
+ * (this site is statically rendered — see CLAUDE.md — so there's no server
+ * route in between).
  *
  * Requires PUBLIC_SUPABASE_URL and PUBLIC_SUPABASE_ANON_KEY to be set
  * wherever this is deployed. See src/lib/supabase.ts and .env.example.
+ *
+ * Run supabase/migrations/xxxx_volunteer_application_fields.sql (or the
+ * update_volunteer_applications.sql file alongside this component) against
+ * the `volunteer_applications` table before deploying this version — it
+ * adds the new columns this form writes to.
  */
 
 const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri"] as const;
@@ -18,6 +24,116 @@ const SHIFTS = ["10-2", "2-6"] as const;
 function shiftKey(day: string, shift: string): string {
   return `shift_${day.toLowerCase()}_${shift.replace(/[^0-9]/g, "_")}`;
 }
+
+// Turns a display label into a safe id/name fragment, e.g.
+// "Chinese (Mandarin/Cantonese)" -> "chinese_mandarin_cantonese".
+function slug(label: string): string {
+  return label
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "_")
+    .replace(/(^_+|_+$)/g, "");
+}
+
+const SCHOOLS = [
+  "BYU",
+  "UVU",
+  "Noorda",
+  "SLCC",
+  "Provo College",
+  "Mountainland Technical College",
+  "Other",
+  "Not Applicable",
+];
+
+const PROGRAMS = [
+  "Pre-Med",
+  "Nursing",
+  "PA",
+  "Medical Assistant",
+  "EMT",
+  "CNA",
+  "Public Health",
+  "Business",
+  "Other",
+];
+
+const LANGUAGES = [
+  "Spanish",
+  "Chinese (Mandarin/Cantonese)",
+  "Portuguese",
+  "Vietnamese",
+  "ASL (American Sign Language)",
+  "Other",
+];
+
+const LANGUAGE_PROFICIENCIES = ["None", "Basic", "Conversational", "Fluent", "Native"];
+
+const VOLUNTEER_DURATIONS = [
+  "Less than 3 months",
+  "3–6 months",
+  "6–12 months",
+  "1–2 years",
+  "2+ years",
+];
+
+const ROLES = [
+  "Receptionist",
+  "Clinical Staff",
+  "Scribe",
+  "Support Center",
+  "Lab",
+  "Patient Navigator",
+  "Pharmacy",
+  "Administration",
+  "Information Systems",
+  "Facilities",
+  "Supply Chain",
+  "Communications",
+];
+
+const CERTIFICATIONS = [
+  "CPR",
+  "BLS",
+  "ACLS",
+  "CNA",
+  "RNA",
+  "EMT",
+  "AEMT",
+  "MA",
+  "LPN",
+  "RN",
+  "Other",
+];
+
+const SKILLS = [
+  "Patient Intake",
+  "Medical Terminology",
+  "Vital Signs",
+  "Electronic Medical Records (EMR / EHR)",
+  "Medical Scribing",
+  "Phlebotomy / Venipuncture",
+  "Healthcare Administration",
+  "Laboratory Skills",
+  "Medical Translation",
+  "Microsoft Office / Google Workspace",
+  "Technology / IT",
+  "Digital Media / Marketing",
+  "Scheduling / Front Desk",
+  "Other",
+];
+
+const REFERRAL_SOURCES = [
+  "Current Volunteer",
+  "University",
+  "Mission",
+  "Social Media",
+  "Google Search",
+  "Community Event",
+  "Website",
+  "Other",
+];
+
+const EXPERIENCE_MAX_WORDS = 100;
 ---
 
 <div class="volunteer-form">
@@ -43,9 +159,200 @@ function shiftKey(day: string, shift: string): string {
           </div>
         </div>
 
+        <p class="field-hint">If current student…</p>
         <div class="field">
-          <label for="languages">Languages Spoken</label>
-          <input id="languages" name="languages" type="text" placeholder="English, Spanish…" />
+          <label for="school">School / Organization</label>
+          <select id="school" name="school">
+            <option value="">Select one…</option>
+            {SCHOOLS.map((school) => <option value={school}>{school}</option>)}
+          </select>
+        </div>
+
+        <div class="field conditional-field" id="program-field" hidden>
+          <label for="program">Program</label>
+          <select id="program" name="program">
+            <option value="">Select one…</option>
+            {PROGRAMS.map((program) => <option value={program}>{program}</option>)}
+          </select>
+        </div>
+
+        <div class="field">
+          <span class="label-text">Languages Spoken</span>
+          <div class="option-list">
+            {
+              LANGUAGES.map((lang) => {
+                const id = `lang-${slug(lang)}`;
+                return (
+                  <label class="option-item" for={id}>
+                    <input
+                      type="checkbox"
+                      id={id}
+                      class="option-checkbox lang-checkbox visually-hidden"
+                      value={lang}
+                      data-other={lang === "Other" ? "true" : "false"}
+                    />
+                    <span class="option-box" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m5 13 4 4L19 7" />
+                      </svg>
+                    </span>
+                    <span class="option-label-text">{lang}</span>
+                  </label>
+                );
+              })
+            }
+          </div>
+        </div>
+
+        <div class="field conditional-field" id="language-other-field" hidden>
+          <label for="languages-other">Other Language</label>
+          <input id="languages-other" name="languages_other" type="text" placeholder="Please specify" />
+        </div>
+
+        <div class="field conditional-field" id="language-proficiency-field" hidden>
+          <label for="language-proficiency">Language Proficiency</label>
+          <select id="language-proficiency" name="language_proficiency">
+            <option value="">Select one…</option>
+            {LANGUAGE_PROFICIENCIES.map((level) => <option value={level}>{level}</option>)}
+          </select>
+        </div>
+      </fieldset>
+
+      <!-- ── Experience ── -->
+      <fieldset class="form-section">
+        <legend class="label">Experience</legend>
+
+        <div class="field">
+          <label for="patient-care-hours">
+            Approximately how many direct patient care / clinical hours have you completed?
+          </label>
+          <input id="patient-care-hours" name="patient_care_hours" type="number" min="0" step="1" placeholder="Optional" />
+        </div>
+
+        <div class="field">
+          <label for="experience-notes">
+            Tell us about any previous healthcare, leadership, work, or volunteer experience that
+            would help us place you in the right role.
+          </label>
+          <textarea
+            id="experience-notes"
+            name="experience_notes"
+            rows="5"
+            placeholder={`Max ${EXPERIENCE_MAX_WORDS} words`}
+          ></textarea>
+          <span id="experience-notes-count" class="field-hint word-count">0 / {EXPERIENCE_MAX_WORDS} words</span>
+        </div>
+      </fieldset>
+
+      <!-- ── Certifications ── -->
+      <fieldset class="form-section">
+        <legend class="label">Certifications</legend>
+        <p class="field-hint">Check all that apply.</p>
+
+        <div class="field">
+          <div class="option-list">
+            {
+              CERTIFICATIONS.map((cert) => {
+                const id = `cert-${slug(cert)}`;
+                return (
+                  <label class="option-item" for={id}>
+                    <input
+                      type="checkbox"
+                      id={id}
+                      class="option-checkbox cert-checkbox visually-hidden"
+                      value={cert}
+                      data-other={cert === "Other" ? "true" : "false"}
+                    />
+                    <span class="option-box" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m5 13 4 4L19 7" />
+                      </svg>
+                    </span>
+                    <span class="option-label-text">{cert}</span>
+                  </label>
+                );
+              })
+            }
+          </div>
+        </div>
+
+        <div class="field conditional-field" id="cert-other-field" hidden>
+          <label for="cert-other">Other Certification</label>
+          <input id="cert-other" name="certifications_other" type="text" placeholder="Please specify" />
+        </div>
+      </fieldset>
+
+      <!-- ── Skills ── -->
+      <fieldset class="form-section">
+        <legend class="label">Skills</legend>
+        <p class="field-hint">Check all that apply.</p>
+
+        <div class="field">
+          <div class="option-list">
+            {
+              SKILLS.map((skill) => {
+                const id = `skill-${slug(skill)}`;
+                return (
+                  <label class="option-item" for={id}>
+                    <input
+                      type="checkbox"
+                      id={id}
+                      class="option-checkbox skill-checkbox visually-hidden"
+                      value={skill}
+                      data-other={skill === "Other" ? "true" : "false"}
+                    />
+                    <span class="option-box" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m5 13 4 4L19 7" />
+                      </svg>
+                    </span>
+                    <span class="option-label-text">{skill}</span>
+                  </label>
+                );
+              })
+            }
+          </div>
+        </div>
+
+        <div class="field conditional-field" id="skill-other-field" hidden>
+          <label for="skill-other">Other Skill</label>
+          <input id="skill-other" name="skills_other" type="text" placeholder="Please specify" />
+        </div>
+      </fieldset>
+
+      <!-- ── Role Interest ── -->
+      <fieldset class="form-section">
+        <legend class="label">Role Interest</legend>
+
+        <div class="field">
+          <span class="label-text">
+            Which role(s) interest you?
+            {" "}
+            <a
+              href="/volunteer/roles"
+              class="inline-link"
+            >
+              Learn more about each role
+            </a>
+          </span>
+          <div class="option-list">
+            {
+              ROLES.map((role) => {
+                const id = `role-${slug(role)}`;
+                return (
+                  <label class="option-item" for={id}>
+                    <input type="checkbox" id={id} class="option-checkbox role-checkbox visually-hidden" value={role} />
+                    <span class="option-box" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m5 13 4 4L19 7" />
+                      </svg>
+                    </span>
+                    <span class="option-label-text">{role}</span>
+                  </label>
+                );
+              })
+            }
+          </div>
         </div>
       </fieldset>
 
@@ -94,56 +401,32 @@ function shiftKey(day: string, shift: string): string {
             }
           </tbody>
         </table>
-      </fieldset>
 
-      <!-- ── References ── -->
-      <fieldset class="form-section">
-        <legend class="label">Character References</legend>
-
-        <div class="form-row">
-          <div class="field">
-            <label for="ref1-name">Reference 1 — Name</label>
-            <input id="ref1-name" name="ref1_name" type="text" placeholder="Full name" />
-          </div>
-          <div class="field">
-            <label for="ref1-contact">Reference 1 — Contact</label>
-            <input id="ref1-contact" name="ref1_contact" type="text" placeholder="Phone or email" />
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="field">
-            <label for="ref2-name">Reference 2 — Name</label>
-            <input id="ref2-name" name="ref2_name" type="text" placeholder="Full name" />
-          </div>
-          <div class="field">
-            <label for="ref2-contact">Reference 2 — Contact</label>
-            <input id="ref2-contact" name="ref2_contact" type="text" placeholder="Phone or email" />
-          </div>
+        <div class="field">
+          <label for="expected-duration">How long do you expect to volunteer? *</label>
+          <select id="expected-duration" name="expected_duration" required>
+            <option value="">Select one…</option>
+            {VOLUNTEER_DURATIONS.map((duration) => <option value={duration}>{duration}</option>)}
+          </select>
         </div>
       </fieldset>
 
-      <!-- ── Background ── -->
+      <!-- ── Referral Source ── -->
       <fieldset class="form-section">
-        <legend class="label">Background &amp; Qualifications</legend>
+        <legend class="label">Referral Source</legend>
 
         <div class="field">
-          <label for="credentials">Credentials / Certifications</label>
-          <textarea id="credentials" name="credentials" rows="3" placeholder="e.g. CNA, MA, Phlebotomy…"></textarea>
-        </div>
-        <div class="field">
-          <label for="skills">Skills</label>
-          <textarea id="skills" name="skills" rows="3" placeholder="e.g. Patient intake, EMR, IT, Graphic Design…"></textarea>
-        </div>
-        <div class="field">
-          <label for="educational-background">Educational Background</label>
-          <textarea id="educational-background" name="educational_background" rows="3" placeholder="Degrees, programs, schools…"></textarea>
+          <label for="referral-source">How did you hear about Bingham Family Free Clinic? *</label>
+          <select id="referral-source" name="referral_source" required>
+            <option value="">Select one…</option>
+            {REFERRAL_SOURCES.map((source) => <option value={source}>{source}</option>)}
+          </select>
         </div>
       </fieldset>
 
       <!-- ── Resume ── -->
       <fieldset class="form-section">
-        <legend class="label">Resume</legend>
+        <legend class="label">Resume (Optional)</legend>
 
         <div class="field">
           <label for="resume-file">Upload Resume (PDF or Word)</label>
@@ -208,8 +491,49 @@ function shiftKey(day: string, shift: string): string {
     gap: var(--space-md);
   }
 
+  .label-text {
+    display: block;
+    font-weight: var(--font-weight-medium);
+    margin-bottom: var(--space-3xs);
+  }
+
+  .inline-link {
+    font-weight: var(--font-weight-medium);
+    color: var(--color-primary);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .inline-link:hover,
+  .inline-link:focus-visible {
+    text-decoration-thickness: 2px;
+  }
+
+  .field-hint {
+    margin: calc(-1 * var(--space-2xs)) 0 0;
+  }
+
   .shift-hint {
     margin: calc(-1 * var(--space-2xs)) 0 0;
+  }
+
+  .conditional-field {
+    padding-left: var(--space-md);
+    border-left: 2px solid var(--color-border);
+  }
+
+  /*
+   * FIX: some global stylesheet in this project sets `display` on `.field`
+   * (or a similarly-scoped selector), which beats the browser's built-in
+   * `[hidden] { display: none }` user-agent rule. That caused conditional
+   * fields (Program, Other Language, Language Proficiency, Other
+   * Certification, Other Skill) to stay visible even while `hidden` was
+   * set on them. This rule re-asserts `display: none` with enough
+   * specificity + !important to guarantee hidden conditional fields are
+   * actually hidden, regardless of what else styles `.field` globally.
+   */
+  .conditional-field[hidden] {
+    display: none !important;
   }
 
   .shift-grid {
@@ -240,7 +564,8 @@ function shiftKey(day: string, shift: string): string {
     cursor: pointer;
   }
 
-  .shift-box {
+  .shift-box,
+  .option-box {
     width: 2rem;
     height: 2rem;
     display: flex;
@@ -251,27 +576,59 @@ function shiftKey(day: string, shift: string): string {
     background-color: var(--color-white);
     color: var(--color-text-inverse);
     transition: background-color var(--transition-fast), border-color var(--transition-fast);
+    flex-shrink: 0;
   }
 
-  .shift-box svg {
+  .shift-box svg,
+  .option-box svg {
     width: 1rem;
     height: 1rem;
     opacity: 0;
     transition: opacity var(--transition-fast);
   }
 
-  .shift-checkbox:checked + .shift-box {
+  .shift-checkbox:checked + .shift-box,
+  .option-checkbox:checked + .option-box {
     background-color: var(--color-primary);
     border-color: var(--color-primary);
   }
 
-  .shift-checkbox:checked + .shift-box svg {
+  .shift-checkbox:checked + .shift-box svg,
+  .option-checkbox:checked + .option-box svg {
     opacity: 1;
   }
 
-  .shift-checkbox:focus-visible + .shift-box {
+  .shift-checkbox:focus-visible + .shift-box,
+  .option-checkbox:focus-visible + .option-box {
     outline: 3px solid var(--color-focus-ring);
     outline-offset: 2px;
+  }
+
+  .option-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+  }
+
+  .option-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    cursor: pointer;
+  }
+
+  .option-label-text {
+    font-size: var(--font-size-small);
+  }
+
+  .word-count {
+    display: block;
+    text-align: right;
+    color: var(--color-text-muted);
+  }
+
+  .word-count.word-count--limit {
+    color: #b3261e;
   }
 
   .file-input {
@@ -348,6 +705,8 @@ function shiftKey(day: string, shift: string): string {
 <script>
   import { supabase } from "../../lib/supabase";
 
+  const EXPERIENCE_MAX_WORDS = 100;
+
   const formView = document.getElementById("form-view") as HTMLDivElement;
   const form = document.getElementById("volunteer-form") as HTMLFormElement;
   const submitButton = document.getElementById("submit-button") as HTMLButtonElement;
@@ -359,6 +718,86 @@ function shiftKey(day: string, shift: string): string {
   resumeInput.addEventListener("change", () => {
     resumeFilename.textContent = resumeInput.files?.[0]?.name ?? "No file chosen";
   });
+
+  // ── School -> Program conditional ──
+  const schoolSelect = document.getElementById("school") as HTMLSelectElement;
+  const programField = document.getElementById("program-field") as HTMLDivElement;
+  const programSelect = document.getElementById("program") as HTMLSelectElement;
+
+  function updateProgramVisibility() {
+    const value = schoolSelect.value;
+    const show = value !== "" && value !== "Not Applicable";
+    programField.hidden = !show;
+    if (!show) programSelect.value = "";
+  }
+  schoolSelect.addEventListener("change", updateProgramVisibility);
+  updateProgramVisibility();
+
+  // ── Languages -> Other text + Proficiency conditional ──
+  const langCheckboxes = form.querySelectorAll<HTMLInputElement>(".lang-checkbox");
+  const langOtherField = document.getElementById("language-other-field") as HTMLDivElement;
+  const langOtherInput = document.getElementById("languages-other") as HTMLInputElement;
+  const langProficiencyField = document.getElementById("language-proficiency-field") as HTMLDivElement;
+  const langProficiencySelect = document.getElementById("language-proficiency") as HTMLSelectElement;
+
+  function updateLanguageConditionals() {
+    const checked = Array.from(langCheckboxes).filter((cb) => cb.checked);
+    const otherChecked = checked.some((cb) => cb.dataset.other === "true");
+
+    langOtherField.hidden = !otherChecked;
+    if (!otherChecked) langOtherInput.value = "";
+
+    const anyChecked = checked.length > 0;
+    langProficiencyField.hidden = !anyChecked;
+    if (!anyChecked) langProficiencySelect.value = "";
+  }
+  langCheckboxes.forEach((cb) => cb.addEventListener("change", updateLanguageConditionals));
+  updateLanguageConditionals();
+
+  // ── Certifications -> Other text conditional ──
+  const certCheckboxes = form.querySelectorAll<HTMLInputElement>(".cert-checkbox");
+  const certOtherField = document.getElementById("cert-other-field") as HTMLDivElement;
+  const certOtherInput = document.getElementById("cert-other") as HTMLInputElement;
+
+  function updateCertOtherVisibility() {
+    const otherChecked = Array.from(certCheckboxes).some((cb) => cb.checked && cb.dataset.other === "true");
+    certOtherField.hidden = !otherChecked;
+    if (!otherChecked) certOtherInput.value = "";
+  }
+  certCheckboxes.forEach((cb) => cb.addEventListener("change", updateCertOtherVisibility));
+  updateCertOtherVisibility();
+
+  // ── Skills -> Other text conditional ──
+  const skillCheckboxes = form.querySelectorAll<HTMLInputElement>(".skill-checkbox");
+  const skillOtherField = document.getElementById("skill-other-field") as HTMLDivElement;
+  const skillOtherInput = document.getElementById("skill-other") as HTMLInputElement;
+
+  function updateSkillOtherVisibility() {
+    const otherChecked = Array.from(skillCheckboxes).some((cb) => cb.checked && cb.dataset.other === "true");
+    skillOtherField.hidden = !otherChecked;
+    if (!otherChecked) skillOtherInput.value = "";
+  }
+  skillCheckboxes.forEach((cb) => cb.addEventListener("change", updateSkillOtherVisibility));
+  updateSkillOtherVisibility();
+
+  // ── Experience notes word counter / soft limit ──
+  const experienceNotes = document.getElementById("experience-notes") as HTMLTextAreaElement;
+  const experienceCount = document.getElementById("experience-notes-count") as HTMLSpanElement;
+
+  function countWords(text: string): string[] {
+    return text.trim().length ? text.trim().split(/\s+/) : [];
+  }
+
+  function updateExperienceCount() {
+    const words = countWords(experienceNotes.value);
+    if (words.length > EXPERIENCE_MAX_WORDS) {
+      experienceNotes.value = words.slice(0, EXPERIENCE_MAX_WORDS).join(" ");
+    }
+    const finalCount = countWords(experienceNotes.value).length;
+    experienceCount.textContent = `${finalCount} / ${EXPERIENCE_MAX_WORDS} words`;
+    experienceCount.classList.toggle("word-count--limit", finalCount >= EXPERIENCE_MAX_WORDS);
+  }
+  experienceNotes.addEventListener("input", updateExperienceCount);
 
   function showError(message: string) {
     errorBanner.textContent = message;
@@ -373,6 +812,12 @@ function shiftKey(day: string, shift: string): string {
   function resetSubmitButton() {
     submitButton.disabled = false;
     submitButton.textContent = "Submit Application";
+  }
+
+  function checkedValues(selector: string): string[] {
+    return Array.from(form.querySelectorAll<HTMLInputElement>(selector))
+      .filter((cb) => cb.checked)
+      .map((cb) => cb.value);
   }
 
   form.addEventListener("submit", async (event) => {
@@ -405,21 +850,40 @@ function shiftKey(day: string, shift: string): string {
       shifts[checkbox.name] = checkbox.checked;
     });
 
-    // 3. Insert the application row.
+    // 3. Gather multi-select values.
+    const languagesSpoken = checkedValues(".lang-checkbox");
+    const rolesInterested = checkedValues(".role-checkbox");
+    const certifications = checkedValues(".cert-checkbox");
+    const skillsSelected = checkedValues(".skill-checkbox");
+
+    const school = formData.get("school");
+    const patientCareHoursRaw = formData.get("patient_care_hours");
+    const patientCareHours =
+      patientCareHoursRaw && String(patientCareHoursRaw).trim() !== ""
+        ? Number(patientCareHoursRaw)
+        : null;
+
+    // 4. Insert the application row.
     setLoading("Submitting…");
     const { error: insertError } = await supabase.from("volunteer_applications").insert({
       full_name: fullName,
       email: formData.get("email"),
       phone: formData.get("phone"),
-      languages: formData.get("languages") || null,
+      school: school && school !== "" ? school : null,
+      program: formData.get("program") || null,
+      languages_spoken: languagesSpoken,
+      languages_other: formData.get("languages_other") || null,
+      language_proficiency: formData.get("language_proficiency") || null,
       ...shifts,
-      ref1_name: formData.get("ref1_name") || null,
-      ref1_contact: formData.get("ref1_contact") || null,
-      ref2_name: formData.get("ref2_name") || null,
-      ref2_contact: formData.get("ref2_contact") || null,
-      credentials: formData.get("credentials") || null,
-      skills: formData.get("skills") || null,
-      educational_background: formData.get("educational_background") || null,
+      expected_duration: formData.get("expected_duration") || null,
+      roles_interested: rolesInterested,
+      certifications,
+      certifications_other: formData.get("certifications_other") || null,
+      skills_selected: skillsSelected,
+      skills_other: formData.get("skills_other") || null,
+      patient_care_hours: patientCareHours,
+      experience_notes: formData.get("experience_notes") || null,
+      referral_source: formData.get("referral_source") || null,
       resume_url: resumeUrl,
     });
 
@@ -429,7 +893,7 @@ function shiftKey(day: string, shift: string): string {
       return;
     }
 
-    // 4. Success — swap the form out for the confirmation message.
+    // 5. Success — swap the form out for the confirmation message.
     formView.hidden = true;
     successView.hidden = false;
     successView.focus();
