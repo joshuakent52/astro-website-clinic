@@ -73,7 +73,7 @@ export const apply = {
       description:
         "We are currently accepting applications for volunteers. Whether you have a healthcare background or simply want to make a difference, we encourage you to apply.",
       ctaText: "Volunteer Application",
-      ctaHref: "/volunteer",
+      ctaHref: "/volunteer/apply",
     },
     {
       title: "Provider",
