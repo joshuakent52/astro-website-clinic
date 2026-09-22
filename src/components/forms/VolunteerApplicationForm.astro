@@ -13,7 +13,7 @@
  * Run supabase/migrations/xxxx_volunteer_application_fields.sql (or the
  * update_volunteer_applications.sql file alongside this component) against
  * the `volunteer_applications` table before deploying this version — it
- * adds the new columns this form writes to.
+ * adds the new columns this form writes to, including is_service_missionary.
  */
 
 const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri"] as const;
@@ -215,6 +215,23 @@ const EXPERIENCE_MAX_WORDS = 100;
             <option value="">Select one…</option>
             {LANGUAGE_PROFICIENCIES.map((level) => <option value={level}>{level}</option>)}
           </select>
+        </div>
+
+        <div class="field">
+          <label class="option-item" for="service-missionary">
+            <input
+              type="checkbox"
+              id="service-missionary"
+              name="is_service_missionary"
+              class="option-checkbox visually-hidden"
+            />
+            <span class="option-box" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m5 13 4 4L19 7" />
+              </svg>
+            </span>
+            <span class="option-label-text">Are you a service missionary for The Church of Jesus Christ of Latter-day Saints?</span>
+          </label>
         </div>
       </fieldset>
 
@@ -854,6 +871,7 @@ const EXPERIENCE_MAX_WORDS = 100;
     const rolesInterested = checkedValues(".role-checkbox");
     const certifications = checkedValues(".cert-checkbox");
     const skillsSelected = checkedValues(".skill-checkbox");
+    const isServiceMissionary = (document.getElementById("service-missionary") as HTMLInputElement).checked;
 
     const school = formData.get("school");
     const patientCareHoursRaw = formData.get("patient_care_hours");
@@ -873,6 +891,7 @@ const EXPERIENCE_MAX_WORDS = 100;
       languages_spoken: languagesSpoken,
       languages_other: formData.get("languages_other") || null,
       language_proficiency: formData.get("language_proficiency") || null,
+      is_service_missionary: isServiceMissionary,
       ...shifts,
       expected_duration: formData.get("expected_duration") || null,
       roles_interested: rolesInterested,
