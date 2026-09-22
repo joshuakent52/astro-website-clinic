@@ -158,7 +158,22 @@ const EXPERIENCE_MAX_WORDS = 100;
             <input id="phone" name="phone" type="tel" placeholder="(801) 555-0100" required />
           </div>
         </div>
-
+        <div class="field">
+          <label class="option-item" for="service-missionary">
+            <input
+              type="checkbox"
+              id="service-missionary"
+              name="is_service_missionary"
+              class="option-checkbox visually-hidden"
+            />
+            <span class="option-box" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m5 13 4 4L19 7" />
+              </svg>
+            </span>
+            <span class="option-label-text">Are you a service missionary for The Church of Jesus Christ of Latter-day Saints?</span>
+          </label>
+        </div>
         <p class="field-hint">If current student…</p>
         <div class="field">
           <label for="school">School / Organization</label>
@@ -217,22 +232,6 @@ const EXPERIENCE_MAX_WORDS = 100;
           </select>
         </div>
 
-        <div class="field">
-          <label class="option-item" for="service-missionary">
-            <input
-              type="checkbox"
-              id="service-missionary"
-              name="is_service_missionary"
-              class="option-checkbox visually-hidden"
-            />
-            <span class="option-box" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                <path d="m5 13 4 4L19 7" />
-              </svg>
-            </span>
-            <span class="option-label-text">Are you a service missionary for The Church of Jesus Christ of Latter-day Saints?</span>
-          </label>
-        </div>
       </fieldset>
 
       <!-- ── Experience ── -->
