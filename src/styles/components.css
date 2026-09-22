@@ -72,6 +72,20 @@
   color: var(--color-text-inverse);
 }
 
+/* Light-blue band. Dark text only — --color-text-muted (3.96:1) and white
+   (1.79:1) both fail contrast here, so headings/subheading must stay dark. */
+.section--secondary-light {
+  background-color: var(--color-secondary-light);
+  color: var(--color-text);
+}
+
+.section--secondary-light h1,
+.section--secondary-light h2,
+.section--secondary-light h3,
+.section--secondary-light h4 {
+  color: var(--color-primary-dark);
+}
+
 /* ------------------------------------------------------------------ */
 /* Grid / flex layout helpers                                          */
 /* ------------------------------------------------------------------ */
