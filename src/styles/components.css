@@ -65,6 +65,13 @@
   color: var(--color-text-inverse);
 }
 
+/* Dark-gray band (uses --color-text-muted, not --color-secondary-dark:
+   the latter is too light for white body text to pass contrast). */
+.section--secondary-dark {
+  background-color: var(--color-text-muted);
+  color: var(--color-text-inverse);
+}
+
 /* ------------------------------------------------------------------ */
 /* Grid / flex layout helpers                                          */
 /* ------------------------------------------------------------------ */

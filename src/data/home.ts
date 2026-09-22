@@ -6,8 +6,8 @@
 
 export const hero = {
   backgroundImage: "/images/image2.webp",
-  heading: "Caring for the Families of Utah County",
-  subheading: "Every Family Deserves Compassionate Care - Everyone Welcome",
+  heading: "Caring for the Individuals of Utah County",
+  subheading: "Free Healthcare",
   ctaText: "Request an Appointment",
   // Placeholder until the Appointments page exists.
   ctaHref: "/appointments",
@@ -20,16 +20,17 @@ export interface Stat {
 
 export const stats: Stat[] = [
   { value: "Free", label: "Healthcare" },
-  { value: "100%", label: "Community Focused" },
 ];
 
 export const mission = {
-  backgroundImage: "/images/image1.webp",
+  backgroundImage: "/images/image12.JPG",
   heading: "Our Mission",
   statement:
     "Providing health and wellness for everyday people through quality, compassionate medical care. We are committed to fostering a healthy community through accessible services, preventive care and patient-centered support.",
   tagline:
     "Powered by Volunteer Care, Community Connection, and Medical Support",
+  ctaText: "Learn More",
+  ctaHref: "/about",
 };
 
 export interface EligibilityRow {
@@ -39,7 +40,7 @@ export interface EligibilityRow {
 }
 
 export const eligibility = {
-  heading: "Who Is Eligible For Care?",
+  heading: "Who Is Eligible For Free Healthcare?",
   subheading: "Clients must meet the following two pieces of criteria.",
   criteria: [
     "Clients must be uninsured.",

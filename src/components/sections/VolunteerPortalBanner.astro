@@ -1,0 +1,48 @@
+---
+import Section from "../ui/Section.astro";
+import Button from "../ui/Button.astro";
+
+/**
+ * VolunteerPortalBanner
+ * Compact banner for current volunteers linking to the external volunteer
+ * portal. Matches the neighboring muted sections (ApplySplit above,
+ * Testimonials below) and keeps height minimal with tight spacing.
+ */
+
+interface Props {
+  heading: string;
+  subheading: string;
+  ctaText: string;
+  ctaHref: string;
+}
+
+const { heading, subheading, ctaText, ctaHref } = Astro.props;
+---
+
+<Section background="surface" spacing="tight">
+  <div class="portal-banner">
+    <h2 class="portal-banner__heading">{heading}</h2>
+    <p class="portal-banner__subheading text-muted">{subheading}</p>
+    <Button text={ctaText} href={ctaHref} variant="primary" external />
+  </div>
+</Section>
+
+<style>
+  .portal-banner {
+    text-align: center;
+    max-width: var(--container-narrow-width);
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-sm);
+  }
+
+  .portal-banner__heading {
+    margin: 0;
+  }
+
+  .portal-banner__subheading {
+    margin: 0;
+  }
+</style>

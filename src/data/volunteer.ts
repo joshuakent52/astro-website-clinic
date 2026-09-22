@@ -22,7 +22,7 @@ export interface Benefit {
 
 export const why = {
   // Placeholder path — add the real photo to public/images and update this.
-  image: "/images/volunteer-why.webp",
+  image: "/images/lab_volunteer.JPG",
   heading: "Why Volunteer With Us?",
   benefits: [
     {
@@ -45,6 +45,24 @@ export const why = {
   // Scrolls down to the apply section on this same page.
   ctaHref: "#apply",
 };
+
+export const portal = {
+  heading: "Current Volunteers",
+  subheading: "Access scheduling and communications",
+  ctaText: "Volunteer Portal",
+  ctaHref: "https://portal.binghamfamilyclinic.org",
+};
+
+export interface VolunteerPhoto {
+  src: string;
+  alt: string;
+}
+
+export const photos: VolunteerPhoto[] = [
+  { src: "/images/volunteer4.JPG", alt: "Volunteers serving at Bingham Family Clinic" },
+  { src: "/images/volunteer2.JPG", alt: "Volunteers serving at Bingham Family Clinic" },
+  { src: "/images/volunteer3.JPG", alt: "Volunteers serving at Bingham Family Clinic" },
+];
 
 export const apply = {
   heading: "Ready to Apply?",

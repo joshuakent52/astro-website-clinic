@@ -4,10 +4,11 @@ import type { ServiceItem } from "../../data/about";
 
 /**
  * ServicesOverview
- * A grid of four service overview cards (Medical Care, Pharmacy, Lab,
- * Dental Suite): small solid-blue squares with a white title and
- * description, no photo. Used on the about page beneath the hero
- * banner.
+ * A compact 2-per-row grid of four service cards (Medical Care,
+ * Pharmacy, Lab, Dental): each card joins a photo and a solid-blue
+ * text box side by side (60/40 image/text, image left) with no gap
+ * between them.
+ * Used on the about page beneath the hero banner.
  */
 
 interface Props {
@@ -24,8 +25,11 @@ const { heading, items } = Astro.props;
     {
       items.map((item) => (
         <li class="service-card">
-          <h3 class="service-card__title">{item.title}</h3>
-          <p class="service-card__description">{item.description}</p>
+          <img src={item.image} alt={item.title} class="service-card__image" loading="lazy" />
+          <div class="service-card__body">
+            <h3 class="service-card__title">{item.title}</h3>
+            <p class="service-card__description">{item.description}</p>
+          </div>
         </li>
       ))
     }
@@ -40,37 +44,64 @@ const { heading, items } = Astro.props;
 
   .services-grid {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: var(--space-lg);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-md);
     list-style: none;
     margin: 0;
     padding: 0;
   }
 
   .service-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    aspect-ratio: 1 / 1;
-    max-width: 14rem;
-    margin-inline: auto;
-    width: 100%;
-    padding: var(--space-md);
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 0;
+    /* Fixed (not min-) height so hover reflow can't change row/page
+       height. Sized to fit the longest description in the 40% text
+       column at the narrowest desktop card width — bump this if
+       service copy grows much longer. */
+    height: 22rem;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
     border-radius: var(--radius-lg);
     background-color: var(--color-primary);
     color: var(--color-text-inverse);
     box-shadow: var(--shadow-md);
   }
 
+  .service-card__image,
+  .service-card__body {
+    min-width: 0;
+  }
+
+  .service-card__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .service-card__body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: var(--space-2xs);
+    text-align: left;
+    padding: var(--space-md);
+    background-color: var(--color-primary);
+    color: var(--color-text-inverse);
+  }
+
   .service-card__title {
     font-size: var(--font-size-h4);
     line-height: var(--line-height-heading);
     color: var(--color-text-inverse);
-    margin: 0 0 var(--space-2xs);
+    margin: 0;
   }
 
+  /* Global `p` sets dark text; override so descriptions stay white. */
   .service-card__description {
     font-size: var(--font-size-small, var(--font-size-body));
     line-height: var(--line-height-body);
@@ -78,21 +109,42 @@ const { heading, items } = Astro.props;
     margin: 0;
   }
 
-  /* Breakpoint: md (768px) — matches the shared stacking breakpoint
-     used elsewhere in the project. */
-  @media (max-width: 1024px) {
-    .services-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+  /* Hover expansion (fine-pointer desktops only): the text box grows
+     from 40% to ~80%, leaving a peek of the photo. Guarded so touch
+     devices and the stacked mobile layout are unaffected. */
+  @media (hover: hover) and (min-width: 769px) {
+    .service-card {
+      transition: grid-template-columns var(--transition-fast);
+    }
+
+    .service-card:hover {
+      grid-template-columns: 0.4fr 1.6fr;
     }
   }
 
-  @media (max-width: 480px) {
+  /* Reduced motion: toggle instantly instead of animating. */
+  @media (prefers-reduced-motion: reduce) {
+    .service-card {
+      transition: none;
+    }
+  }
+
+  /* Breakpoint: md (768px) — matches the shared stacking breakpoint
+     used elsewhere in the project. */
+  @media (max-width: 768px) {
     .services-grid {
       grid-template-columns: 1fr;
     }
 
     .service-card {
-      max-width: 16rem;
+      grid-template-columns: 1fr;
+      height: auto;
+    }
+
+    .service-card__image {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 9;
     }
   }
 </style>

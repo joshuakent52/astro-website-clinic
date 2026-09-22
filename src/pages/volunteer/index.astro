@@ -4,11 +4,13 @@ import Header from "../../components/layout/Header.astro";
 import Footer from "../../components/layout/Footer.astro";
 import Hero from "../../components/sections/Hero.astro";
 import VolunteerWhy from "../../components/sections/VolunteerWhy.astro";
+import VolunteerPhotoStrip from "../../components/sections/VolunteerPhotoStrip.astro";
 import ApplySplit from "../../components/sections/ApplySplit.astro";
-import Testimonials from "../../components/sections/Testimonials.astro";
+import VolunteerPortalBanner from "../../components/sections/VolunteerPortalBanner.astro";
+// import Testimonials from "../../components/sections/Testimonials.astro";
 
 import { siteName, siteDescription, logo, flat_logo, navItems } from "../../config/site";
-import { hero, why, apply, testimonials } from "../../data/volunteer";
+import { hero, why, apply, portal, photos /*, testimonials */ } from "../../data/volunteer";
 ---
 
 <BaseLayout
@@ -36,6 +38,8 @@ import { hero, why, apply, testimonials } from "../../data/volunteer";
     ctaHref={why.ctaHref}
   />
 
+  <VolunteerPhotoStrip photos={photos} />
+
   <ApplySplit heading={apply.heading} subheading={apply.subheading} options={apply.options} />
 
   <section class="roles-cta">
@@ -53,6 +57,14 @@ import { hero, why, apply, testimonials } from "../../data/volunteer";
   </section>
 
   <Testimonials testimonials={testimonials} />
+  <VolunteerPortalBanner
+    heading={portal.heading}
+    subheading={portal.subheading}
+    ctaText={portal.ctaText}
+    ctaHref={portal.ctaHref}
+  />
+
+  <!-- <Testimonials testimonials={testimonials} /> -->
 
   <Footer navItems={navItems} slot="footer" />
 </BaseLayout>
