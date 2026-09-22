@@ -13,7 +13,7 @@ export const volunteerRoles: RoleItem[] = [
   {
     title: "Clinical Staff",
     description:
-      "Room patients, provide direct patient care within their scope of practice, and support providers throughout the visit. Work as a clinical team to deliver safe, compassionate, and high-quality healthcare.",
+      "Room patients, and take initial complaints. Work as a clinical team to deliver safe, compassionate, and high-quality healthcare.",
   },
   {
     title: "Patient Navigator",
